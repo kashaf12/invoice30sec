@@ -21,7 +21,7 @@ export default function GlowingButton({ children, onClick, href, className = "" 
     },
     transition: { 
       duration: 3, 
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
       repeat: Infinity,
       repeatType: "loop" as const
     }
