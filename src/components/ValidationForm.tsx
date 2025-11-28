@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 
 const formSchema = z.object({
@@ -25,20 +24,20 @@ const formSchema = z.object({
   willingToPay: z.enum(["yes", "maybe", "no"], {
     message: "Please select an option",
   }),
-  priceSelected: z.string().optional(),
+  price: z.string().optional(),
   priceOther: z.string().optional(),
   reason: z.string().optional(),
   reasonOther: z.string().optional(),
   honeypot: z.string().optional(),
 }).refine((data) => {
   // If "maybe" selected, price must be provided
-  if (data.willingToPay === "maybe" && !data.priceSelected) {
+  if (data.willingToPay === "maybe" && !data.price) {
     return false;
   }
   return true;
 }, {
   message: "Please select a price option",
-  path: ["priceSelected"],
+  path: ["price"],
 }).refine((data) => {
   // If "no" selected, reason must be provided
   if (data.willingToPay === "no" && !data.reason) {
@@ -50,7 +49,7 @@ const formSchema = z.object({
   path: ["reason"],
 }).refine((data) => {
   // If "Other" price selected, priceOther must be provided
-  if (data.priceSelected === "Other" && !data.priceOther) {
+  if (data.price === "Other" && !data.priceOther) {
     return false;
   }
   return true;
@@ -70,7 +69,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const PRICE_OPTIONS = ["199", "299", "Other"];
+const PRICE_OPTIONS = ["99", "149", "299", "Other"];
 const REASON_OPTIONS = ["Too expensive", "I don't need it", "Prefer free", "Payment concerns", "Other"];
 
 export const ValidationForm = () => {
@@ -82,7 +81,7 @@ export const ValidationForm = () => {
     defaultValues: {
       email: "",
       willingToPay: undefined,
-      priceSelected: "",
+      price: "",
       priceOther: "",
       reason: "",
       reasonOther: "",
@@ -91,7 +90,7 @@ export const ValidationForm = () => {
   });
 
   const willingToPay = form.watch("willingToPay");
-  const priceSelected = form.watch("priceSelected");
+  const price = form.watch("price");
   const reason = form.watch("reason");
 
   // Check for reduced motion preference
@@ -117,13 +116,13 @@ export const ValidationForm = () => {
 
   // Track price selection
   useEffect(() => {
-    if (priceSelected && typeof window !== "undefined") {
+    if (price && typeof window !== "undefined") {
       (window as any).dataLayer?.push({
         event: "price_choice_selected",
-        price: priceSelected,
+        price: price,
       });
     }
-  }, [priceSelected]);
+  }, [price]);
 
   // Track reason selection
   useEffect(() => {
@@ -139,12 +138,29 @@ export const ValidationForm = () => {
     if (data.honeypot) return; // Silently ignore spam
 
     try {
-      const payload = {
+      // Build payload conditionally based on willingToPay
+      const payload: any = {
         email: data.email,
         willingToPay: data.willingToPay,
-        priceSelected: data.priceSelected === "Other" ? data.priceOther : data.priceSelected,
-        reason: data.reason === "Other" ? data.reasonOther : data.reason,
       };
+
+      // For "yes" - send fixed price of 199
+      if (data.willingToPay === "yes") {
+        payload.price = 199;
+        payload.currency = "INR";
+      }
+
+      // For "maybe" - send selected price
+      if (data.willingToPay === "maybe") {
+        const selectedPrice = data.price === "Other" ? data.priceOther : data.price;
+        payload.price = Number(selectedPrice);
+        payload.currency = "INR";
+      }
+
+      // For "no" - send reason only
+      if (data.willingToPay === "no") {
+        payload.reason = data.reason === "Other" ? data.reasonOther : data.reason;
+      }
 
       const response = await fetch("/api/leads", {
         method: "POST",
@@ -162,7 +178,7 @@ export const ValidationForm = () => {
         (window as any).dataLayer?.push({
           event: "form_submit",
           willingness: data.willingToPay,
-          priceSelected: payload.priceSelected,
+          price: payload.price,
           reason: payload.reason,
         });
       }
@@ -219,7 +235,6 @@ export const ValidationForm = () => {
                 <input type="hidden" {...form.register("honeypot")} />
 
                 <FormField
-                  control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
@@ -229,6 +244,7 @@ export const ValidationForm = () => {
                       <FormControl>
                         <Input
                           type="email"
+                          id="email"
                           placeholder="you@example.com"
                           autoComplete="email"
                           {...field}
@@ -241,7 +257,6 @@ export const ValidationForm = () => {
                 />
 
                 <FormField
-                  control={form.control}
                   name="willingToPay"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
@@ -295,8 +310,7 @@ export const ValidationForm = () => {
                     aria-label="Price options"
                   >
                     <FormField
-                      control={form.control}
-                      name="priceSelected"
+                      name="price"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-white text-sm">Select your preferred price:</FormLabel>
@@ -327,9 +341,8 @@ export const ValidationForm = () => {
                       )}
                     />
 
-                    {priceSelected === "Other" && (
+                    {price === "Other" && (
                       <FormField
-                        control={form.control}
                         name="priceOther"
                         render={({ field }) => (
                           <FormItem>
@@ -359,7 +372,6 @@ export const ValidationForm = () => {
                     aria-label="Reason for not paying"
                   >
                     <FormField
-                      control={form.control}
                       name="reason"
                       render={({ field }) => (
                         <FormItem>
@@ -394,7 +406,6 @@ export const ValidationForm = () => {
 
                     {reason === "Other" && (
                       <FormField
-                        control={form.control}
                         name="reasonOther"
                         render={({ field }) => (
                           <FormItem>

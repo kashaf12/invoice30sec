@@ -1,7 +1,8 @@
 export interface LeadPayload {
   email: string;
   willingToPay: "yes" | "maybe" | "no";
-  priceSelected?: string;
+  price?: number;
+  currency?: string;
   reason?: string;
   reasonOther?: string;
   honeypot?: string;
@@ -41,8 +42,8 @@ export const validateLead = (payload: LeadPayload): ValidationResult => {
   }
 
   // If "maybe" selected, price should be provided
-  if (payload.willingToPay === "maybe" && !required(payload.priceSelected)) {
-    errors.priceSelected = "Please select a price option";
+  if (payload.willingToPay === "maybe" && !required(payload.price)) {
+    errors.price = "Please select a price option";
   }
 
   // If "no" selected, reason should be provided
