@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+
 
 interface GlowingButtonProps {
   children: React.ReactNode;

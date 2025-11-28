@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateLead, LeadPayload } from "@/lib/validate";
 import { kv } from "@vercel/kv";
-import geoip from "geoip-lite";
+
 
 const RATE_LIMIT_WINDOW_SECONDS = 60; // 1 minute
 const LEADS_LIST_KEY = "leads:list";   // list of lead ids (most recent at head)
@@ -21,18 +21,9 @@ function getClientIp(request: Request): string | null {
   return null;
 }
 
-// Helper: detect country from IP
-function detectCountry(ip: string | null): string {
-  if (!ip || ip === "127.0.0.1" || ip === "::1" || ip.startsWith("192.168.") || ip.startsWith("10.")) {
-    return "Unknown"; // localhost or private IP
-  }
-  
-  const geo = geoip.lookup(ip);
-  if (geo && geo.country) {
-    return geo.country; // Returns ISO country code (e.g., "IN", "US")
-  }
-  
-  return "Unknown";
+// Helper: detect country from Vercel headers
+function detectCountry(request: Request): string {
+  return request.headers.get("x-vercel-ip-country") || "Unknown";
 }
 
 // Helper: apply a simple KV-backed rate limit per email
@@ -58,7 +49,7 @@ export async function POST(request: Request) {
 
     // Detect country from IP
     const clientIp = getClientIp(request);
-    const country = detectCountry(clientIp);
+    const country = detectCountry(request);
 
     // Capture user agent
     const userAgent = request.headers.get("user-agent") || "Unknown";
