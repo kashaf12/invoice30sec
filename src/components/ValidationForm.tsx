@@ -70,7 +70,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const PRICE_OPTIONS = ["₹199", "₹299", "Other"];
+const PRICE_OPTIONS = ["199", "299", "Other"];
 const REASON_OPTIONS = ["Too expensive", "I don't need it", "Prefer free", "Payment concerns", "Other"];
 
 export const ValidationForm = () => {
@@ -139,7 +139,6 @@ export const ValidationForm = () => {
     if (data.honeypot) return; // Silently ignore spam
 
     try {
-      // Prepare payload (consent is implicit by clicking submit)
       const payload = {
         email: data.email,
         willingToPay: data.willingToPay,
@@ -230,7 +229,7 @@ export const ValidationForm = () => {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="you@company.com"
+                          placeholder="you@example.com"
                           autoComplete="email"
                           {...field}
                           className="bg-[#0B0D0F] border-white/10 text-white"
@@ -319,7 +318,7 @@ export const ValidationForm = () => {
                                   }
                                 }}
                               >
-                                {price}
+                                {price === "Other" ? "Other" : `₹${price}/mo`}
                               </Button>
                             ))}
                           </div>

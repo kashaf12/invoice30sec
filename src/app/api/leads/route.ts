@@ -79,6 +79,7 @@ export async function POST(request: Request) {
       id,
       ...body,
       country,
+      ip: clientIp,
       userAgent,
       submittedAt: new Date().toISOString(),
     };

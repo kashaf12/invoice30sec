@@ -4,11 +4,11 @@ export interface LeadPayload {
   priceSelected?: string;
   reason?: string;
   reasonOther?: string;
-  consent: boolean;
   honeypot?: string;
   country?: string; // auto-detected server-side
   utm?: string; // auto-captured from query params
   userAgent?: string; // auto-captured
+  ip?: string; // auto-captured
 }
 
 export interface ValidationResult {
@@ -53,10 +53,6 @@ export const validateLead = (payload: LeadPayload): ValidationResult => {
   // If "Other" reason selected, reasonOther should be provided
   if (payload.reason === "Other" && !required(payload.reasonOther)) {
     errors.reasonOther = "Please specify your reason";
-  }
-
-  if (!payload.consent) {
-    errors.consent = "You must agree to receive emails";
   }
 
   return {
