@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import GlowingButton from "@/components/GlowingButton";
+import { PulsatingButton } from "@/components/ui/pulsating-button";
 
 interface HeroProps {
   className?: string;
@@ -44,9 +44,13 @@ export const Hero = ({ className = "" }: HeroProps) => {
 
         {/* CTA Group */}
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
-          <GlowingButton href="#validation">
+          <PulsatingButton
+            className="bg-[#21D07A] text-white font-bold text-lg"
+            pulseColor="#336c51ff"
+            onClick={() => document.getElementById("validation")?.scrollIntoView({ behavior: "smooth" })}
+          >
             Get Early Access
-          </GlowingButton>
+          </PulsatingButton>
           
           <Button
             asChild

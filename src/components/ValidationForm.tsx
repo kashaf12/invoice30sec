@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
+import { MagicCard } from "@/components/ui/magic-card";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -163,6 +165,38 @@ export const ValidationForm = () => {
       setIsSuccess(true);
       toast.success("You're on the list!");
 
+      // Trigger confetti celebration
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      const randomInRange = (min: number, max: number) => {
+        return Math.random() * (max - min) + min;
+      };
+
+      const interval: any = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          colors: ["#21D07A", "#ffffff"],
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          colors: ["#21D07A", "#ffffff"],
+        });
+      }, 250);
+
       // Track form submission
       if (typeof window !== "undefined") {
         (window as any).dataLayer?.push({
@@ -180,7 +214,12 @@ export const ValidationForm = () => {
   if (isSuccess) {
     return (
       <section className="w-full py-20 px-6 flex justify-center bg-transparent">
-        <Card className="max-w-md w-full bg-[#131619] border-[#21D07A]/20">
+        <MagicCard 
+          className="max-w-md w-full bg-[#131619] border-[#21D07A]/20 text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-[#131619] border-white/5"
+          gradientColor="#131619"
+          gradientFrom="#21D07A"
+          gradientTo="#000000"
+        >
           <CardContent className="pt-6 text-center">
             <div className="w-16 h-16 bg-[#21D07A] rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -198,7 +237,7 @@ export const ValidationForm = () => {
               Submit another response
             </Button>
           </CardContent>
-        </Card>
+        </MagicCard>
       </section>
     );
   }
@@ -218,7 +257,12 @@ export const ValidationForm = () => {
           </p>
         </div>
 
-        <Card className="bg-[#131619] border-white/5">
+        <MagicCard 
+          className="bg-[#131619] border-white/5 text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-[#131619] border-white/5"
+          gradientColor="#131619"
+          gradientFrom="#21D07A"
+          gradientTo="#000000"
+        >
           <CardContent className="pt-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -452,7 +496,7 @@ export const ValidationForm = () => {
               </form>
             </Form>
           </CardContent>
-        </Card>
+        </MagicCard>
       </div>
     </section>
   );
