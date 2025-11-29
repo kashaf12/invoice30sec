@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateLead, LeadPayload } from "@/lib/validate";
-import { kv } from "@vercel/kv";
+import { neon } from "@neondatabase/serverless";
 
-
-const RATE_LIMIT_WINDOW_SECONDS = 60; // 1 minute
-const LEADS_LIST_KEY = "leads:list";   // list of lead ids (most recent at head)
-const LEAD_COUNTER_KEY = "leads:counter";
 const MAX_LEADS_RETURN = 200; // admin viewer cap
 
 // Helper: extract IP from request headers
@@ -24,18 +20,6 @@ function getClientIp(request: Request): string | null {
 // Helper: detect country from Vercel headers
 function detectCountry(request: Request): string {
   return request.headers.get("x-vercel-ip-country") || "Unknown";
-}
-
-// Helper: apply a simple KV-backed rate limit per email
-async function isRateLimited(email: string) {
-  if (!email) return false;
-  const key = `rl:${email}`;
-  const exists = await kv.get(key);
-  if (exists) {
-    return true;
-  }
-  await kv.set(key, "1", { ex: RATE_LIMIT_WINDOW_SECONDS });
-  return false;
 }
 
 export async function POST(request: Request) {
@@ -63,43 +47,23 @@ export async function POST(request: Request) {
       );
     }
 
-    // Rate limit by email
-    const email = body.email ?? "anonymous";
-    if (await isRateLimited(email)) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429 }
-      );
-    }
+    // Connect to Neon database
+    const sql = neon(process.env.DATABASE_URL!);
 
-    // Generate id atomically
-    const id = String(await kv.incr(LEAD_COUNTER_KEY));
+    // Insert lead into database
+    const result = await sql`
+      INSERT INTO leads (email, willing_to_pay, price, currency, reason, country, ip_address, user_agent)
+      VALUES (${body.email}, ${body.willingToPay}, ${body.price || null}, ${body.currency || null}, ${body.reason || null}, ${country}, ${clientIp}, ${userAgent})
+      RETURNING id, submitted_at
+    `;
 
-    const newLead = {
-      id,
-      ...body,
-      country,
-      ip: clientIp,
-      userAgent,
-      submittedAt: new Date().toISOString(),
-    };
+    const lead = result[0];
 
-    // Store lead object and push id to a list for retrieval
-    await kv.set(`lead:${id}`, JSON.stringify(newLead));
-    
-    // push to head of list (recent first)
-    if (typeof (kv as any).lpush === "function") {
-      await (kv as any).lpush(LEADS_LIST_KEY, id);
-    } else {
-      const raw = (await kv.get(LEADS_LIST_KEY)) as string | null;
-      let arr: string[] = raw ? JSON.parse(raw) : [];
-      arr.unshift(id);
-      const cap = 10000;
-      if (arr.length > cap) arr = arr.slice(0, cap);
-      await kv.set(LEADS_LIST_KEY, JSON.stringify(arr));
-    }
-
-    return NextResponse.json({ id, status: "ok" });
+    return NextResponse.json({ 
+      id: lead.id, 
+      status: "ok",
+      submittedAt: lead.submitted_at
+    });
   } catch (error) {
     console.error("Lead submission error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -119,32 +83,16 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const limit = Math.min(Number(url.searchParams.get("limit") || "50"), MAX_LEADS_RETURN);
 
-    // Retrieve list of ids
-    let ids: string[] = [];
+    // Connect to Neon database
+    const sql = neon(process.env.DATABASE_URL!);
 
-    if (typeof (kv as any).lrange === "function") {
-      // If list commands available, get range 0..limit-1
-      ids = await (kv as any).lrange(LEADS_LIST_KEY, 0, limit - 1);
-    } else {
-      // Fallback to JSON array
-      const raw = (await kv.get(LEADS_LIST_KEY)) as string | null;
-      if (raw) {
-        const arr = JSON.parse(raw) as string[];
-        ids = arr.slice(0, limit);
-      }
-    }
-
-    // Batch fetch leads
-    const multiGetKeys = ids.map((id) => `lead:${id}`);
-    // @vercel/kv supports mget in many wrappers
-    let leadsRaw: (string | null)[] = [];
-    if (typeof (kv as any).mget === "function") {
-      leadsRaw = await (kv as any).mget(...multiGetKeys);
-    } else {
-      leadsRaw = (await Promise.all(multiGetKeys.map((k) => kv.get(k)))) as (string | null)[];
-    }
-
-    const leads = leadsRaw.map((s) => (s ? JSON.parse(s) : null)).filter(Boolean);
+    // Fetch leads from database (most recent first)
+    const leads = await sql`
+      SELECT id, email, willing_to_pay, price, currency, reason, country, ip_address, user_agent, submitted_at
+      FROM leads
+      ORDER BY submitted_at DESC
+      LIMIT ${limit}
+    `;
 
     return NextResponse.json({ count: leads.length, leads });
   } catch (error) {

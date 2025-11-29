@@ -20,14 +20,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent } from "@/components/ui/card";
 
 const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.email("Invalid email address"),
   willingToPay: z.enum(["yes", "maybe", "no"], {
     message: "Please select an option",
   }),
-  price: z.string().optional(),
-  priceOther: z.string().optional(),
+  price: z.number().optional(),
+  priceIsOther: z.boolean().optional(),
   reason: z.string().optional(),
-  reasonOther: z.string().optional(),
+  reasonIsOther: z.boolean().optional(),
   honeypot: z.string().optional(),
 }).refine((data) => {
   // If "maybe" selected, price must be provided
@@ -47,30 +47,12 @@ const formSchema = z.object({
 }, {
   message: "Please select a reason",
   path: ["reason"],
-}).refine((data) => {
-  // If "Other" price selected, priceOther must be provided
-  if (data.price === "Other" && !data.priceOther) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Please enter an amount",
-  path: ["priceOther"],
-}).refine((data) => {
-  // If "Other" reason selected, reasonOther must be provided
-  if (data.reason === "Other" && !data.reasonOther) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Please specify your reason",
-  path: ["reasonOther"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const PRICE_OPTIONS = ["99", "149", "299", "Other"];
-const REASON_OPTIONS = ["Too expensive", "I don't need it", "Prefer free", "Payment concerns", "Other"];
+const PRICE_OPTIONS = ["199", "149", "299", "Other"] as const;
+const REASON_OPTIONS = ["Too expensive", "I don't need it", "Prefer free", "Payment concerns", "Other"] as const;
 
 export const ValidationForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -81,17 +63,19 @@ export const ValidationForm = () => {
     defaultValues: {
       email: "",
       willingToPay: undefined,
-      price: "",
-      priceOther: "",
-      reason: "",
-      reasonOther: "",
+      price: undefined,
+      priceIsOther: false,
+      reason: undefined,
+      reasonIsOther: false,
       honeypot: "",
     },
   });
 
   const willingToPay = form.watch("willingToPay");
   const price = form.watch("price");
+  const priceIsOther = form.watch("priceIsOther");
   const reason = form.watch("reason");
+  const reasonIsOther = form.watch("reasonIsOther");
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -146,20 +130,26 @@ export const ValidationForm = () => {
 
       // For "yes" - send fixed price of 199
       if (data.willingToPay === "yes") {
+        payload.willingToPay = "yes";
         payload.price = 199;
         payload.currency = "INR";
+        payload.reason = undefined;
       }
 
       // For "maybe" - send selected price
       if (data.willingToPay === "maybe") {
-        const selectedPrice = data.price === "Other" ? data.priceOther : data.price;
-        payload.price = Number(selectedPrice);
+        payload.willingToPay = "maybe";
+        payload.price = data.price; // Already a number
         payload.currency = "INR";
+        payload.reason = undefined;
       }
 
       // For "no" - send reason only
       if (data.willingToPay === "no") {
-        payload.reason = data.reason === "Other" ? data.reasonOther : data.reason;
+        payload.willingToPay = "no";
+        payload.price = undefined;
+        payload.currency = undefined;
+        payload.reason = data.reason;
       }
 
       const response = await fetch("/api/leads", {
@@ -315,42 +305,54 @@ export const ValidationForm = () => {
                         <FormItem>
                           <FormLabel className="text-white text-sm">Select your preferred price:</FormLabel>
                           <div className="flex flex-wrap gap-3">
-                            {PRICE_OPTIONS.map((price) => (
-                              <Button
-                                key={price}
-                                type="button"
-                                variant={field.value === price ? "default" : "outline"}
-                                className={
-                                  field.value === price
-                                    ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
-                                    : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
-                                }
-                                onClick={() => {
-                                  field.onChange(price);
-                                  if (price !== "Other") {
-                                    form.setValue("priceOther", "");
+                            {PRICE_OPTIONS.map((priceOption) => {
+                              const isSelected = priceOption === "Other" 
+                                ? priceIsOther
+                                : field.value === Number(priceOption);
+                              
+                              return (
+                                <Button
+                                  key={priceOption}
+                                  type="button"
+                                  variant={isSelected ? "default" : "outline"}
+                                  className={
+                                    isSelected
+                                      ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
+                                      : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
                                   }
-                                }}
-                              >
-                                {price === "Other" ? "Other" : `₹${price}/mo`}
-                              </Button>
-                            ))}
+                                  onClick={() => {
+                                    if (priceOption === "Other") {
+                                      form.setValue("priceIsOther", true);
+                                      field.onChange(undefined);
+                                    } else {
+                                      form.setValue("priceIsOther", false);
+                                      field.onChange(Number(priceOption));
+                                    }
+                                  }}
+                                >
+                                  {priceOption === "Other" ? "Other" : `₹${priceOption}/mo`}
+                                </Button>
+                              );
+                            })}
                           </div>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                    {price === "Other" && (
+                    {priceIsOther && willingToPay === "maybe" && (
                       <FormField
-                        name="priceOther"
+                        name="price"
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
                               <Input
                                 type="number"
                                 placeholder="Enter amount (₹)"
-                                {...field}
+                                value={field.value || ""}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  field.onChange(val ? Number(val) : undefined);
+                                }}
                                 className="bg-[#0B0D0F] border-white/10 text-white"
                               />
                             </FormControl>
@@ -377,42 +379,51 @@ export const ValidationForm = () => {
                         <FormItem>
                           <FormLabel className="text-white text-sm">Why not?</FormLabel>
                           <div className="flex flex-wrap gap-2">
-                            {REASON_OPTIONS.map((reasonOption) => (
-                              <Button
-                                key={reasonOption}
-                                type="button"
-                                variant={field.value === reasonOption ? "default" : "outline"}
-                                size="sm"
-                                className={
-                                  field.value === reasonOption
-                                    ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
-                                    : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
-                                }
-                                onClick={() => {
-                                  field.onChange(reasonOption);
-                                  if (reasonOption !== "Other") {
-                                    form.setValue("reasonOther", "");
+                            {REASON_OPTIONS.map((reasonOption) => {
+                              const isSelected = reasonOption === "Other"
+                                ? reasonIsOther
+                                : field.value === reasonOption;
+                              
+                              return (
+                                <Button
+                                  key={reasonOption}
+                                  type="button"
+                                  variant={isSelected ? "default" : "outline"}
+                                  size="sm"
+                                  className={
+                                    isSelected
+                                      ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
+                                      : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
                                   }
-                                }}
-                              >
-                                {reasonOption}
-                              </Button>
-                            ))}
+                                  onClick={() => {
+                                    if (reasonOption === "Other") {
+                                      form.setValue("reasonIsOther", true);
+                                      field.onChange(undefined);
+                                    } else {
+                                      form.setValue("reasonIsOther", false);
+                                      field.onChange(reasonOption);
+                                    }
+                                  }}
+                                >
+                                  {reasonOption}
+                                </Button>
+                              );
+                            })}
                           </div>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                    {reason === "Other" && (
+                    {reasonIsOther && willingToPay === "no" && (
                       <FormField
-                        name="reasonOther"
+                        name="reason"
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
                               <Input
                                 placeholder="Tell us why..."
-                                {...field}
+                                value={field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                                 className="bg-[#0B0D0F] border-white/10 text-white"
                               />
                             </FormControl>

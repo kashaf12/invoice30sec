@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { neon } from "@neondatabase/serverless";
 
 export async function POST(request: Request) {
   try {
@@ -21,21 +22,24 @@ export async function POST(request: Request) {
       );
     }
 
-    // TODO: Integrate with your email service provider (Mailchimp, SendGrid, etc.)
-    // For now, we'll just log it and return success
-    console.log("Newsletter subscription:", email);
+    // Connect to Neon database
+    const sql = neon(process.env.DATABASE_URL!);
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Insert subscription (or update if already exists)
+    const result = await sql`
+      INSERT INTO subscriptions (email, is_active)
+      VALUES (${email}, true)
+      ON CONFLICT (email) 
+      DO UPDATE SET is_active = true, unsubscribed_at = NULL
+      RETURNING id, subscribed_at
+    `;
 
-    // In production, you would:
-    // 1. Add to your email service provider
-    // 2. Store in database
-    // 3. Send confirmation email
+    const subscription = result[0];
     
     return NextResponse.json({ 
       success: true,
-      message: "Successfully subscribed to newsletter" 
+      message: "Successfully subscribed to newsletter",
+      id: subscription.id
     });
   } catch (error) {
     console.error("Subscribe error:", error);

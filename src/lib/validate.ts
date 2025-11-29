@@ -4,7 +4,6 @@ export interface LeadPayload {
   price?: number;
   currency?: string;
   reason?: string;
-  reasonOther?: string;
   honeypot?: string;
   country?: string; // auto-detected server-side
   utm?: string; // auto-captured from query params
@@ -49,11 +48,6 @@ export const validateLead = (payload: LeadPayload): ValidationResult => {
   // If "no" selected, reason should be provided
   if (payload.willingToPay === "no" && !required(payload.reason)) {
     errors.reason = "Please select a reason";
-  }
-
-  // If "Other" reason selected, reasonOther should be provided
-  if (payload.reason === "Other" && !required(payload.reasonOther)) {
-    errors.reasonOther = "Please specify your reason";
   }
 
   return {
