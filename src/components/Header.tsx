@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { Menu, X, Zap, PlayCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
@@ -145,12 +146,17 @@ export const Header = () => {
           {/* Logo */}
           <Link
             href="/"
-            className={`text-[18px] md:text-[24px] font-semibold text-white tracking-tight z-50 relative hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] ${
+            className={`flex items-center gap-2 text-[18px] md:text-[24px] font-semibold text-white tracking-tight z-50 relative hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] ${
               prefersReducedMotion ? "" : "transition-all duration-200"
             }`}
             aria-label="Invoice30Sec Home"
           >
-            Invoice30Sec
+            <Zap
+              className="w-5 h-5 md:w-6 md:h-6"
+              style={{ color: "var(--brand-primary-alt)" }}
+              aria-hidden="true"
+            />
+            <span>Invoice30Sec</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -160,19 +166,33 @@ export const Header = () => {
           >
             <Link
               href="#howitworks"
-              className={`text-sm uppercase tracking-widest hover:brightness-110 ${
+              className={`flex items-center gap-2 text-sm uppercase tracking-widest hover:brightness-110 ${
                 prefersReducedMotion ? "" : "transition-colors duration-200"
               } ${
                 activeSection === "howitworks"
                   ? ""
                   : "text-gray-300/80 hover:text-white"
               }`}
+              style={
+                activeSection === "howitworks"
+                  ? { color: "var(--brand-primary)" }
+                  : {}
+              }
             >
+              <PlayCircle
+                className="w-4 h-4"
+                aria-hidden="true"
+                style={
+                  activeSection === "howitworks"
+                    ? { color: "var(--brand-primary)" }
+                    : {}
+                }
+              />
               How It Works
             </Link>
             <Link
               href="#why"
-              className={`text-sm uppercase tracking-widest hover:brightness-110 ${
+              className={`flex items-center gap-2 text-sm uppercase tracking-widest hover:brightness-110 ${
                 prefersReducedMotion ? "" : "transition-colors duration-200"
               } ${
                 activeSection === "why"
@@ -183,11 +203,20 @@ export const Header = () => {
                 activeSection === "why" ? { color: "var(--brand-primary)" } : {}
               }
             >
+              <Sparkles
+                className="w-4 h-4"
+                aria-hidden="true"
+                style={
+                  activeSection === "why"
+                    ? { color: "var(--brand-primary)" }
+                    : {}
+                }
+              />
               Why
             </Link>
             <Button
               asChild
-              className="text-black font-semibold rounded-xl shadow-md"
+              className="text-black font-semibold rounded-xl shadow-md flex items-center gap-2"
               style={{ backgroundColor: "var(--brand-primary)" }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.opacity = "0.9";
@@ -198,7 +227,10 @@ export const Header = () => {
               data-analytics="header_cta"
               onClick={() => handleCTAClick("header")}
             >
-              <Link href="#validation">Get Early Access</Link>
+              <Link href="#validation" className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
+                Get Early Access
+              </Link>
             </Button>
           </nav>
 
@@ -218,36 +250,9 @@ export const Header = () => {
             aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <X className="w-6 h-6" aria-hidden="true" />
             ) : (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
+              <Menu className="w-6 h-6" aria-hidden="true" />
             )}
           </button>
         </div>
@@ -285,22 +290,24 @@ export const Header = () => {
         <nav className="flex flex-col gap-6" aria-label="Mobile navigation">
           <Link
             href="#howitworks"
-            className="text-white/90 hover:text-white text-[18px] font-medium border-b border-white/10 pb-4"
+            className="flex items-center gap-3 text-white/90 hover:text-white text-[18px] font-medium border-b border-white/10 pb-4"
             onClick={handleCloseMobileMenu}
           >
+            <PlayCircle className="w-5 h-5" aria-hidden="true" />
             How It Works
           </Link>
           <Link
             href="#why"
-            className="text-white/90 hover:text-white text-[18px] font-medium border-b border-white/10 pb-4"
+            className="flex items-center gap-3 text-white/90 hover:text-white text-[18px] font-medium border-b border-white/10 pb-4"
             onClick={handleCloseMobileMenu}
           >
+            <Sparkles className="w-5 h-5" aria-hidden="true" />
             Why
           </Link>
           <div className="flex flex-col gap-4 mt-4">
             <Button
               asChild
-              className="w-full justify-center text-black font-semibold rounded-xl"
+              className="w-full justify-center text-black font-semibold rounded-xl flex items-center gap-2"
               style={{ backgroundColor: "var(--brand-primary)" }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.opacity = "0.9";
@@ -314,7 +321,10 @@ export const Header = () => {
                 handleCloseMobileMenu();
               }}
             >
-              <Link href="#validation">Get Early Access</Link>
+              <Link href="#validation" className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
+                Get Early Access
+              </Link>
             </Button>
           </div>
         </nav>
