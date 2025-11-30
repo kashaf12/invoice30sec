@@ -661,7 +661,7 @@ export const ValidationForm = () => {
 
                   <Button
                     type="submit"
-                    className="w-full text-white font-bold h-12 text-lg flex items-center justify-center gap-2 whitespace-nowrap"
+                    className="w-full text-black font-bold h-12 text-lg flex items-center justify-center gap-2 whitespace-nowrap"
                     style={{
                       backgroundColor: "var(--brand-primary-alt)",
                     }}
@@ -681,7 +681,7 @@ export const ValidationForm = () => {
 
                   <p
                     className="text-xs text-center"
-                    style={{ color: "rgba(201, 201, 201, 0.6)" }}
+                    style={{ color: "rgba(201, 201, 201, 0.8)" }}
                   >
                     By clicking this button, you agree to receive early access
                     emails and product updates. Unsubscribe anytime.{" "}

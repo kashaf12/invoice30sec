@@ -123,7 +123,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
         </Button>
       </div>
 
-      <p id="footer-email-help" className="text-xs text-gray-500">
+      <p id="footer-email-help" className="text-xs text-gray-400">
         We&apos;ll only send product updates. Unsubscribe anytime.
       </p>
 
@@ -298,7 +298,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
           <div className="flex flex-wrap justify-center sm:justify-start gap-4 items-center">
             <p>© {currentYear} Invoice30Sec. All rights reserved.</p>
             <span className="hidden sm:inline">•</span>
@@ -309,11 +309,14 @@ export const Footer = () => {
           <div className="flex gap-6">
             <Link
               href="/privacy"
-              className="hover:text-white transition-colors"
+              className="text-gray-400 hover:text-white transition-colors"
             >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link
+              href="/terms"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
               Terms
             </Link>
           </div>
