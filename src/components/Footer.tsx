@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Linkedin, Twitter, Github, Send, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -144,22 +145,24 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
 };
 
 export const Footer = () => {
+  const pathname = usePathname();
+
   const handleSocialClick = (platform: string) => {
     track("social_click", { platform });
   };
 
   const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     track("footer_cta_click");
-    
+
     // Check if we're on the home page
-    if (window.location.pathname === "/") {
-      // If on home page, just scroll to validation section
-      document.getElementById("validation")?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      // If on another page, navigate to home page with hash
-      window.location.href = "/#validation";
+    if (pathname === "/") {
+      // If on home page, prevent navigation and just scroll to validation section
+      e.preventDefault();
+      document
+        .getElementById("validation")
+        ?.scrollIntoView({ behavior: "smooth" });
     }
+    // If on another page, let Link handle navigation to /#validation
   };
 
   const currentYear = new Date().getFullYear();
@@ -169,7 +172,7 @@ export const Footer = () => {
       <div className="max-w-6xl mx-auto">
         {/* Top CTA Line */}
         <div className="text-center mb-12">
-          <a
+          <Link
             href="/#validation"
             onClick={handleCTAClick}
             className="inline-flex items-center gap-2 font-semibold text-lg transition-all duration-300"
@@ -187,7 +190,7 @@ export const Footer = () => {
           >
             Get Early Access
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
-          </a>
+          </Link>
         </div>
 
         {/* Main Footer Grid */}
@@ -227,7 +230,7 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:kashafaahmed@gmail.com"
+                  href="mailto:support@invoice30sec.com"
                   className="hover:text-white transition-colors text-sm"
                   style={{ color: "var(--text-secondary-alt)" }}
                 >

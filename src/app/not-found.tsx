@@ -113,7 +113,7 @@ export default function NotFound() {
           <EmptyDescription>
             Need help?{" "}
             <a
-              href="mailto:kashafaahmed@gmail.com"
+              href="mailto:support@invoice30sec.com"
               className="underline underline-offset-2 hover:text-primary"
             >
               Contact support

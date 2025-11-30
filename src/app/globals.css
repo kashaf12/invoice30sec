@@ -134,11 +134,22 @@ body {
     @apply backdrop-blur-md;
     background-color: var(--bg-glass);
   }
+
+  /* Safari-optimized transitions */
+  @supports (-webkit-appearance: none) {
+    .transition-all,
+    [class*="transition"] {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+  }
 }
 
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
+  /* Safari scroll optimization */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Respect reduced motion preference */
@@ -166,6 +177,22 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
+@-webkit-keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    -webkit-transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    -webkit-transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
 @keyframes pulse-glow {
 
   0%,
@@ -181,7 +208,22 @@ html {
 }
 
 .pulse-glow {
+  -webkit-animation: pulse-glow 4s ease-in-out infinite;
   animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@-webkit-keyframes pulse-once {
+
+  0%,
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(1.02);
+    transform: scale(1.02);
+  }
 }
 
 @keyframes pulse-once {
@@ -197,7 +239,24 @@ html {
 }
 
 .animate-pulse-once {
+  -webkit-animation: pulse-once 0.6s ease-in-out forwards;
   animation: pulse-once 0.6s ease-in-out forwards;
+}
+
+/* Safari-specific fixes for animate-in utility classes */
+@supports (-webkit-appearance: none) {
+  /* Force hardware acceleration for animate-in classes */
+  [class*="animate-in"],
+  [class*="fade-in"],
+  [class*="slide-in"] {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    will-change: transform, opacity;
+  }
 }
 
 .pain-diagonal-bg {
