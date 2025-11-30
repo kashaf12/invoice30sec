@@ -3,8 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { Link2, Timer, TrendingUp, LucideIcon } from "lucide-react";
 
 interface BenefitCard {
+  icon: LucideIcon;
   title: string;
   body: string;
   micro: string;
@@ -18,16 +20,19 @@ interface WhyFreelancersLoveThisProps {
 
 const DEFAULT_CARDS: BenefitCard[] = [
   {
+    icon: Link2,
     title: "All payment options. One clean link.",
     body: 'Your client sees every available method — UPI, Stripe, PayPal, Razorpay, or direct bank transfer. They pick what\'s fastest. No "How do I pay?" No confusion. No excuses.',
     micro: "No delays.",
   },
   {
+    icon: Timer,
     title: "Create invoices in seconds, not hours.",
     body: "Add amount, a short description, and the due date. Everything else is automated — clean formatting, smart reminders (coming soon). Stop wasting hours designing invoices nobody reads.",
     micro: "Automated formatting & smart reminders (coming soon).",
   },
   {
+    icon: TrendingUp,
     title: "You send the link. The money comes in.",
     body: "Your client taps once. Money arrives. No delays. No reminders. No excuses.",
     micro: "Focus on work — not collecting payments.",
@@ -157,6 +162,14 @@ export const WhyFreelancersLoveThis = ({
                 className="h-full bg-card border-border hover:border-primary/30 transition-colors"
               >
                 <CardContent className="p-6 md:p-8 flex flex-col h-full">
+                  {/* Icon */}
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <card.icon
+                      className="w-6 h-6 text-primary"
+                      aria-hidden="true"
+                    />
+                  </div>
+
                   {/* Card Title */}
                   <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                     {card.title}

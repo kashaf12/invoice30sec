@@ -4,12 +4,15 @@ import { PainSection } from "@/components/PainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { WhyFreelancersLoveThis } from "@/components/WhyFreelancersLoveThis";
 import { ValidationForm } from "@/components/ValidationForm";
+import { HashNavigationHandler } from "@/components/HashNavigationHandler";
 
 
 
 export default function Home() {
   return (
     <main className="relative z-0 text-gray-100">
+      <HashNavigationHandler />
+      
       <Section id="hero" className="bg-transparent">
         <Hero />
       </Section>

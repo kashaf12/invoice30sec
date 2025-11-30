@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
+import { CheckCircle2, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -252,19 +253,10 @@ export const ValidationForm = () => {
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{ backgroundColor: "var(--brand-primary-alt)" }}
               >
-                <svg
+                <CheckCircle2
                   className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={3}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
+                  aria-hidden="true"
+                />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
               <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
@@ -353,7 +345,7 @@ export const ValidationForm = () => {
                           <Input
                             type="email"
                             id="email"
-                            placeholder="you@example.com"
+                            placeholder="your@email.com"
                             autoComplete="email"
                             {...field}
                             className="text-white"
@@ -669,7 +661,7 @@ export const ValidationForm = () => {
 
                   <Button
                     type="submit"
-                    className="w-full text-white font-bold h-12 text-lg"
+                    className="w-full text-white font-bold h-12 text-lg flex items-center justify-center gap-2 whitespace-nowrap"
                     style={{
                       backgroundColor: "var(--brand-primary-alt)",
                     }}
@@ -681,6 +673,7 @@ export const ValidationForm = () => {
                     }}
                     disabled={form.formState.isSubmitting}
                   >
+                    <Sparkles className="w-5 h-5" aria-hidden="true" />
                     {form.formState.isSubmitting
                       ? "Submitting..."
                       : "Get Early Access"}
