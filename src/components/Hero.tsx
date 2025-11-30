@@ -48,10 +48,9 @@ export const Hero = ({ className = "" }: HeroProps) => {
           {/* CTA Group */}
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
             <PulsatingButton
-              className="font-bold text-lg w-full md:w-auto whitespace-nowrap"
+              className="text-white font-bold text-lg w-full md:w-auto whitespace-nowrap"
               style={{ 
-                backgroundColor: "var(--brand-primary-alt)",
-                color: "var(--text-on-primary)"
+                backgroundColor: "var(--brand-primary-alt)"
               }}
               pulseColor="var(--brand-pulse)"
               onClick={() =>

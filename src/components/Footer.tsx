@@ -148,8 +148,18 @@ export const Footer = () => {
     track("social_click", { platform });
   };
 
-  const handleCTAClick = () => {
+  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     track("footer_cta_click");
+    
+    // Check if we're on the home page
+    if (window.location.pathname === "/") {
+      // If on home page, just scroll to validation section
+      document.getElementById("validation")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If on another page, navigate to home page with hash
+      window.location.href = "/#validation";
+    }
   };
 
   const currentYear = new Date().getFullYear();
@@ -159,8 +169,8 @@ export const Footer = () => {
       <div className="max-w-6xl mx-auto">
         {/* Top CTA Line */}
         <div className="text-center mb-12">
-          <Link
-            href="#validation"
+          <a
+            href="/#validation"
             onClick={handleCTAClick}
             className="inline-flex items-center gap-2 font-semibold text-lg transition-all duration-300"
             style={{ color: "var(--brand-primary)" }}
@@ -177,7 +187,7 @@ export const Footer = () => {
           >
             Get Early Access
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
-          </Link>
+          </a>
         </div>
 
         {/* Main Footer Grid */}
