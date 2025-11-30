@@ -50,9 +50,6 @@ export const Hero = ({ className = "" }: HeroProps) => {
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
             <PulsatingButton
               className="text-black font-bold text-lg w-full md:w-auto whitespace-nowrap"
-              style={{
-                backgroundColor: "var(--brand-primary-alt)",
-              }}
               pulseColor="var(--brand-pulse)"
               onClick={() =>
                 document
