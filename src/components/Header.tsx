@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
@@ -218,36 +219,9 @@ export const Header = () => {
             aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <X className="w-6 h-6" aria-hidden="true" />
             ) : (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
+              <Menu className="w-6 h-6" aria-hidden="true" />
             )}
           </button>
         </div>

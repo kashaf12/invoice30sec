@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
+import { CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -252,19 +253,10 @@ export const ValidationForm = () => {
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{ backgroundColor: "var(--brand-primary-alt)" }}
               >
-                <svg
+                <CheckCircle2
                   className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={3}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
+                  aria-hidden="true"
+                />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
               <p className="mb-8" style={{ color: "var(--text-secondary)" }}>

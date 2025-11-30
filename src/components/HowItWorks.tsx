@@ -3,13 +3,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { FileText, Wallet, Zap, LucideIcon } from "lucide-react";
 
 interface HowItWorksProps {
   className?: string;
 }
 
-const STEPS = [
+interface Step {
+  icon: LucideIcon;
+  title: string;
+  body: string[];
+}
+
+const STEPS: Step[] = [
   {
+    icon: FileText,
     title: "1. Create your invoice in 30 seconds.",
     body: [
       "Add amount, a short description, and the due date — that's it.",
@@ -17,6 +25,7 @@ const STEPS = [
     ],
   },
   {
+    icon: Wallet,
     title: "2. Add how you want to get paid.",
     body: [
       "UPI, Stripe, Razorpay, PayPal, or direct bank transfer.",
@@ -24,6 +33,7 @@ const STEPS = [
     ],
   },
   {
+    icon: Zap,
     title: "3. Send one link. Get paid instantly.",
     body: [
       "Your client taps once.",
@@ -116,6 +126,17 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
                 }}
               >
                 <CardContent className="p-6 md:p-8 flex flex-col items-center md:items-start text-center md:text-left h-full">
+                  {/* Icon */}
+                  <div
+                    className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
+                    style={{ backgroundColor: "var(--brand-primary-alt)" }}
+                  >
+                    <step.icon
+                      className="w-6 h-6 text-white"
+                      aria-hidden="true"
+                    />
+                  </div>
+
                   {/* Step Heading */}
                   <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
                     {step.title}
