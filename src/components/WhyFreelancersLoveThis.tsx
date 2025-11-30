@@ -19,7 +19,7 @@ interface WhyFreelancersLoveThisProps {
 const DEFAULT_CARDS: BenefitCard[] = [
   {
     title: "All payment options. One clean link.",
-    body: "Your client sees every available method — UPI, Stripe, PayPal, Razorpay, or direct bank transfer. They pick what's fastest. No \"How do I pay?\" No confusion. No excuses.",
+    body: 'Your client sees every available method — UPI, Stripe, PayPal, Razorpay, or direct bank transfer. They pick what\'s fastest. No "How do I pay?" No confusion. No excuses.',
     micro: "No delays.",
   },
   {
@@ -40,13 +40,17 @@ export const WhyFreelancersLoveThis = ({
   onCTAClick,
 }: WhyFreelancersLoveThisProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  });
   const sectionRef = useRef<HTMLElement>(null);
 
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
@@ -82,8 +86,8 @@ export const WhyFreelancersLoveThis = ({
       onCTAClick();
     }
     // Analytics tracking
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({ event: "why_cta_click" });
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({ event: "why_cta_click" });
     }
   };
 
@@ -102,7 +106,7 @@ export const WhyFreelancersLoveThis = ({
       <div className="max-w-6xl mx-auto flex flex-col items-center z-10 relative">
         {/* Overline */}
         <span
-          className={`text-sm uppercase tracking-widest text-gray-400 mb-4 text-center transition-all duration-700 ease-out ${
+          className={`text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center transition-all duration-700 ease-out ${
             shouldAnimate && isVisible
               ? "opacity-100 translate-y-0"
               : shouldAnimate
@@ -116,7 +120,7 @@ export const WhyFreelancersLoveThis = ({
         {/* Headline */}
         <h2
           id="why-heading"
-          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center mb-12 max-w-4xl leading-tight transition-all duration-700 delay-100 ease-out ${
+          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground text-center mb-12 max-w-4xl leading-tight transition-all duration-700 delay-100 ease-out ${
             shouldAnimate && isVisible
               ? "opacity-100 translate-y-0 scale-100"
               : shouldAnimate
@@ -134,7 +138,7 @@ export const WhyFreelancersLoveThis = ({
               key={index}
               whileHover={{ y: -8, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className={`transition-all duration-[400ms] ease-[cubic-bezier(0.2,0.9,0.2,1)] ${
+              className={`transition-all duration-400 ease-[cubic-bezier(0.2,0.9,0.2,1)] ${
                 shouldAnimate && isVisible
                   ? "opacity-100 translate-y-0"
                   : shouldAnimate
@@ -150,21 +154,21 @@ export const WhyFreelancersLoveThis = ({
               <Card
                 tabIndex={0}
                 aria-label={`Benefit: ${card.title}`}
-                className="h-full bg-[#131619] border-white/5 hover:border-[#00E389]/20 transition-colors"
+                className="h-full bg-card border-border hover:border-primary/30 transition-colors"
               >
                 <CardContent className="p-6 md:p-8 flex flex-col h-full">
                   {/* Card Title */}
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4">
                     {card.title}
                   </h3>
 
                   {/* Card Body */}
-                  <p className="text-base text-[#C9C9C9] leading-relaxed mb-4">
+                  <p className="text-base text-muted-foreground leading-relaxed mb-4">
                     {card.body}
                   </p>
 
                   {/* Micro Emphasis */}
-                  <p className="text-sm font-bold text-[#21D07A] mt-auto">
+                  <p className="text-sm font-bold text-primary mt-auto">
                     {card.micro}
                   </p>
                 </CardContent>
@@ -177,7 +181,7 @@ export const WhyFreelancersLoveThis = ({
         <a
           href="#validation"
           onClick={handleCTAClick}
-          className={`text-base text-[#09d57a] font-medium text-center hover:text-[#0bf58a] hover:drop-shadow-[0_0_8px_rgba(9,213,122,0.4)] transition-all duration-300 ease-out ${
+          className={`text-base font-medium text-primary text-center hover:text-primary/90 transition-all duration-300 ease-out ${
             shouldAnimate && isVisible
               ? "opacity-100 translate-y-0"
               : shouldAnimate

@@ -95,11 +95,26 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
               whileHover={{ y: -8, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
               className={`transition-all duration-700 ease-out ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
-              <Card className="h-full bg-[#131619] border-white/5 hover:border-[#00E389]/20 transition-colors">
+              <Card
+                className="h-full transition-colors"
+                style={{
+                  backgroundColor: "var(--bg-dark-card)",
+                  borderColor: "var(--border-white-5)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor =
+                    "var(--border-primary-20)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "var(--border-white-5)";
+                }}
+              >
                 <CardContent className="p-6 md:p-8 flex flex-col items-center md:items-start text-center md:text-left h-full">
                   {/* Step Heading */}
                   <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
@@ -107,7 +122,10 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
                   </h3>
 
                   {/* Step Body */}
-                  <div className="flex flex-col gap-4 text-base text-[#C9C9C9] leading-relaxed">
+                  <div
+                    className="flex flex-col gap-4 text-base leading-relaxed"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
                     {step.body.map((line, i) => (
                       <p key={i}>{line}</p>
                     ))}
@@ -120,9 +138,10 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
 
         {/* Tagline */}
         <p
-          className={`text-lg font-bold text-[#21D07A] tracking-wide text-center transition-all duration-700 delay-700 ease-out ${
+          className={`text-lg font-bold tracking-wide text-center transition-all duration-700 delay-700 ease-out ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
+          style={{ color: "var(--brand-primary-alt)" }}
         >
           Fast. Simple. No chasing. Ever again.
         </p>

@@ -6,9 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 // Placeholder tracking function
-const track = (event: string, data?: Record<string, any>) => {
-  if (typeof window !== "undefined" && (window as any).dataLayer) {
-    (window as any).dataLayer.push({ event, ...data });
+interface DataLayer {
+  push: (data: { event: string; [key: string]: unknown }) => void;
+}
+
+const track = (event: string, data?: Record<string, unknown>) => {
+  if (
+    typeof window !== "undefined" &&
+    (window as unknown as { dataLayer?: DataLayer }).dataLayer !== undefined
+  ) {
+    (window as unknown as { dataLayer?: DataLayer }).dataLayer?.push({
+      event,
+      ...data,
+    } as { event: string; [key: string]: unknown });
   }
   console.log("Analytics:", event, data);
 };
@@ -20,7 +30,10 @@ interface FooterSubscribeProps {
 export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -28,7 +41,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateEmail(email)) {
       setMessage({ type: "error", text: "Please enter a valid email address" });
       return;
@@ -53,14 +66,17 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
       setMessage({ type: "success", text: "Thanks for subscribing!" });
       setEmail("");
       track("footer_subscribe", { email });
-      
+
       if (onSuccess) {
         onSuccess();
       }
     } catch (error) {
-      setMessage({ 
-        type: "error", 
-        text: error instanceof Error ? error.message : "Something went wrong. Please try again." 
+      setMessage({
+        type: "error",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -79,30 +95,44 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
           placeholder="your@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-[#0B0D0F] border-white/10 text-white placeholder:text-gray-500 flex-1"
+          className="text-white placeholder:text-gray-500 flex-1"
+          style={{
+            backgroundColor: "var(--bg-dark)",
+            borderColor: "var(--border-white-10)",
+          }}
           aria-describedby="footer-email-help"
           disabled={isSubmitting}
         />
         <Button
           type="submit"
-          className="bg-[#09d57a] hover:bg-[#09d57a]/90 text-black font-semibold rounded-xl whitespace-nowrap"
+          className="text-black font-semibold rounded-xl whitespace-nowrap"
+          style={{ backgroundColor: "var(--brand-primary)" }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "0.9";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "1";
+          }}
           data-analytics="footer_subscribe"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Subscribing..." : "Subscribe"}
         </Button>
       </div>
-      
+
       <p id="footer-email-help" className="text-xs text-gray-500">
-        We'll only send product updates. Unsubscribe anytime.
+        We&apos;ll only send product updates. Unsubscribe anytime.
       </p>
 
       {message && (
         <p
           role="alert"
           className={`text-sm ${
-            message.type === "success" ? "text-[#09d57a]" : "text-red-400"
+            message.type === "success" ? "" : "text-red-400"
           }`}
+          style={
+            message.type === "success" ? { color: "var(--brand-primary)" } : {}
+          }
         >
           {message.text}
         </p>
@@ -130,7 +160,17 @@ export const Footer = () => {
           <Link
             href="#validation"
             onClick={handleCTAClick}
-            className="inline-block text-[#09d57a] font-semibold text-lg hover:text-[#0bf58a] hover:drop-shadow-[0_0_8px_rgba(9,213,122,0.4)] transition-all duration-300"
+            className="inline-block font-semibold text-lg transition-all duration-300"
+            style={{ color: "var(--brand-primary)" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--brand-primary-hover)";
+              e.currentTarget.style.filter =
+                "drop-shadow(0 0 8px var(--brand-primary-40))";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--brand-primary)";
+              e.currentTarget.style.filter = "none";
+            }}
             data-analytics="footer_cta"
           >
             Get Early Access →
@@ -148,7 +188,8 @@ export const Footer = () => {
               <li>
                 <Link
                   href="#how"
-                  className="text-[#bfbfbf] hover:text-white transition-colors text-sm"
+                  className="hover:text-white transition-colors text-sm"
+                  style={{ color: "var(--text-secondary-alt)" }}
                 >
                   How It Works
                 </Link>
@@ -156,15 +197,14 @@ export const Footer = () => {
               <li>
                 <Link
                   href="#why"
-                  className="text-[#bfbfbf] hover:text-white transition-colors text-sm"
+                  className="hover:text-white transition-colors text-sm"
+                  style={{ color: "var(--text-secondary-alt)" }}
                 >
                   Why Freelancers Love This
                 </Link>
               </li>
             </ul>
           </div>
-
-
 
           {/* Resources Column */}
           <div>
@@ -175,7 +215,8 @@ export const Footer = () => {
               <li>
                 <a
                   href="mailto:kashafaahmed@gmail.com"
-                  className="text-[#bfbfbf] hover:text-white transition-colors text-sm"
+                  className="hover:text-white transition-colors text-sm"
+                  style={{ color: "var(--text-secondary-alt)" }}
                 >
                   Support
                 </a>
@@ -199,7 +240,8 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("linkedin")}
-            className="text-[#bfbfbf] hover:text-white transition-colors"
+            className="hover:text-white transition-colors"
+            style={{ color: "var(--text-secondary-alt)" }}
             data-analytics="social_click"
             data-social="linkedin"
             aria-label="LinkedIn"
@@ -220,7 +262,8 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("twitter")}
-            className="text-[#bfbfbf] hover:text-white transition-colors"
+            className="hover:text-white transition-colors"
+            style={{ color: "var(--text-secondary-alt)" }}
             data-analytics="social_click"
             data-social="twitter"
             aria-label="Twitter"
@@ -241,7 +284,8 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("github")}
-            className="text-[#bfbfbf] hover:text-white transition-colors"
+            className="hover:text-white transition-colors"
+            style={{ color: "var(--text-secondary-alt)" }}
             data-analytics="social_click"
             data-social="github"
             aria-label="GitHub"
@@ -267,7 +311,9 @@ export const Footer = () => {
           <div className="flex flex-wrap justify-center sm:justify-start gap-4 items-center">
             <p>© {currentYear} Invoice30Sec. All rights reserved.</p>
             <span className="hidden sm:inline">•</span>
-            <p className="text-xs italic">Built by a freelancer, for freelancers</p>
+            <p className="text-xs italic">
+              Built by a freelancer, for freelancers
+            </p>
           </div>
           <div className="flex gap-6">
             <Link
@@ -276,10 +322,7 @@ export const Footer = () => {
             >
               Privacy Policy
             </Link>
-            <Link
-              href="/terms"
-              className="hover:text-white transition-colors"
-            >
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms
             </Link>
           </div>

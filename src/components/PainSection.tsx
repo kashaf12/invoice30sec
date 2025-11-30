@@ -57,41 +57,54 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
               : "opacity-0 translate-y-8 scale-95"
           }`}
         >
-          Clients delaying? Forgetting? "Will pay tomorrow"?
+          Clients delaying? Forgetting? &quot;Will pay tomorrow&quot;?
         </h2>
 
         {/* Body Copy */}
-        <div className="flex flex-col gap-4 md:gap-2 max-w-[720px] text-base md:text-lg text-[#C9C9C9] leading-relaxed mb-10 md:mb-14">
+        <div
+          className="flex flex-col gap-4 md:gap-2 max-w-[720px] text-base md:text-lg leading-relaxed mb-10 md:mb-14"
+          style={{ color: "var(--text-secondary)" }}
+        >
           <p
             className={`transition-all duration-700 delay-200 ease-out ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
           >
-            Freelancers lose time, money, and peace every time a client drags a payment.
+            Freelancers lose time, money, and peace every time a client drags a
+            payment.
           </p>
           <p
             className={`transition-all duration-700 delay-[280ms] ease-out ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
           >
-            Endless reminders. Back-and-forth messages. Confusing payment methods.
+            Endless reminders. Back-and-forth messages. Confusing payment
+            methods.
           </p>
           <p
             className={`transition-all duration-700 delay-[360ms] ease-out ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
           >
-            It shouldn’t be this hard to get paid for work you’ve already delivered.
+            It shouldn’t be this hard to get paid for work you’ve already
+            delivered.
           </p>
         </div>
 
         {/* Closing Value Statement */}
         <p
-          className={`text-base md:text-lg font-bold text-[#21D07A] tracking-wide transition-all duration-700 delay-500 ease-out ${
+          className={`text-base md:text-lg font-bold tracking-wide transition-all duration-700 delay-500 ease-out ${
             isVisible
               ? "opacity-100 translate-y-0 animate-pulse-once"
               : "opacity-0 translate-y-4"
           }`}
+          style={{ color: "var(--brand-primary-alt)" }}
         >
           We make payments instant — so you never chase a client again.
         </p>

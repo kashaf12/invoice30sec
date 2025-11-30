@@ -21,40 +21,55 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CardContent } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
 
-const formSchema = z.object({
-  email: z.email("Invalid email address"),
-  willingToPay: z.enum(["yes", "maybe", "no"], {
-    message: "Please select an option",
-  }),
-  price: z.number().optional(),
-  priceIsOther: z.boolean().optional(),
-  reason: z.string().optional(),
-  reasonIsOther: z.boolean().optional(),
-  honeypot: z.string().optional(),
-}).refine((data) => {
-  // If "maybe" selected, price must be provided
-  if (data.willingToPay === "maybe" && !data.price) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Please select a price option",
-  path: ["price"],
-}).refine((data) => {
-  // If "no" selected, reason must be provided
-  if (data.willingToPay === "no" && !data.reason) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Please select a reason",
-  path: ["reason"],
-});
+const formSchema = z
+  .object({
+    email: z.email("Invalid email address"),
+    willingToPay: z.enum(["yes", "maybe", "no"], {
+      message: "Please select an option",
+    }),
+    price: z.number().optional(),
+    priceIsOther: z.boolean().optional(),
+    reason: z.string().optional(),
+    reasonIsOther: z.boolean().optional(),
+    honeypot: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      // If "maybe" selected, price must be provided
+      if (data.willingToPay === "maybe" && !data.price) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Please select a price option",
+      path: ["price"],
+    }
+  )
+  .refine(
+    (data) => {
+      // If "no" selected, reason must be provided
+      if (data.willingToPay === "no" && !data.reason) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Please select a reason",
+      path: ["reason"],
+    }
+  );
 
 type FormValues = z.infer<typeof formSchema>;
 
 const PRICE_OPTIONS = ["199", "149", "299", "Other"] as const;
-const REASON_OPTIONS = ["Too expensive", "I don't need it", "Prefer free", "Payment concerns", "Other"] as const;
+const REASON_OPTIONS = [
+  "Too expensive",
+  "I don't need it",
+  "Prefer free",
+  "Payment concerns",
+  "Other",
+] as const;
 
 export const ValidationForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -94,16 +109,15 @@ export const ValidationForm = () => {
 
   // Track form_open event
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({ event: "form_open" });
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({ event: "form_open" });
     }
   }, []);
 
   // Track price selection
   useEffect(() => {
-    if (price && typeof window !== "undefined") {
-      (window as any).dataLayer?.push({
+    if (price && typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
         event: "price_choice_selected",
         price: price,
       });
@@ -112,8 +126,8 @@ export const ValidationForm = () => {
 
   // Track reason selection
   useEffect(() => {
-    if (reason && typeof window !== "undefined") {
-      (window as any).dataLayer?.push({
+    if (reason && typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
         event: "no_followup_reason_selected",
         reason: reason,
       });
@@ -125,7 +139,13 @@ export const ValidationForm = () => {
 
     try {
       // Build payload conditionally based on willingToPay
-      const payload: any = {
+      const payload: {
+        email: string;
+        willingToPay: string;
+        price?: number;
+        currency?: string;
+        reason?: string;
+      } = {
         email: data.email,
         willingToPay: data.willingToPay,
       };
@@ -174,7 +194,7 @@ export const ValidationForm = () => {
         return Math.random() * (max - min) + min;
       };
 
-      const interval: any = setInterval(() => {
+      const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -198,15 +218,15 @@ export const ValidationForm = () => {
       }, 250);
 
       // Track form submission
-      if (typeof window !== "undefined") {
-        (window as any).dataLayer?.push({
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
           event: "form_submit",
           willingness: data.willingToPay,
           price: payload.price,
           reason: payload.reason,
         });
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong. Please try again.");
     }
   }
@@ -214,289 +234,485 @@ export const ValidationForm = () => {
   if (isSuccess) {
     return (
       <section className="w-full py-20 px-6 flex justify-center bg-transparent">
-        <MagicCard 
-          className="max-w-md w-full bg-[#131619] border-[#21D07A]/20 text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-[#131619] border-white/5"
-          gradientColor="#131619"
-          gradientFrom="#21D07A"
-          gradientTo="#000000"
+        <div
+          className="max-w-md w-full rounded-xl border shadow-sm"
+          style={{
+            backgroundColor: "var(--bg-dark-card)",
+            borderColor: "var(--border-primary-20)",
+          }}
         >
-          <CardContent className="pt-6 text-center">
-            <div className="w-16 h-16 bg-[#21D07A] rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
-            <p className="text-[#C9C9C9] mb-8">
-              We'll email you about early access and next steps.
-            </p>
-            <Button
-              className="w-full bg-[#21D07A] hover:bg-[#21D07A]/90 text-white"
-              onClick={() => window.location.reload()}
-            >
-              Submit another response
-            </Button>
-          </CardContent>
-        </MagicCard>
+          <MagicCard
+            className="text-card-foreground flex flex-col gap-6 py-6"
+            gradientColor="var(--bg-dark-card)"
+            gradientFrom="var(--brand-primary-alt)"
+            gradientTo="#000000"
+          >
+            <CardContent className="pt-6 text-center">
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+                style={{ backgroundColor: "var(--brand-primary-alt)" }}
+              >
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={3}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
+              <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
+                We&apos;ll email you about early access and next steps.
+              </p>
+              <Button
+                className="w-full text-white"
+                style={{
+                  backgroundColor: "var(--brand-primary-alt)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    "var(--brand-primary-alt)";
+                  e.currentTarget.style.opacity = "0.9";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor =
+                    "var(--brand-primary-alt)";
+                  e.currentTarget.style.opacity = "1";
+                }}
+                onClick={() => window.location.reload()}
+              >
+                Submit another response
+              </Button>
+            </CardContent>
+          </MagicCard>
+        </div>
       </section>
     );
   }
 
   return (
-    <section id="validation" className="w-full py-12 md:py-20 px-6 bg-transparent">
+    <section
+      id="validation"
+      className="w-full py-12 md:py-20 px-6 bg-transparent"
+    >
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-12">
-          <span className="text-[#21D07A] text-xs md:text-sm font-bold tracking-[0.15em] uppercase block mb-4">
+          <span
+            className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase block mb-4"
+            style={{ color: "var(--brand-primary-alt)" }}
+          >
             GET EARLY ACCESS
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Get early access — help us build what actually works for freelancers.
+            Get early access — help us build what actually works for
+            freelancers.
           </h2>
-          <p className="text-[#C9C9C9] text-lg">
-            Quick — 30 seconds. Tell us if you'd pay for this.
+          <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
+            Quick — 30 seconds. Tell us if you&apos;d pay for this.
           </p>
         </div>
 
-        <MagicCard 
-          className="bg-[#131619] border-white/5 text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-[#131619] border-white/5"
-          gradientColor="#131619"
-          gradientFrom="#21D07A"
-          gradientTo="#000000"
+        <div
+          className="rounded-xl border shadow-sm"
+          style={{
+            backgroundColor: "var(--bg-dark-card)",
+            borderColor: "var(--border-white-5)",
+          }}
         >
-          <CardContent className="pt-6">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <input type="hidden" {...form.register("honeypot")} />
+          <MagicCard
+            className="text-card-foreground flex flex-col gap-6 py-6"
+            gradientColor="var(--bg-dark-card)"
+            gradientFrom="var(--brand-primary-alt)"
+            gradientTo="#000000"
+          >
+            <CardContent className="pt-6">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6"
+                >
+                  <input type="hidden" {...form.register("honeypot")} />
 
-                <FormField
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">
-                        Email <span className="text-[#21D07A]">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          id="email"
-                          placeholder="you@example.com"
-                          autoComplete="email"
-                          {...field}
-                          className="bg-[#0B0D0F] border-white/10 text-white"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">
+                          Email{" "}
+                          <span style={{ color: "var(--brand-primary-alt)" }}>
+                            *
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            autoComplete="email"
+                            {...field}
+                            className="text-white"
+                            style={{
+                              backgroundColor: "var(--bg-dark)",
+                              borderColor: "var(--border-white-10)",
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name="willingToPay"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="text-white">
-                        Would you pay for early access at this price? <span className="text-[#21D07A]">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="flex flex-col space-y-2"
-                        >
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value="yes" className="border-white/30 text-[#21D07A]" />
-                            </FormControl>
-                            <FormLabel className="font-normal text-[#C9C9C9] cursor-pointer">
-                              Yes — I'll pay ₹199
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value="maybe" className="border-white/30 text-[#21D07A]" />
-                            </FormControl>
-                            <FormLabel className="font-normal text-[#C9C9C9] cursor-pointer">
-                              Maybe — depends on price
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value="no" className="border-white/30 text-[#21D07A]" />
-                            </FormControl>
-                            <FormLabel className="font-normal text-[#C9C9C9] cursor-pointer">
-                              No — I won't pay
-                            </FormLabel>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Progressive disclosure: Price options when "maybe" */}
-                {willingToPay === "maybe" && (
-                  <div
-                    className={`space-y-3 ${
-                      prefersReducedMotion ? "" : "animate-in fade-in slide-in-from-top-2 duration-300"
-                    }`}
-                    role="region"
-                    aria-label="Price options"
-                  >
-                    <FormField
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-white text-sm">Select your preferred price:</FormLabel>
-                          <div className="flex flex-wrap gap-3">
-                            {PRICE_OPTIONS.map((priceOption) => {
-                              const isSelected = priceOption === "Other" 
-                                ? priceIsOther
-                                : field.value === Number(priceOption);
-                              
-                              return (
-                                <Button
-                                  key={priceOption}
-                                  type="button"
-                                  variant={isSelected ? "default" : "outline"}
-                                  className={
-                                    isSelected
-                                      ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
-                                      : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
-                                  }
-                                  onClick={() => {
-                                    if (priceOption === "Other") {
-                                      form.setValue("priceIsOther", true);
-                                      field.onChange(undefined);
-                                    } else {
-                                      form.setValue("priceIsOther", false);
-                                      field.onChange(Number(priceOption));
-                                    }
+                  <FormField
+                    name="willingToPay"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-white">
+                          Would you pay for early access at this price?{" "}
+                          <span style={{ color: "var(--brand-primary-alt)" }}>
+                            *
+                          </span>
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex flex-col space-y-2"
+                          >
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem
+                                  value="yes"
+                                  style={{
+                                    borderColor: "var(--border-white-30)",
+                                    color: "var(--brand-primary-alt)",
                                   }}
-                                >
-                                  {priceOption === "Other" ? "Other" : `₹${priceOption}/mo`}
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </FormItem>
-                      )}
-                    />
+                                />
+                              </FormControl>
+                              <FormLabel
+                                className="font-normal cursor-pointer"
+                                style={{ color: "var(--text-secondary)" }}
+                              >
+                                Yes — I&apos;ll pay ₹199
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem
+                                  value="maybe"
+                                  style={{
+                                    borderColor: "var(--border-white-30)",
+                                    color: "var(--brand-primary-alt)",
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel
+                                className="font-normal cursor-pointer"
+                                style={{ color: "var(--text-secondary)" }}
+                              >
+                                Maybe — depends on price
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem
+                                  value="no"
+                                  style={{
+                                    borderColor: "var(--border-white-30)",
+                                    color: "var(--brand-primary-alt)",
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel
+                                className="font-normal cursor-pointer"
+                                style={{ color: "var(--text-secondary)" }}
+                              >
+                                No — I won&apos;t pay
+                              </FormLabel>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    {priceIsOther && willingToPay === "maybe" && (
+                  {/* Progressive disclosure: Price options when "maybe" */}
+                  {willingToPay === "maybe" && (
+                    <div
+                      className={`space-y-3 ${
+                        prefersReducedMotion
+                          ? ""
+                          : "animate-in fade-in slide-in-from-top-2 duration-300"
+                      }`}
+                      role="region"
+                      aria-label="Price options"
+                    >
                       <FormField
                         name="price"
                         render={({ field }) => (
                           <FormItem>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Enter amount (₹)"
-                                value={field.value || ""}
-                                onChange={(e) => {
-                                  const val = e.target.value;
-                                  field.onChange(val ? Number(val) : undefined);
-                                }}
-                                className="bg-[#0B0D0F] border-white/10 text-white"
-                              />
-                            </FormControl>
-                            <FormMessage />
+                            <FormLabel className="text-white text-sm">
+                              Select your preferred price:
+                            </FormLabel>
+                            <div className="flex flex-wrap gap-3">
+                              {PRICE_OPTIONS.map((priceOption) => {
+                                const isSelected =
+                                  priceOption === "Other"
+                                    ? priceIsOther
+                                    : field.value === Number(priceOption);
+
+                                return (
+                                  <Button
+                                    key={priceOption}
+                                    type="button"
+                                    variant={isSelected ? "default" : "outline"}
+                                    className={
+                                      isSelected ? "text-white" : "text-white"
+                                    }
+                                    style={
+                                      isSelected
+                                        ? {
+                                            backgroundColor:
+                                              "var(--brand-primary-alt)",
+                                            borderColor:
+                                              "var(--brand-primary-alt)",
+                                          }
+                                        : {
+                                            backgroundColor: "var(--bg-dark)",
+                                            borderColor:
+                                              "var(--border-white-10)",
+                                          }
+                                    }
+                                    onMouseEnter={(e) => {
+                                      if (!isSelected) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "rgba(255, 255, 255, 0.05)";
+                                      } else {
+                                        e.currentTarget.style.opacity = "0.9";
+                                      }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      if (!isSelected) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "var(--bg-dark)";
+                                      } else {
+                                        e.currentTarget.style.opacity = "1";
+                                      }
+                                    }}
+                                    onClick={() => {
+                                      if (priceOption === "Other") {
+                                        form.setValue("priceIsOther", true);
+                                        field.onChange(undefined);
+                                      } else {
+                                        form.setValue("priceIsOther", false);
+                                        field.onChange(Number(priceOption));
+                                      }
+                                    }}
+                                  >
+                                    {priceOption === "Other"
+                                      ? "Other"
+                                      : `₹${priceOption}/mo`}
+                                  </Button>
+                                );
+                              })}
+                            </div>
                           </FormItem>
                         )}
                       />
-                    )}
-                  </div>
-                )}
 
-                {/* Progressive disclosure: Reason chips when "no" */}
-                {willingToPay === "no" && (
-                  <div
-                    className={`space-y-3 ${
-                      prefersReducedMotion ? "" : "animate-in fade-in slide-in-from-top-2 duration-300"
-                    }`}
-                    role="region"
-                    aria-label="Reason for not paying"
-                  >
-                    <FormField
-                      name="reason"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-white text-sm">Why not?</FormLabel>
-                          <div className="flex flex-wrap gap-2">
-                            {REASON_OPTIONS.map((reasonOption) => {
-                              const isSelected = reasonOption === "Other"
-                                ? reasonIsOther
-                                : field.value === reasonOption;
-                              
-                              return (
-                                <Button
-                                  key={reasonOption}
-                                  type="button"
-                                  variant={isSelected ? "default" : "outline"}
-                                  size="sm"
-                                  className={
-                                    isSelected
-                                      ? "bg-[#21D07A] hover:bg-[#21D07A]/90 text-white border-[#21D07A]"
-                                      : "bg-[#0B0D0F] border-white/10 text-white hover:bg-white/5"
-                                  }
-                                  onClick={() => {
-                                    if (reasonOption === "Other") {
-                                      form.setValue("reasonIsOther", true);
-                                      field.onChange(undefined);
-                                    } else {
-                                      form.setValue("reasonIsOther", false);
-                                      field.onChange(reasonOption);
-                                    }
+                      {priceIsOther && willingToPay === "maybe" && (
+                        <FormField
+                          name="price"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter amount (₹)"
+                                  value={field.value || ""}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    field.onChange(
+                                      val ? Number(val) : undefined
+                                    );
                                   }}
-                                >
-                                  {reasonOption}
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </FormItem>
+                                  className="text-white"
+                                  style={{
+                                    backgroundColor: "var(--bg-dark)",
+                                    borderColor: "var(--border-white-10)",
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                       )}
-                    />
+                    </div>
+                  )}
 
-                    {reasonIsOther && willingToPay === "no" && (
+                  {/* Progressive disclosure: Reason chips when "no" */}
+                  {willingToPay === "no" && (
+                    <div
+                      className={`space-y-3 ${
+                        prefersReducedMotion
+                          ? ""
+                          : "animate-in fade-in slide-in-from-top-2 duration-300"
+                      }`}
+                      role="region"
+                      aria-label="Reason for not paying"
+                    >
                       <FormField
                         name="reason"
                         render={({ field }) => (
                           <FormItem>
-                            <FormControl>
-                              <Input
-                                placeholder="Tell us why..."
-                                value={field.value || ""}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                className="bg-[#0B0D0F] border-white/10 text-white"
-                              />
-                            </FormControl>
-                            <FormMessage />
+                            <FormLabel className="text-white text-sm">
+                              Why not?
+                            </FormLabel>
+                            <div className="flex flex-wrap gap-2">
+                              {REASON_OPTIONS.map((reasonOption) => {
+                                const isSelected =
+                                  reasonOption === "Other"
+                                    ? reasonIsOther
+                                    : field.value === reasonOption;
+
+                                return (
+                                  <Button
+                                    key={reasonOption}
+                                    type="button"
+                                    variant={isSelected ? "default" : "outline"}
+                                    size="sm"
+                                    className={
+                                      isSelected ? "text-white" : "text-white"
+                                    }
+                                    style={
+                                      isSelected
+                                        ? {
+                                            backgroundColor:
+                                              "var(--brand-primary-alt)",
+                                            borderColor:
+                                              "var(--brand-primary-alt)",
+                                          }
+                                        : {
+                                            backgroundColor: "var(--bg-dark)",
+                                            borderColor:
+                                              "var(--border-white-10)",
+                                          }
+                                    }
+                                    onMouseEnter={(e) => {
+                                      if (!isSelected) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "rgba(255, 255, 255, 0.05)";
+                                      } else {
+                                        e.currentTarget.style.opacity = "0.9";
+                                      }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      if (!isSelected) {
+                                        e.currentTarget.style.backgroundColor =
+                                          "var(--bg-dark)";
+                                      } else {
+                                        e.currentTarget.style.opacity = "1";
+                                      }
+                                    }}
+                                    onClick={() => {
+                                      if (reasonOption === "Other") {
+                                        form.setValue("reasonIsOther", true);
+                                        field.onChange(undefined);
+                                      } else {
+                                        form.setValue("reasonIsOther", false);
+                                        field.onChange(reasonOption);
+                                      }
+                                    }}
+                                  >
+                                    {reasonOption}
+                                  </Button>
+                                );
+                              })}
+                            </div>
                           </FormItem>
                         )}
                       />
-                    )}
-                  </div>
-                )}
 
-                <Button
-                  type="submit"
-                  className="w-full bg-[#21D07A] hover:bg-[#21D07A]/90 text-white font-bold h-12 text-lg"
-                  disabled={form.formState.isSubmitting}
-                >
-                  {form.formState.isSubmitting ? "Submitting..." : "Get Early Access"}
-                </Button>
+                      {reasonIsOther && willingToPay === "no" && (
+                        <FormField
+                          name="reason"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  placeholder="Tell us why..."
+                                  value={field.value || ""}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.value)
+                                  }
+                                  className="text-white"
+                                  style={{
+                                    backgroundColor: "var(--bg-dark)",
+                                    borderColor: "var(--border-white-10)",
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                    </div>
+                  )}
 
-                <p className="text-xs text-center text-[#C9C9C9]/60">
-                  By clicking this button, you agree to receive early access emails and product updates. Unsubscribe anytime.{" "}
-                  <a href="/privacy" className="underline hover:text-[#21D07A]">
-                    Privacy
-                  </a>
-                </p>
-              </form>
-            </Form>
-          </CardContent>
-        </MagicCard>
+                  <Button
+                    type="submit"
+                    className="w-full text-white font-bold h-12 text-lg"
+                    style={{
+                      backgroundColor: "var(--brand-primary-alt)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = "0.9";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = "1";
+                    }}
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting
+                      ? "Submitting..."
+                      : "Get Early Access"}
+                  </Button>
+
+                  <p
+                    className="text-xs text-center"
+                    style={{ color: "rgba(201, 201, 201, 0.6)" }}
+                  >
+                    By clicking this button, you agree to receive early access
+                    emails and product updates. Unsubscribe anytime.{" "}
+                    <a
+                      href="/privacy"
+                      className="underline"
+                      style={{ color: "var(--brand-primary-alt)" }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color =
+                          "var(--brand-primary-alt)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.color =
+                          "var(--brand-primary-alt)")
+                      }
+                    >
+                      Privacy
+                    </a>
+                  </p>
+                </form>
+              </Form>
+            </CardContent>
+          </MagicCard>
+        </div>
       </div>
     </section>
   );
