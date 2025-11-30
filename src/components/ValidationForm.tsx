@@ -254,7 +254,8 @@ export const ValidationForm = () => {
                 style={{ backgroundColor: "var(--brand-primary-alt)" }}
               >
                 <CheckCircle2
-                  className="w-8 h-8 text-white"
+                  className="w-8 h-8"
+                  style={{ color: "var(--text-on-primary)" }}
                   aria-hidden="true"
                 />
               </div>
@@ -263,9 +264,10 @@ export const ValidationForm = () => {
                 We&apos;ll email you about early access and next steps.
               </p>
               <Button
-                className="w-full text-white"
+                className="w-full"
                 style={{
                   backgroundColor: "var(--brand-primary-alt)",
+                  color: "var(--text-on-primary)",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor =
@@ -661,9 +663,10 @@ export const ValidationForm = () => {
 
                   <Button
                     type="submit"
-                    className="w-full text-white font-bold h-12 text-lg flex items-center justify-center gap-2"
+                    className="w-full font-bold h-12 text-lg flex items-center justify-center gap-2 whitespace-nowrap"
                     style={{
                       backgroundColor: "var(--brand-primary-alt)",
+                      color: "var(--text-on-primary)",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.opacity = "0.9";
