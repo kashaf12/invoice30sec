@@ -3,6 +3,16 @@
 ## Overview
 Successfully integrated lucide-react icons throughout the Invoice30Sec application. All icons are properly marked as decorative with `aria-hidden="true"` and accessible text is provided via component titles and labels.
 
+## Latest Updates (Phase 2)
+Added icons to:
+- ✅ Terms and Privacy pages
+- ✅ 404 Not Found page
+- ✅ All "Get Early Access" buttons
+- ✅ Subscribe button
+- ✅ Navigation links ("How It Works", "Why")
+- ✅ Header logo
+- ✅ Footer CTA
+
 ## Changes Made
 
 ### 1. HowItWorks Component (`/src/components/HowItWorks.tsx`)
@@ -100,12 +110,89 @@ All icon implementations follow accessibility best practices:
 ✅ All imports are correctly resolved
 ✅ lucide-react is already installed in package.json
 
+### 7. Terms Page (`/src/app/terms/page.tsx`)
+**Icon Added:**
+- **Scale** - Legal/justice icon for Terms of Service
+
+**Implementation:**
+- Icon displayed in a 14x14 rounded box with branded background
+- Icon is 7x7 size, white color, with `aria-hidden="true"`
+- Positioned next to page title in a flex layout
+
+### 8. Privacy Page (`/src/app/privacy/page.tsx`)
+**Icon Added:**
+- **ShieldCheck** - Security/privacy icon for Privacy Policy
+
+**Implementation:**
+- Icon displayed in a 14x14 rounded box with branded background
+- Icon is 7x7 size, white color, with `aria-hidden="true"`
+- Positioned next to page title in a flex layout
+
+### 9. 404 Not Found Page (`/src/app/not-found.tsx`)
+**Icon Added:**
+- **AlertCircle** - Alert/warning icon for 404 error state
+
+**Implementation:**
+- Icon is 12x12 size, red-400 color, with `aria-hidden="true"`
+- Centered above the "404 - Not Found" title
+- SearchIcon already present for search input (no changes needed)
+
+### 10. Enhanced Button Icons
+**Get Early Access Buttons:**
+- Added **Sparkles** icon to all "Get Early Access" buttons
+- Locations: Header (desktop & mobile), Hero, ValidationForm, Footer
+- Icons are 4-5 pixels size depending on button size
+- All with `aria-hidden="true"`
+
+**Subscribe Button:**
+- Added **Send** icon to newsletter subscribe button in Footer
+- Icon is 4x4 size with `aria-hidden="true"`
+
+**How It Works Button:**
+- Added **PlayCircle** icon to "How It Works" button in Hero
+- Icon is 5x5 size with `aria-hidden="true"`
+
+### 11. Enhanced Navigation
+**Header Navigation:**
+- Added **PlayCircle** icon to "How It Works" nav link (desktop & mobile)
+- Added **Sparkles** icon to "Why" nav link (desktop & mobile)
+- Icons are 4x4 size in desktop, 5x5 in mobile
+- Icons match active state colors
+
+**Header Logo:**
+- Added **Zap** icon before "Invoice30Sec" text
+- Icon is 5x5 on mobile, 6x6 on desktop
+- Colored with brand primary alt color
+- Creates a branded logo mark
+
+**Footer CTA:**
+- Added **ArrowRight** icon to "Get Early Access" link
+- Icon is 5x5 size with `aria-hidden="true"`
+
+## Icon Choices Rationale (Phase 2)
+
+### Pages
+- **Scale**: Represents legal terms, balance, justice - perfect for Terms of Service
+- **ShieldCheck**: Represents security and protection - ideal for Privacy Policy
+- **AlertCircle**: Standard error/alert indicator for 404 pages
+
+### Buttons & Navigation
+- **Sparkles**: Represents something special, new, exciting - perfect for "Get Early Access" and "Why"
+- **PlayCircle**: Represents starting/learning - ideal for "How It Works"
+- **Send**: Represents sending/submitting - perfect for subscribe action
+- **ArrowRight**: Standard directional indicator for CTAs
+- **Zap**: Represents speed, energy, instant action - perfect for brand logo
+
 ## Files Modified
 1. `/src/components/HowItWorks.tsx`
 2. `/src/components/WhyFreelancersLoveThis.tsx`
 3. `/src/components/ValidationForm.tsx`
 4. `/src/components/Header.tsx`
 5. `/src/components/Footer.tsx`
+6. `/src/components/Hero.tsx`
+7. `/src/app/terms/page.tsx`
+8. `/src/app/privacy/page.tsx`
+9. `/src/app/not-found.tsx`
 
 ## Notes
 - lucide-react (v0.555.0) was already installed as a dependency

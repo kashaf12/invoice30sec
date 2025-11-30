@@ -1,11 +1,20 @@
 import { Section } from "@/components/Section";
+import { ShieldCheck } from "lucide-react";
 
 export default function PrivacyPage() {
   return (
     <main className="relative z-0 text-gray-100 min-h-screen pt-20">
       <Section id="privacy" className="bg-transparent">
         <div className="max-w-4xl mx-auto px-6 py-12">
-          <h1 className="text-4xl font-bold mb-8 text-white">Privacy Policy</h1>
+          <div className="flex items-center gap-4 mb-8">
+            <div
+              className="w-14 h-14 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: "var(--brand-primary-alt)" }}
+            >
+              <ShieldCheck className="w-7 h-7 text-white" aria-hidden="true" />
+            </div>
+            <h1 className="text-4xl font-bold text-white">Privacy Policy</h1>
+          </div>
           <div className="space-y-6 text-[#C9C9C9] leading-relaxed">
             <p>Last updated: {new Date().toLocaleDateString()}</p>
             

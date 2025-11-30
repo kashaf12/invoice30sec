@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PulsatingButton } from "@/components/ui/pulsating-button";
 import { PaymentReadyInvoice } from "@/components/PaymentReadyInvoice";
@@ -47,7 +48,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
           {/* CTA Group */}
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
             <PulsatingButton
-              className="text-white font-bold text-lg w-full md:w-auto"
+              className="text-white font-bold text-lg w-full md:w-auto flex items-center justify-center gap-2"
               style={{ backgroundColor: "var(--brand-primary-alt)" }}
               pulseColor="var(--brand-pulse)"
               onClick={() =>
@@ -56,6 +57,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >
+              <Sparkles className="w-5 h-5" aria-hidden="true" />
               Get Early Access
             </PulsatingButton>
 
@@ -64,7 +66,10 @@ export const Hero = ({ className = "" }: HeroProps) => {
               variant="outline"
               className="w-full md:w-auto px-6 py-6 text-base md:text-lg bg-transparent border-white text-white hover:bg-white/10 active:scale-98 transition-all duration-200"
             >
-              <a href="#howitworks">How It Works</a>
+              <a href="#howitworks" className="flex items-center gap-2">
+                <PlayCircle className="w-5 h-5" aria-hidden="true" />
+                How It Works
+              </a>
             </Button>
           </div>
         </div>

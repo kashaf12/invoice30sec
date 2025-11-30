@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Linkedin, Twitter, Github } from "lucide-react";
+import { Linkedin, Twitter, Github, Send, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -106,7 +106,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
         />
         <Button
           type="submit"
-          className="text-black font-semibold rounded-xl whitespace-nowrap"
+          className="text-black font-semibold rounded-xl whitespace-nowrap flex items-center gap-2"
           style={{ backgroundColor: "var(--brand-primary)" }}
           onMouseEnter={(e) => {
             e.currentTarget.style.opacity = "0.9";
@@ -117,6 +117,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
           data-analytics="footer_subscribe"
           disabled={isSubmitting}
         >
+          <Send className="w-4 h-4" aria-hidden="true" />
           {isSubmitting ? "Subscribing..." : "Subscribe"}
         </Button>
       </div>
@@ -161,7 +162,7 @@ export const Footer = () => {
           <Link
             href="#validation"
             onClick={handleCTAClick}
-            className="inline-block font-semibold text-lg transition-all duration-300"
+            className="inline-flex items-center gap-2 font-semibold text-lg transition-all duration-300"
             style={{ color: "var(--brand-primary)" }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = "var(--brand-primary-hover)";
@@ -174,7 +175,8 @@ export const Footer = () => {
             }}
             data-analytics="footer_cta"
           >
-            Get Early Access →
+            Get Early Access
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </Link>
         </div>
 

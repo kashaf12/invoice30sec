@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -61,6 +61,12 @@ export default function NotFound() {
     <div className="flex h-screen w-full items-center justify-center p-4">
       <Empty>
         <EmptyHeader>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <AlertCircle
+              className="w-12 h-12 text-red-400"
+              aria-hidden="true"
+            />
+          </div>
           <EmptyTitle>404 - Not Found</EmptyTitle>
           <EmptyDescription>
             The page you&apos;re looking for doesn&apos;t exist. Try searching

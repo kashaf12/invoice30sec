@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -661,7 +661,7 @@ export const ValidationForm = () => {
 
                   <Button
                     type="submit"
-                    className="w-full text-white font-bold h-12 text-lg"
+                    className="w-full text-white font-bold h-12 text-lg flex items-center justify-center gap-2"
                     style={{
                       backgroundColor: "var(--brand-primary-alt)",
                     }}
@@ -673,6 +673,7 @@ export const ValidationForm = () => {
                     }}
                     disabled={form.formState.isSubmitting}
                   >
+                    <Sparkles className="w-5 h-5" aria-hidden="true" />
                     {form.formState.isSubmitting
                       ? "Submitting..."
                       : "Get Early Access"}
