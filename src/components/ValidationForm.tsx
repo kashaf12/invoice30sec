@@ -345,7 +345,7 @@ export const ValidationForm = () => {
                           <Input
                             type="email"
                             id="email"
-                            placeholder="you@example.com"
+                            placeholder="your@email.com"
                             autoComplete="email"
                             {...field}
                             className="text-white"

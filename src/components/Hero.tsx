@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PulsatingButton } from "@/components/ui/pulsating-button";
 import { PaymentReadyInvoice } from "@/components/PaymentReadyInvoice";
+import { TrustBar } from "@/components/TrustBar";
 
 interface HeroProps {
   className?: string;
@@ -49,8 +50,8 @@ export const Hero = ({ className = "" }: HeroProps) => {
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
             <PulsatingButton
               className="text-white font-bold text-lg w-full md:w-auto whitespace-nowrap"
-              style={{ 
-                backgroundColor: "var(--brand-primary-alt)"
+              style={{
+                backgroundColor: "var(--brand-primary-alt)",
               }}
               pulseColor="var(--brand-pulse)"
               onClick={() =>
@@ -73,6 +74,11 @@ export const Hero = ({ className = "" }: HeroProps) => {
                 How It Works
               </a>
             </Button>
+          </div>
+
+          {/* TrustBar */}
+          <div className="w-full mt-6">
+            <TrustBar />
           </div>
         </div>
 
