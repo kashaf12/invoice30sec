@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { Particles } from "@/components/ui/particles";
 
 const particleData = [
   { cx: 80, cy: 120, r: 3, delay: 0 },
@@ -13,7 +14,11 @@ const particleData = [
   { cx: 1400, cy: 120, r: 2.8, delay: 0.6 },
 ];
 
-export default function HeroBackground({ active = true }: { active?: boolean }) {
+export default function HeroBackground({
+  active = true,
+}: {
+  active?: boolean;
+}) {
   const reduce = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
 
@@ -25,12 +30,17 @@ export default function HeroBackground({ active = true }: { active?: boolean }) 
   }, [active]);
 
   // simple shared animation for blobs
-  const blobMotion = reduce || !enabled
-    ? { animate: { rotate: 0 } }
-    : {
-        animate: { rotate: [0, 3, -2, 0] },
-        transition: { duration: 18, ease: "linear" as const, repeat: Infinity }
-      };
+  const blobMotion =
+    reduce || !enabled
+      ? { animate: { rotate: 0 } }
+      : {
+          animate: { rotate: [0, 3, -2, 0] },
+          transition: {
+            duration: 18,
+            ease: "linear" as const,
+            repeat: Infinity,
+          },
+        };
 
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-[#0B0D0F]">
@@ -56,43 +66,24 @@ export default function HeroBackground({ active = true }: { active?: boolean }) 
         </defs>
 
         {/* large ambient blob (soft green) */}
-        <motion.g
-          {...blobMotion}
-          style={{ transformOrigin: "50% 50%" }}
-        >
-          <ellipse cx="740" cy="360" rx="520" ry="260" fill="url(#g-green)" filter="url(#blur)" />
+        <motion.g {...blobMotion} style={{ transformOrigin: "50% 50%" }}>
+          <ellipse
+            cx="740"
+            cy="360"
+            rx="520"
+            ry="260"
+            fill="url(#g-green)"
+            filter="url(#blur)"
+          />
         </motion.g>
-
-        {/* angled diamond shape for depth */}
-        <motion.rect
-          x="150"
-          y="80"
-          width="1100"
-          height="400"
-          rx="18"
-          transform="rotate(40 700 280)"
-          fill="#00E389"
-          opacity="0.05"
-          {...(reduce || !enabled ? {} : { animate: { opacity: [0.05, 0.08, 0.05] }, transition: { duration: 8, repeat: Infinity } })}
-        />
-
-        {/* particles group — subtle floating dots */}
-        <g>
-          {particleData.map((p, i) => (
-            <motion.circle
-              key={i}
-              cx={p.cx}
-              cy={p.cy}
-              r={p.r}
-              fill="#00E389"
-              opacity={0.3}
-              initial={{ y: 0, opacity: 0.2 }}
-              animate={reduce || !enabled ? {} : { y: [0, -15, 8, 0], opacity: [0.2, 0.5, 0.3, 0.2] }}
-              transition={{ duration: 6 + i, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
-            />
-          ))}
-        </g>
       </svg>
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={100}
+        ease={80}
+        color="#00E389"
+        refresh
+      />
     </div>
   );
 }

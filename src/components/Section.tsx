@@ -13,7 +13,7 @@ export function Section({ id, children, className = "" }: SectionProps) {
   return (
     <section
       id={id}
-      className={`min-h-screen snap-start flex items-center justify-center py-16 px-6 ${className}`}
+      className={`min-h-screen snap-start flex items-center justify-center ${className}`}
       aria-labelledby={`${id}-title`}
     >
       <motion.div

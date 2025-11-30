@@ -39,19 +39,24 @@ export const Hero = ({ className = "" }: HeroProps) => {
 
         {/* Subheadline */}
         <p className="text-base md:text-lg text-[#C9C9C9] max-w-2xl leading-relaxed">
-          Create a clean invoice in 30 seconds with all your payment methods in one link. No excuses. No chasing. Just instant payments.
+          Create a clean invoice in 30 seconds with all your payment methods in
+          one link. No excuses. No chasing. Just instant payments.
         </p>
 
         {/* CTA Group */}
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
           <PulsatingButton
-            className="bg-[#21D07A] text-white font-bold text-lg"
+            className="bg-[#21D07A] text-white font-bold text-lg w-full md:w-auto"
             pulseColor="#336c51ff"
-            onClick={() => document.getElementById("validation")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() =>
+              document
+                .getElementById("validation")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             Get Early Access
           </PulsatingButton>
-          
+
           <Button
             asChild
             variant="outline"
