@@ -150,7 +150,7 @@ export function PaymentReadyInvoice({
     >
       <motion.div variants={itemVariants}>
         <Card className="shadow-xl shadow-foreground/5 overflow-hidden">
-          <CardHeader className="relative px-5 pt-5 pb-5 bg-gradient-to-br from-muted/50 to-muted space-y-0">
+          <CardHeader className="relative px-5 pt-5 pb-5 bg-linear-to-br from-muted/50 to-muted space-y-0">
             <div className="flex items-center gap-2 mb-2">
               <Badge
                 variant="secondary"

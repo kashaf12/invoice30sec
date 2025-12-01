@@ -67,7 +67,7 @@ export const TrustBar = ({ signupCount = 100 }: TrustBarProps) => {
         <span
           role="status"
           aria-live="polite"
-          className="text-xs md:text-sm whitespace-nowrap"
+          className="text-xs md:text-sm"
           style={{ color: "var(--text-secondary)" }}
         >
           Join {signupCount}+ early signups
