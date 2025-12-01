@@ -141,15 +141,15 @@ export function PaymentReadyInvoice({
   };
 
   const floatingAnimation = shouldReduceMotion
-    ? {}
-    : {
+    ? undefined
+    : ({
         y: [0, -4, 0],
         transition: {
           duration: 6,
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
         },
-      };
+      } as any);
 
   return (
     <div className={cn("w-full max-w-md mx-auto relative", className)}>
@@ -163,7 +163,7 @@ export function PaymentReadyInvoice({
       >
         <motion.div
           variants={itemVariants}
-          animate={floatingAnimation}
+          animate={floatingAnimation || undefined}
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
         >
