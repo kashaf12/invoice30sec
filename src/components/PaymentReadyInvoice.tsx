@@ -143,7 +143,7 @@ export function PaymentReadyInvoice({
 
   return (
     <motion.div
-      className={cn("w-full max-w-md mx-auto", className)}
+      className={cn("w-full", className)}
       initial="hidden"
       animate="visible"
       variants={containerVariants}
