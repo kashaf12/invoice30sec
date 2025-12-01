@@ -10,7 +10,7 @@ import { HashNavigationHandler } from "@/components/HashNavigationHandler";
 
 export default function Home() {
   return (
-    <main className="relative z-0 text-gray-100">
+    <main className="relative z-0 text-gray-100 snap-container">
       <HashNavigationHandler />
       
       <Section id="hero" className="bg-transparent">

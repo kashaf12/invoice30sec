@@ -147,7 +147,7 @@ body {
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   /* Safari scroll optimization */
   -webkit-overflow-scrolling: touch;
 }
@@ -165,16 +165,16 @@ html {
   }
 }
 
+/* Scroll snap container - marker class for sections */
+.snap-container {
+  /* This class marks the container, actual snap is on html */
+}
+
 /* Disable snap on mobile for better pinch/zoom and scrolling */
 @media (max-width: 640px) {
   html {
     scroll-snap-type: none !important;
   }
-}
-
-/* Smooth webkit scrolling */
-.container-snap {
-  -webkit-overflow-scrolling: touch;
 }
 
 @-webkit-keyframes pulse-glow {

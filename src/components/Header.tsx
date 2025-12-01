@@ -64,12 +64,14 @@ export const Header = () => {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  // Scroll behavior for sticky header
+  // Scroll behavior for sticky header - shrink & blur at 48px
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 48);
     };
     window.addEventListener("scroll", handleScroll);
+    // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -136,12 +138,15 @@ export const Header = () => {
 
       <header
         className={`fixed top-0 left-0 right-0 z-50 ${
-          prefersReducedMotion ? "" : "transition-all duration-300"
+          prefersReducedMotion ? "" : "transition-all duration-[180ms] ease-out"
         } ${
           isScrolled
-            ? "backdrop-blur-md bg-black/40 shadow-lg h-14 md:h-16"
-            : "bg-transparent h-14 md:h-20"
+            ? "backdrop-blur-sm bg-black/30 shadow-lg"
+            : "bg-transparent"
         }`}
+        style={{
+          height: isScrolled ? "56px" : "72px",
+        }}
       >
         <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 h-full flex items-center justify-between">
           {/* Logo */}
