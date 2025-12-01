@@ -5,7 +5,7 @@ import { Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PulsatingButton } from "@/components/ui/pulsating-button";
 import { PaymentReadyInvoice } from "@/components/PaymentReadyInvoice";
-import { TrustBar } from "@/components/TrustBar";
+import { TrustSignals } from "@/components/TrustSignals";
 
 interface HeroProps {
   className?: string;
@@ -59,17 +59,6 @@ export const Hero = ({ className = "" }: HeroProps) => {
                 }}
                 aria-hidden="true"
               />
-
-              {/* Additional backdrop blur for isolation */}
-              <div
-                className="absolute inset-0 -inset-x-8 -inset-y-6 md:-inset-x-12 md:-inset-y-8 -z-20 rounded-2xl backdrop-blur-sm"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 500px 250px at 50% 50%, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 80%)",
-                }}
-                aria-hidden="true"
-              />
-
               {/* CTA Buttons Container */}
               <div className="relative z-0 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full md:w-auto">
                 <PulsatingButton
@@ -98,9 +87,9 @@ export const Hero = ({ className = "" }: HeroProps) => {
               </div>
             </div>
 
-            {/* TrustBar */}
-            <div className="w-full mt-6">
-              <TrustBar />
+            {/* Trust Signals */}
+            <div className="w-full">
+              <TrustSignals />
             </div>
           </div>
 
