@@ -45,8 +45,27 @@ const STEPS: Step[] = [
 
 export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  });
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Check for reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  // Intersection Observer for scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -67,106 +86,104 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
     return () => observer.disconnect();
   }, []);
 
+  // Determine if animations should play
+  const shouldAnimate = !prefersReducedMotion;
+
   return (
     <section
       id="how"
       ref={sectionRef}
       aria-labelledby="how-heading"
       role="region"
-      className={`relative w-full py-12 md:py-28 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-12 md:py-24 overflow-hidden bg-transparent ${className}`}
     >
+      {/* Radial glow behind heading */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#11d07a]/5 rounded-full blur-3xl pointer-events-none -z-10" />
+
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center z-10 relative">
-        {/* Overline */}
-        <span
-          className={`text-white text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-4 text-center transition-all duration-700 ease-out ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          How It Works
-        </span>
+          {/* Overline */}
+          <motion.span
+            initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center"
+          >
+            How It Works
+          </motion.span>
 
-        {/* Headline */}
-        <h2
-          id="how-heading"
-          className={`text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight md:leading-tight text-center mb-16 md:mb-24 max-w-4xl transition-all duration-700 delay-100 ease-out ${
-            isVisible
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 translate-y-8 scale-95"
-          }`}
-        >
-          Instant payments in 3 steps — no chasing, ever again.
-        </h2>
+          {/* Headline */}
+          <motion.h2
+            id="how-heading"
+            initial={shouldAnimate ? { opacity: 0, y: 30 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground text-center mb-12 max-w-4xl leading-tight relative"
+          >
+            Instant payments in 3 steps — no chasing, ever again.
+          </motion.h2>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mb-16">
-          {STEPS.map((step, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -8, scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className={`transition-all duration-700 ease-out ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${200 + index * 100}ms` }}
-            >
-              <Card
-                className="h-full transition-colors"
-                style={{
-                  backgroundColor: "var(--bg-dark-card)",
-                  borderColor: "var(--border-white-5)",
+          {/* Steps Grid */}
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-12">
+            {STEPS.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={shouldAnimate ? { opacity: 0, y: 40 } : false}
+                animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{
+                  duration: 0.6,
+                  delay: shouldAnimate ? 0.2 + index * 0.1 : 0,
+                  ease: "easeOut",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor =
-                    "var(--border-primary-20)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--border-white-5)";
-                }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="h-full"
               >
-                <CardContent className="p-6 md:p-8 flex flex-col items-center md:items-start text-center md:text-left h-full">
-                  {/* Icon */}
-                  <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-                    style={{ backgroundColor: "var(--brand-primary-alt)" }}
-                  >
-                    <step.icon
-                      className="w-6 h-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
+                <Card
+                  tabIndex={0}
+                  aria-label={`Step ${index + 1}: ${step.title}`}
+                  className="h-full bg-card border border-white/5 rounded-xl hover:border-[#11d07a]/20 hover:shadow-[0_0_20px_rgba(17,208,122,0.1)] transition-all duration-300 group"
+                >
+                  <CardContent className="p-6 md:p-8 flex flex-col h-full">
+                    {/* Icon - Monochrome, above title */}
+                    <div className="mb-6 flex justify-center">
+                      <step.icon
+                        className="w-8 h-8 text-foreground/60 group-hover:text-foreground/80 transition-colors duration-300"
+                        aria-hidden="true"
+                      />
+                    </div>
 
-                  {/* Step Heading */}
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4">
-                    {step.title}
-                  </h3>
+                    {/* Step Heading */}
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 text-center">
+                      {step.title}
+                    </h3>
 
-                  {/* Step Body */}
-                  <div
-                    className="flex flex-col gap-4 text-base leading-relaxed"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    {step.body.map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                    {/* Step Body */}
+                    <div className="flex flex-col gap-3 text-base text-muted-foreground leading-relaxed flex-grow">
+                      {step.body.map((line, i) => (
+                        <p key={i} className="text-center">
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
 
-        {/* Tagline */}
-        <p
-          className={`text-lg font-bold tracking-wide text-center transition-all duration-700 delay-700 ease-out ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-          style={{ color: "var(--brand-primary-alt)" }}
-        >
-          Fast. Simple. No chasing. Ever again.
-        </p>
+          {/* Tagline */}
+          <motion.p
+            initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{
+              duration: 0.6,
+              delay: shouldAnimate ? 0.5 : 0,
+              ease: "easeOut",
+            }}
+            className="text-lg font-bold tracking-wide text-center text-[#11d07a]"
+          >
+            Fast. Simple. No chasing. Ever again.
+          </motion.p>
         </div>
       </div>
     </section>
