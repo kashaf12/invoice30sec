@@ -16,7 +16,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
     <section
       id="hero"
       aria-label="Hero"
-      className={`relative w-full flex flex-col items-center justify-center py-12 md:py-20 lg:py-28 overflow-hidden ${className}`}
+      className={`relative w-full flex flex-col items-center justify-center pt-24 pb-12 md:pt-28 md:pb-20 lg:pt-32 lg:pb-28 overflow-hidden ${className}`}
     >
       {/* Content Container - Two column layout on desktop, stacked on mobile */}
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
@@ -47,31 +47,55 @@ export const Hero = ({ className = "" }: HeroProps) => {
               in one link. No excuses. No chasing. Just instant payments.
             </p>
 
-            {/* CTA Group */}
-            <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto mt-4">
-              <PulsatingButton
-                className="text-black font-bold text-lg w-full md:w-auto whitespace-nowrap"
-                pulseColor="var(--brand-pulse)"
-                onClick={() =>
-                  document
-                    .getElementById("validation")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-              >
-                <Sparkles className="w-5 h-5" aria-hidden="true" />
-                Get Early Access
-              </PulsatingButton>
+            {/* CTA Group - Isolated with spotlight effect */}
+            <div className="relative w-full md:w-auto mt-4">
+              {/* Spotlight backdrop to isolate CTA from busy background */}
+              <div
+                className="absolute inset-0 -inset-x-8 -inset-y-6 md:-inset-x-12 md:-inset-y-8 -z-10 rounded-2xl"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 600px 300px at 50% 50%, rgba(9, 213, 122, 0.15) 0%, rgba(9, 213, 122, 0.05) 40%, transparent 70%)",
+                  filter: "blur(40px)",
+                }}
+                aria-hidden="true"
+              />
 
-              <Button
-                asChild
-                variant="outline"
-                className="w-full md:w-auto px-6 py-6 text-base md:text-lg bg-transparent border-white text-white hover:bg-white/10 active:scale-98 transition-all duration-200"
-              >
-                <a href="#howitworks" className="flex items-center gap-2">
-                  <PlayCircle className="w-5 h-5" aria-hidden="true" />
-                  How It Works
-                </a>
-              </Button>
+              {/* Additional backdrop blur for isolation */}
+              <div
+                className="absolute inset-0 -inset-x-8 -inset-y-6 md:-inset-x-12 md:-inset-y-8 -z-20 rounded-2xl backdrop-blur-sm"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 500px 250px at 50% 50%, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 80%)",
+                }}
+                aria-hidden="true"
+              />
+
+              {/* CTA Buttons Container */}
+              <div className="relative z-0 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full md:w-auto">
+                <PulsatingButton
+                  className="text-black font-bold text-lg md:text-xl w-full md:w-auto whitespace-nowrap px-4 py-3 md:px-5 md:py-3 shadow-[0_0_40px_rgba(9,213,122,0.4),0_0_80px_rgba(9,213,122,0.2)] hover:shadow-[0_0_50px_rgba(9,213,122,0.5),0_0_100px_rgba(9,213,122,0.3)] transition-all duration-300 scale-100 hover:scale-105 active:scale-95"
+                  pulseColor="var(--brand-pulse)"
+                  onClick={() =>
+                    document
+                      .getElementById("validation")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                >
+                  <Sparkles className="w-5 h-5" aria-hidden="true" />
+                  Get Early Access
+                </PulsatingButton>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full md:w-auto px-6 py-6 text-base md:text-lg bg-transparent border-white text-white hover:bg-white/10 active:scale-98 transition-all duration-200"
+                >
+                  <a href="#howitworks" className="flex items-center gap-2">
+                    <PlayCircle className="w-5 h-5" aria-hidden="true" />
+                    How It Works
+                  </a>
+                </Button>
+              </div>
             </div>
 
             {/* TrustBar */}
