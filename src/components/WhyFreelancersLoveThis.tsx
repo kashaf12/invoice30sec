@@ -39,6 +39,39 @@ const DEFAULT_CARDS: BenefitCard[] = [
   },
 ];
 
+// Function to highlight key benefit words in green
+const highlightKeyWords = (text: string) => {
+  const keyWords = [
+    "instantly",
+    "fastest",
+    "seconds",
+    "automated",
+    "taps once",
+    "no delays",
+    "no confusion",
+    "no excuses",
+    "no reminders",
+  ];
+
+  // Sort by length (longest first) to avoid partial matches
+  const sortedWords = keyWords.sort((a, b) => b.length - a.length);
+
+  let highlightedText = text;
+
+  sortedWords.forEach((word) => {
+    // Escape special regex characters
+    const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+
+    highlightedText = highlightedText.replace(
+      regex,
+      (match) => `<span class="text-[#11d07a] font-semibold">${match}</span>`
+    );
+  });
+
+  return highlightedText;
+};
+
 export const WhyFreelancersLoveThis = ({
   className = "",
   cards = DEFAULT_CARDS,
@@ -108,104 +141,100 @@ export const WhyFreelancersLoveThis = ({
       data-analytics-section="why-freelancers-love-this"
       className={`relative w-full py-12 md:py-24 overflow-hidden bg-transparent ${className}`}
     >
+      {/* Radial glow behind heading */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#11d07a]/5 rounded-full blur-3xl pointer-events-none -z-10" />
+
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center z-10 relative">
-        {/* Overline */}
-        <span
-          className={`text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center transition-all duration-700 ease-out ${
-            shouldAnimate && isVisible
-              ? "opacity-100 translate-y-0"
-              : shouldAnimate
-              ? "opacity-0 translate-y-4"
-              : "opacity-100"
-          }`}
-        >
-          WHY FREELANCERS LOVE THIS.
-        </span>
+          {/* Overline */}
+          <motion.span
+            initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center"
+          >
+            WHY FREELANCERS LOVE THIS.
+          </motion.span>
 
-        {/* Headline */}
-        <h2
-          id="why-heading"
-          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground text-center mb-12 max-w-4xl leading-tight transition-all duration-700 delay-100 ease-out ${
-            shouldAnimate && isVisible
-              ? "opacity-100 translate-y-0 scale-100"
-              : shouldAnimate
-              ? "opacity-0 translate-y-8 scale-95"
-              : "opacity-100 scale-100"
-          }`}
-        >
-          Get paid instantly — without awkward conversations ever again.
-        </h2>
+          {/* Headline */}
+          <motion.h2
+            id="why-heading"
+            initial={shouldAnimate ? { opacity: 0, y: 30 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground text-center mb-12 max-w-4xl leading-tight relative"
+          >
+            Get paid <span className="text-[#11d07a]">instantly</span> — without
+            awkward conversations ever again.
+          </motion.h2>
 
-        {/* Cards Grid */}
-        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-12">
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -8, scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className={`transition-all duration-400 ease-[cubic-bezier(0.2,0.9,0.2,1)] ${
-                shouldAnimate && isVisible
-                  ? "opacity-100 translate-y-0"
-                  : shouldAnimate
-                  ? "opacity-0 translate-y-3"
-                  : "opacity-100"
-              }`}
-              style={
-                shouldAnimate
-                  ? { transitionDelay: `${200 + index * 80}ms` }
-                  : undefined
-              }
-            >
-              <Card
-                tabIndex={0}
-                aria-label={`Benefit: ${card.title}`}
-                className="h-full bg-card border-border hover:border-primary/30 transition-colors"
+          {/* Cards Grid */}
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-12">
+            {cards.map((card, index) => (
+              <motion.div
+                key={index}
+                initial={shouldAnimate ? { opacity: 0, y: 40 } : false}
+                animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{
+                  duration: 0.6,
+                  delay: shouldAnimate ? 0.2 + index * 0.1 : 0,
+                  ease: "easeOut",
+                }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="h-full"
               >
-                <CardContent className="p-6 md:p-8 flex flex-col h-full">
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <card.icon
-                      className="w-6 h-6 text-primary"
-                      aria-hidden="true"
+                <Card
+                  tabIndex={0}
+                  aria-label={`Benefit: ${card.title}`}
+                  className="h-full bg-card border border-white/5 rounded-xl hover:border-[#11d07a]/20 hover:shadow-[0_0_20px_rgba(17,208,122,0.1)] transition-all duration-300 group"
+                >
+                  <CardContent className="p-6 md:p-8 flex flex-col h-full">
+                    {/* Icon - Monochrome, above title */}
+                    <div className="mb-6 flex justify-center">
+                      <card.icon
+                        className="w-8 h-8 text-foreground/60 group-hover:text-foreground/80 transition-colors duration-300"
+                        aria-hidden="true"
+                      />
+                    </div>
+
+                    {/* Card Title */}
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 text-center">
+                      {card.title}
+                    </h3>
+
+                    {/* Card Body with highlighted keywords */}
+                    <p
+                      className="text-base text-muted-foreground leading-relaxed mb-4 flex-grow"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightKeyWords(card.body),
+                      }}
                     />
-                  </div>
 
-                  {/* Card Title */}
-                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-                    {card.title}
-                  </h3>
+                    {/* Micro Emphasis */}
+                    <p className="text-sm font-bold text-[#11d07a] mt-auto text-center">
+                      {card.micro}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
 
-                  {/* Card Body */}
-                  <p className="text-base text-muted-foreground leading-relaxed mb-4">
-                    {card.body}
-                  </p>
-
-                  {/* Micro Emphasis */}
-                  <p className="text-sm font-bold text-primary mt-auto">
-                    {card.micro}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Micro-CTA */}
-        <a
-          href="#validation"
-          onClick={handleCTAClick}
-          className={`text-base font-medium text-primary text-center hover:text-primary/90 transition-all duration-300 ease-out ${
-            shouldAnimate && isVisible
-              ? "opacity-100 translate-y-0"
-              : shouldAnimate
-              ? "opacity-0 translate-y-4"
-              : "opacity-100"
-          }`}
-          style={shouldAnimate ? { transitionDelay: "440ms" } : undefined}
-        >
-          Join the waitlist and never chase payments again →
-        </a>
+          {/* Micro-CTA */}
+          <motion.a
+            href="#validation"
+            onClick={handleCTAClick}
+            initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+            animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{
+              duration: 0.6,
+              delay: shouldAnimate ? 0.5 : 0,
+              ease: "easeOut",
+            }}
+            className="text-base font-medium text-[#11d07a] text-center hover:text-[#11d07a]/90 transition-all duration-300 ease-out"
+          >
+            Join the waitlist and never chase payments again →
+          </motion.a>
         </div>
       </div>
     </section>
