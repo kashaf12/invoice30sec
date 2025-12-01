@@ -73,9 +73,10 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
       ref={sectionRef}
       aria-labelledby="how-heading"
       role="region"
-      className={`relative w-full py-12 md:py-28 px-6 md:px-8 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-12 md:py-28 overflow-hidden bg-transparent ${className}`}
     >
-      <div className="max-w-[1100px] mx-auto flex flex-col items-center z-10 relative">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="w-full flex flex-col items-center z-10 relative">
         {/* Overline */}
         <span
           className={`text-white text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-4 text-center transition-all duration-700 ease-out ${
@@ -166,6 +167,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
         >
           Fast. Simple. No chasing. Ever again.
         </p>
+        </div>
       </div>
     </section>
   );

@@ -106,9 +106,10 @@ export const WhyFreelancersLoveThis = ({
       aria-labelledby="why-heading"
       role="region"
       data-analytics-section="why-freelancers-love-this"
-      className={`relative w-full py-12 md:py-24 px-6 md:px-8 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-12 md:py-24 overflow-hidden bg-transparent ${className}`}
     >
-      <div className="max-w-6xl mx-auto flex flex-col items-center z-10 relative">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="w-full flex flex-col items-center z-10 relative">
         {/* Overline */}
         <span
           className={`text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center transition-all duration-700 ease-out ${
@@ -205,6 +206,7 @@ export const WhyFreelancersLoveThis = ({
         >
           Join the waitlist and never chase payments again →
         </a>
+        </div>
       </div>
     </section>
   );

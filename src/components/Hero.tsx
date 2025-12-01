@@ -16,12 +16,13 @@ export const Hero = ({ className = "" }: HeroProps) => {
     <section
       id="hero"
       aria-label="Hero"
-      className={`relative w-full flex flex-col items-center justify-center px-6 py-12 md:px-8 md:py-20 lg:px-16 lg:py-28 overflow-hidden ${className}`}
+      className={`relative w-full flex flex-col items-center justify-center py-12 md:py-20 lg:py-28 overflow-hidden ${className}`}
     >
       {/* Content Container - Two column layout on desktop, stacked on mobile */}
-      <div
-        className={`relative z-10 w-full max-w-7xl flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 transition-all duration-1000 ease-out transform ${"translate-y-0 opacity-100"}`}
-      >
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div
+          className={`relative z-10 w-full flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 transition-all duration-1000 ease-out transform ${"translate-y-0 opacity-100"}`}
+        >
         {/* Text Content - Left column on desktop, top on mobile */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/2 gap-6 md:gap-8">
           {/* Overline */}
@@ -80,8 +81,9 @@ export const Hero = ({ className = "" }: HeroProps) => {
         </div>
 
         {/* Invoice Mockup - Right column on desktop, below on mobile */}
-        <div className="w-full md:w-1/2 flex items-center justify-center">
+        <div className="w-full md:w-1/2 flex items-center md:justify-end justify-center">
           <PaymentReadyInvoice />
+        </div>
         </div>
       </div>
     </section>

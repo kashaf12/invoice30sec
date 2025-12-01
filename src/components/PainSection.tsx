@@ -36,9 +36,10 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
       ref={sectionRef}
       aria-labelledby="pain-heading"
       role="region"
-      className={`relative w-full py-12 md:py-28 px-6 md:px-8 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-12 md:py-28 overflow-hidden bg-transparent ${className}`}
     >
-      <div className="max-w-[980px] mx-auto flex flex-col items-center text-center z-10 relative">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="w-full flex flex-col items-center text-center z-10 relative">
         {/* Overline */}
         <span
           className={`text-white text-xs md:text-sm font-bold tracking-[0.15em] uppercase mb-4 transition-all duration-700 ease-out ${
@@ -108,6 +109,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
         >
           We make payments instant — so you never chase a client again.
         </p>
+        </div>
       </div>
     </section>
   );

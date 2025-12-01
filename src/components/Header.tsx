@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Menu, X, Zap, PlayCircle, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, PlayCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
@@ -142,7 +143,7 @@ export const Header = () => {
             : "bg-transparent h-14 md:h-20"
         }`}
       >
-        <div className="w-full max-w-[1100px] mx-auto px-4 md:px-6 h-full flex items-center justify-between">
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 h-full flex items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
@@ -151,10 +152,13 @@ export const Header = () => {
             }`}
             aria-label="Invoice30Sec Home"
           >
-            <Zap
+            <Image
+              src="/logo.svg"
+              alt="Invoice30Sec Logo"
+              width={24}
+              height={24}
               className="w-5 h-5 md:w-6 md:h-6"
-              style={{ color: "var(--brand-primary-alt)" }}
-              aria-hidden="true"
+              priority
             />
             <span>Invoice30Sec</span>
           </Link>

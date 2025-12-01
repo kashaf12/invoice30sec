@@ -168,8 +168,8 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-transparent border-t border-gray-800 pt-12 pb-8 px-6 snap-start relative z-50">
-      <div className="max-w-6xl mx-auto">
+    <footer className="w-full bg-transparent border-t border-gray-800 pt-12 pb-8 snap-start relative z-50">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Top CTA Line */}
         <div className="text-center mb-12">
           <Link

@@ -234,7 +234,8 @@ export const ValidationForm = () => {
 
   if (isSuccess) {
     return (
-      <section className="w-full py-20 px-6 flex justify-center bg-transparent">
+      <section className="w-full py-20 flex justify-center bg-transparent">
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div
           className="max-w-md w-full rounded-xl border shadow-sm"
           style={{
@@ -284,6 +285,7 @@ export const ValidationForm = () => {
             </CardContent>
           </MagicCard>
         </div>
+      </div>
       </section>
     );
   }
@@ -291,8 +293,9 @@ export const ValidationForm = () => {
   return (
     <section
       id="validation"
-      className="w-full py-12 md:py-20 px-6 bg-transparent"
+      className="w-full py-12 md:py-20 bg-transparent"
     >
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-12">
           <span
@@ -706,6 +709,7 @@ export const ValidationForm = () => {
             </CardContent>
           </MagicCard>
         </div>
+      </div>
       </div>
     </section>
   );
