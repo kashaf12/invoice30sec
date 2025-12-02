@@ -1,15 +1,12 @@
-"use client";
-
-import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CreditCard, Building2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Shield, Zap } from "lucide-react";
 
 interface TrustSignalsProps {
   signupCount?: number;
@@ -40,29 +37,24 @@ const paymentBadges = [
     type: "image" as const,
   },
   {
-    name: "UPI",
-    src: "/upi.svg",
-    type: "image" as const,
-  },
-  {
-    name: "Razorpay",
-    src: "/razorpay.svg",
-    type: "image" as const,
-  },
-  {
     name: "PayPal",
     src: "/paypal.svg",
     type: "image" as const,
   },
   {
-    name: "Credit Card",
-    icon: CreditCard,
-    type: "icon" as const,
+    name: "Google Pay",
+    src: "/google-pay.svg",
+    type: "image" as const,
   },
   {
-    name: "Bank Transfer",
-    icon: Building2,
-    type: "icon" as const,
+    name: "Visa",
+    src: "/visa-pay.svg",
+    type: "image" as const,
+  },
+  {
+    name: "Bitcoin",
+    src: "/bitcoin-pay.svg",
+    type: "image" as const,
   },
 ];
 
@@ -77,14 +69,14 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
           backgroundColor: "var(--bg-dark-card)",
         }}
       >
-        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full">
           {/* Beta Pill */}
           <span className="text-xs uppercase tracking-widest text-white/80 px-3 py-1 border border-white/6 rounded-full whitespace-nowrap">
             Beta — limited early access
           </span>
 
           {/* Avatars + Text */}
-          <div className="flex items-center gap-2 flex-1 justify-center md:justify-start">
+          <div className="flex items-center gap-2 flex-1 justify-center md:justify-start w-full md:w-auto">
             <div className="flex -space-x-2">
               {avatars.map((avatar, index) => (
                 <motion.img
@@ -106,53 +98,58 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
         </div>
       </div>
 
+      {/* Trust Anchors - Security & Speed */}
+      <div className="flex items-center justify-center gap-4 mt-4 flex-wrap">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Shield className="w-4 h-4 text-emerald-400" />
+          <span className="text-xs text-white/80">256-bit encrypted</span>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Zap className="w-4 h-4 text-emerald-400" />
+          <span className="text-xs text-white/80">30-second setup</span>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Zap className="w-4 h-4 text-emerald-400" />
+          <span className="text-xs text-white/80">Instant payments</span>
+        </div>
+      </div>
+
       {/* Payment Badges - Separate Line */}
-      <TooltipProvider>
-        <div className="mx-auto flex items-center gap-4 opacity-90 justify-center mt-3 flex-wrap">
-          {paymentBadges.map((badge, index) => {
-            const IconComponent = badge.type === "icon" ? badge.icon : null;
-            return (
-              <Tooltip key={index}>
-                <TooltipTrigger asChild>
-                  <div className="flex items-center justify-center group cursor-pointer transition-all duration-200 hover:scale-105">
-                    <span className="sr-only">{badge.name}</span>
-                    {badge.type === "image" ? (
+      <div
+        className="mx-auto w-full md:max-w-none mt-3 rounded-xl px-4 py-2"
+        style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
+      >
+        <TooltipProvider>
+          <div className="flex items-center justify-center gap-4 md:gap-6 flex-wrap">
+            {paymentBadges.map((badge, index) => {
+              return (
+                <Tooltip key={index}>
+                  <TooltipTrigger asChild>
+                    <div className="flex items-center justify-center group cursor-pointer transition-all duration-200 shrink-0">
+                      <span className="sr-only">{badge.name}</span>
                       <Image
                         src={badge.src}
                         alt={badge.name}
-                        className="h-6 w-auto opacity-80 group-hover:opacity-100 transition-opacity duration-200"
-                        aria-label={badge.name}
+                        className="opacity-85 group-hover:opacity-100 grayscale brightness-[1.2] group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-200 object-contain w-auto"
+                        style={{ height: "22px" }}
+                        aria-label={`Pay with ${badge.name}`}
+                        role="img"
                         tabIndex={0}
                         unoptimized
-                        width={24}
-                        height={24}
+                        width={100}
+                        height={22}
                       />
-                    ) : (
-                      IconComponent && (
-                        <IconComponent
-                          className="w-6 h-6 text-white/80 group-hover:text-[#11d07a] transition-colors duration-200"
-                          aria-label={badge.name}
-                          aria-hidden="true"
-                          strokeWidth={1.5}
-                        />
-                      )
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{badge.name}</p>
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </TooltipProvider>
-
-      {/* Security Text */}
-      <p className="mt-2 text-center text-[13px] md:text-sm text-white/60 max-w-[680px] mx-auto">
-        We&apos;ll only email you about early access and product updates.
-        Payments processed securely.
-      </p>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{badge.name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              );
+            })}
+          </div>
+        </TooltipProvider>
+      </div>
     </div>
   );
 };

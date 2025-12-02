@@ -152,7 +152,12 @@ export function PaymentReadyInvoice({
       } as any);
 
   return (
-    <div className={cn("w-full max-w-md mx-auto relative", className)}>
+    <div
+      className={cn(
+        "w-full md:w-[85%] lg:w-[70%] md:ml-auto relative",
+        className
+      )}
+    >
       <div className="absolute inset-x-8 bottom-0 h-8 bg-black/20 blur-2xl rounded-full" />
 
       <motion.div
@@ -172,6 +177,8 @@ export function PaymentReadyInvoice({
               "relative rounded-2xl overflow-hidden",
               "bg-white/[0.03] backdrop-blur-xl",
               "border border-white/10",
+              "ring-1 ring-black/10",
+              "shadow-lg",
               "shadow-[0_8px_24px_rgba(0,0,0,0.4)]",
               // Inner glow
               "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
@@ -332,7 +339,6 @@ export function PaymentReadyInvoice({
                     "shadow-[0_0_20px_rgba(17,208,122,0.4)]",
                     "border border-emerald-400/30"
                   )}
-                  onClick={() => setSelectedMethod("stripe")}
                   asChild
                 >
                   <motion.button

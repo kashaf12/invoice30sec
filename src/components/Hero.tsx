@@ -3,7 +3,6 @@
 import React from "react";
 import { Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PulsatingButton } from "@/components/ui/pulsating-button";
 import { PaymentReadyInvoice } from "@/components/PaymentReadyInvoice";
 import { TrustSignals } from "@/components/TrustSignals";
 
@@ -21,7 +20,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
       {/* Content Container - Two column layout on desktop, stacked on mobile */}
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div
-          className={`relative z-10 w-full flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 transition-all duration-1000 ease-out transform ${"translate-y-0 opacity-100"}`}
+          className={`relative z-10 w-full flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 transition-all duration-1000 ease-out transform ${"translate-y-0 opacity-100"}`}
         >
           {/* Text Content - Left column on desktop, top on mobile */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/2 gap-6 md:gap-8">
@@ -34,15 +33,12 @@ export const Hero = ({ className = "" }: HeroProps) => {
             </span>
 
             {/* Headline */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
+            <h1 className="text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight max-w-[320px] md:max-w-[720px]">
               Send invoices your clients can pay instantly.
             </h1>
 
             {/* Subheadline */}
-            <p
-              className="text-base md:text-lg max-w-2xl leading-relaxed"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="text-lg text-gray-300 max-w-[560px] leading-relaxed">
               Create a clean invoice in 30 seconds with all your payment methods
               in one link. No excuses. No chasing. Just instant payments.
             </p>
@@ -61,9 +57,8 @@ export const Hero = ({ className = "" }: HeroProps) => {
               />
               {/* CTA Buttons Container */}
               <div className="relative z-0 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full md:w-auto">
-                <PulsatingButton
-                  className="text-black font-bold text-lg md:text-xl w-full md:w-auto whitespace-nowrap px-4 py-3 md:px-5 md:py-3 shadow-[0_0_40px_rgba(9,213,122,0.4),0_0_80px_rgba(9,213,122,0.2)] hover:shadow-[0_0_50px_rgba(9,213,122,0.5),0_0_100px_rgba(9,213,122,0.3)] transition-all duration-300 scale-100 hover:scale-105 active:scale-95"
-                  pulseColor="var(--brand-pulse)"
+                <Button
+                  className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold rounded-2xl px-6 py-3 shadow-lg w-full md:w-auto inline-flex items-center gap-3"
                   onClick={() =>
                     document
                       .getElementById("validation")
@@ -72,19 +67,21 @@ export const Hero = ({ className = "" }: HeroProps) => {
                 >
                   <Sparkles className="w-5 h-5" aria-hidden="true" />
                   Get Early Access
-                </PulsatingButton>
+                </Button>
 
                 <Button
                   asChild
-                  variant="outline"
-                  className="w-full md:w-auto px-6 py-6 text-base md:text-lg bg-transparent border-white text-white hover:bg-white/10 active:scale-98 transition-all duration-200"
+                  className="border border-white/10 text-white/80 hover:border-white/20 bg-transparent rounded-2xl px-5 py-3 w-full md:w-auto inline-flex items-center gap-3"
                 >
-                  <a href="#howitworks" className="flex items-center gap-2">
+                  <a href="#howitworks">
                     <PlayCircle className="w-5 h-5" aria-hidden="true" />
                     How It Works
                   </a>
                 </Button>
               </div>
+              <p className="text-xs text-gray-300 mt-2">
+                No credit card required • 30-second setup
+              </p>
             </div>
 
             {/* Trust Signals */}
@@ -95,7 +92,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
 
           {/* Invoice Mockup - Right column on desktop, below on mobile */}
           <div className="w-full md:w-1/2 flex items-center md:justify-end justify-center">
-            <PaymentReadyInvoice className="max-w-md" />
+            <PaymentReadyInvoice />
           </div>
         </div>
       </div>
