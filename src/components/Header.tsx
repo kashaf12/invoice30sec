@@ -22,7 +22,11 @@ const track = (event: string, data?: Record<string, unknown>) => {
   if (typeof window !== "undefined" && window.dataLayer) {
     window.dataLayer.push({ event, ...data });
   }
-  console.log("Analytics:", event, data);
+  // Analytics tracking - only log in development
+  if (process.env.NODE_ENV === "development") {
+    // eslint-disable-next-line no-console
+    console.log("Analytics:", event, data);
+  }
 };
 
 export const Header = () => {
@@ -164,6 +168,7 @@ export const Header = () => {
               height={24}
               className="w-5 h-5 md:w-6 md:h-6"
               priority
+              sizes="(max-width: 768px) 20px, 24px"
             />
             <span>Invoice30Sec</span>
           </Link>

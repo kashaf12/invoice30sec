@@ -1,8 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
-import { Particles } from "@/components/ui/particles";
+
+// Lazy load Particles component - heavy canvas animation
+const Particles = dynamic(
+  () =>
+    import("@/components/ui/particles").then((mod) => ({
+      default: mod.Particles,
+    })),
+  {
+    ssr: false,
+  }
+);
 
 export default function HeroBackground({
   active = true,

@@ -157,7 +157,10 @@ export function PaymentReadyInvoice({
       } as unknown as TargetAndTransition);
 
   return (
-    <div className={cn("w-full relative", className)}>
+    <div
+      className={cn("w-full relative max-w-full", className)}
+      style={{ minHeight: "500px" }}
+    >
       <div className="absolute inset-x-8 bottom-0 h-8 bg-black/20 blur-2xl rounded-full" />
 
       <motion.div

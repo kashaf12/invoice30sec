@@ -3,8 +3,8 @@ import { Hero } from "@/components/Hero";
 import { PainSection } from "@/components/PainSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { WhyFreelancersLoveThis } from "@/components/WhyFreelancersLoveThis";
-import { ValidationForm } from "@/components/ValidationForm";
 import { HashNavigationHandler } from "@/components/HashNavigationHandler";
+import { LazyValidationForm } from "@/components/LazyValidationForm";
 
 export default function Home() {
   return (
@@ -28,7 +28,7 @@ export default function Home() {
       </Section>
 
       <Section id="validation">
-        <ValidationForm />
+        <LazyValidationForm />
       </Section>
     </main>
   );

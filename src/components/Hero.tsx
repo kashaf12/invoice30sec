@@ -92,7 +92,8 @@ export const Hero = ({ className = "" }: HeroProps) => {
 
           {/* Invoice Mockup - Right column on desktop, below on mobile */}
           <div className="w-full md:w-1/2 flex items-center md:justify-end justify-center mt-8 md:mt-0 overflow-visible">
-            <div className="w-full max-w-[85%]">
+            {/* Fixed aspect ratio container to prevent CLS - approximately 3:4 ratio for invoice */}
+            <div className="w-full max-w-[85%] aspect-3/4 min-h-[500px] md:min-h-[600px] flex items-center justify-center">
               <PaymentReadyInvoice />
             </div>
           </div>

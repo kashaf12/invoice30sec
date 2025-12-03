@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Image from "next/image";
 import {
   Tooltip,
@@ -79,14 +78,15 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
           <div className="flex items-center gap-2 flex-1 justify-center md:justify-start w-full md:w-auto">
             <div className="flex -space-x-2">
               {avatars.map((avatar, index) => (
-                <motion.img
+                <Image
                   key={index}
                   src={avatar.src}
                   alt={avatar.alt}
                   title={`${avatar.name} joined`}
-                  className="w-6 h-6 md:w-7 md:h-7 rounded-full ring-2 ring-transparent hover:ring-primary/30 transition-all duration-200 cursor-pointer"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.2 }}
+                  className="w-6 h-6 md:w-7 md:h-7 rounded-full ring-2 ring-transparent hover:ring-primary/30 transition-all duration-200 cursor-pointer hover:scale-110"
+                  width={28}
+                  height={28}
+                  sizes="(max-width: 768px) 24px, 28px"
                   tabIndex={0}
                 />
               ))}
@@ -141,9 +141,9 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
                         aria-label={`Pay with ${badge.name}`}
                         role="img"
                         tabIndex={0}
-                        unoptimized
                         width={100}
                         height={22}
+                        sizes="100px"
                       />
                     </div>
                   </TooltipTrigger>

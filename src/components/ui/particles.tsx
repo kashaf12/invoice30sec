@@ -89,6 +89,13 @@ export const Particles: React.FC<ParticlesProps> = ({
   vy = 0,
   ...props
 }) => {
+  // Reduce particle quantity on mobile devices for better performance
+  const [adjustedQuantity, setAdjustedQuantity] = useState(quantity);
+  
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    setAdjustedQuantity(isMobile ? Math.floor(quantity * 0.5) : quantity);
+  }, [quantity]);
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const canvasContainerRef = useRef<HTMLDivElement>(null)
   const context = useRef<CanvasRenderingContext2D | null>(null)
@@ -127,7 +134,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       }
       window.removeEventListener("resize", handleResize)
     }
-  }, [color])
+  }, [color, adjustedQuantity])
 
   useEffect(() => {
     onMouseMove()
@@ -169,7 +176,7 @@ export const Particles: React.FC<ParticlesProps> = ({
 
       // Clear existing particles and create new ones with exact quantity
       circles.current = []
-      for (let i = 0; i < quantity; i++) {
+      for (let i = 0; i < adjustedQuantity; i++) {
         const circle = circleParams()
         drawCircle(circle)
       }
@@ -232,7 +239,7 @@ export const Particles: React.FC<ParticlesProps> = ({
 
   const drawParticles = () => {
     clearContext()
-    const particleCount = quantity
+    const particleCount = adjustedQuantity
     for (let i = 0; i < particleCount; i++) {
       const circle = circleParams()
       drawCircle(circle)

@@ -1,18 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import HeroBackground from "@/components/HeroBackground";
+import { inter } from "./fonts";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Invoice30Sec",
@@ -44,6 +39,17 @@ export default function RootLayout({
         </div>
         <Footer />
         <Toaster />
+        <Script
+          id="analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined' && window.dataLayer) {
+                window.dataLayer = window.dataLayer || [];
+              }
+            `,
+          }}
+        />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -25,8 +25,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             alt={alt || ""}
             className="aspect-square h-full w-full object-cover"
             width={32}
-            unoptimized
             height={32}
+            sizes="32px"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center rounded-full">

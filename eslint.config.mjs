@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // Performance: prevent console.log in production
+      "no-console": ["error", { allow: ["warn", "error"] }],
+      // Performance: prefer next/image over img tags
+      "@next/next/no-img-element": "error",
+    },
+  },
 ]);
 
 export default eslintConfig;
