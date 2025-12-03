@@ -1,7 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  AnimatePresence,
+  TargetAndTransition,
+} from "framer-motion";
 import {
   Download,
   ChevronDown,
@@ -149,15 +154,10 @@ export function PaymentReadyInvoice({
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut",
         },
-      } as any);
+      } as unknown as TargetAndTransition);
 
   return (
-    <div
-      className={cn(
-        "w-full md:w-[85%] lg:w-[70%] md:ml-auto relative",
-        className
-      )}
-    >
+    <div className={cn("w-full relative", className)}>
       <div className="absolute inset-x-8 bottom-0 h-8 bg-black/20 blur-2xl rounded-full" />
 
       <motion.div
@@ -168,21 +168,21 @@ export function PaymentReadyInvoice({
       >
         <motion.div
           variants={itemVariants}
-          animate={floatingAnimation || undefined}
+          animate={floatingAnimation as TargetAndTransition}
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
         >
           <motion.div
             className={cn(
               "relative rounded-2xl overflow-hidden",
-              "bg-white/[0.03] backdrop-blur-xl",
+              "bg-white/3 backdrop-blur-xl",
               "border border-white/10",
               "ring-1 ring-black/10",
               "shadow-lg",
               "shadow-[0_8px_24px_rgba(0,0,0,0.4)]",
               // Inner glow
-              "before:absolute before:inset-0 before:rounded-2xl before:p-[1px]",
-              "before:bg-gradient-to-b before:from-white/20 before:to-transparent before:pointer-events-none"
+              "before:absolute before:inset-0 before:rounded-2xl before:p-px",
+              "before:bg-linear-to-b before:from-white/20 before:to-transparent before:pointer-events-none"
             )}
             animate={{
               scale: isHovered ? 1.02 : 1,
@@ -193,7 +193,7 @@ export function PaymentReadyInvoice({
             transition={{ duration: 0.3 }}
           >
             {/* Header Section */}
-            <div className="relative px-5 pt-5 pb-4 bg-gradient-to-br from-white/[0.08] to-white/[0.02] border-b border-white/10">
+            <div className="relative px-5 pt-5 pb-4 bg-linear-to-br from-white/8 to-white/2 border-b border-white/10">
               <div className="flex items-center gap-2 mb-2">
                 <div className="p-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30">
                   <FileText className="w-3.5 h-3.5 text-emerald-400" />
@@ -206,11 +206,11 @@ export function PaymentReadyInvoice({
                 </Badge>
               </div>
 
-              <h1 className="text-2xl font-bold text-white tracking-tight">
+              <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
                 {invoiceNumber}
               </h1>
 
-              <div className="flex items-center gap-4 mt-2 text-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mt-2 text-xs md:text-sm">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-white/40" />
                   <span className="text-white/50">Issued:</span>
@@ -224,7 +224,7 @@ export function PaymentReadyInvoice({
               </div>
 
               {/* Bill To / From Section */}
-              <div className="mt-4 grid grid-cols-2 gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 p-3 rounded-xl bg-white/3 border border-white/5">
                 <div className="flex gap-2">
                   <div className="p-1.5 rounded-lg bg-blue-500/20 border border-blue-500/30 h-fit">
                     <Building2 className="w-3 h-3 text-blue-400" />
@@ -314,7 +314,7 @@ export function PaymentReadyInvoice({
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between items-center pt-2 p-3 -mx-1 rounded-xl bg-gradient-to-r from-emerald-500/10 to-transparent border border-emerald-500/20">
+                <div className="flex justify-between items-center pt-2 p-3 -mx-1 rounded-xl bg-linear-to-r from-emerald-500/10 to-transparent border border-emerald-500/20">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30">
                       <Coins className="w-3.5 h-3.5 text-emerald-400" />
@@ -333,11 +333,12 @@ export function PaymentReadyInvoice({
                 <Button
                   size="lg"
                   className={cn(
-                    "w-full h-12 text-sm font-semibold rounded-xl",
-                    "bg-gradient-to-r from-emerald-500 to-emerald-600",
+                    "w-full min-h-[44px] h-12 md:h-14 text-sm md:text-base font-semibold rounded-xl",
+                    "bg-linear-to-r from-emerald-500 to-emerald-600",
                     "hover:from-emerald-400 hover:to-emerald-500",
                     "shadow-[0_0_20px_rgba(17,208,122,0.4)]",
-                    "border border-emerald-400/30"
+                    "border border-emerald-400/30",
+                    "cursor-pointer"
                   )}
                   asChild
                 >
@@ -377,7 +378,7 @@ export function PaymentReadyInvoice({
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full mt-3 border-2 border-dashed border-white/10 hover:border-emerald-500/30 hover:bg-white/5 text-white/60 hover:text-white"
+                className="w-full mt-3 border-2 border-dashed border-white/10 hover:border-emerald-500/30 hover:bg-white/5 text-white/60 hover:text-white cursor-pointer"
                 onClick={() => setIsPaymentMethodsOpen(!isPaymentMethodsOpen)}
                 aria-expanded={isPaymentMethodsOpen}
               >
@@ -418,10 +419,11 @@ export function PaymentReadyInvoice({
                           key={method.id}
                           className={cn(
                             "relative p-3 rounded-xl text-left transition-all",
-                            "bg-white/[0.03] border border-white/10",
-                            "hover:bg-white/[0.06] hover:border-emerald-500/30",
+                            "bg-white/3 border border-white/10",
+                            "hover:bg-white/6 hover:border-emerald-500/30",
                             selectedMethod === method.id &&
-                              "border-emerald-500/50 bg-emerald-500/10"
+                              "border-emerald-500/50 bg-emerald-500/10",
+                            "cursor-pointer"
                           )}
                           onClick={() => setSelectedMethod(method.id)}
                           initial={{ opacity: 0, y: 10 }}
@@ -470,7 +472,7 @@ export function PaymentReadyInvoice({
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
-                          className="p-3 rounded-xl bg-white/[0.03] border border-white/10 space-y-2"
+                          className="p-3 rounded-xl bg-white/3 border border-white/10 space-y-2"
                         >
                           <p className="text-xs font-medium text-white">
                             Bank Transfer Details
@@ -509,7 +511,7 @@ export function PaymentReadyInvoice({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="w-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/[0.06]"
+                      className="w-full bg-white/3 border border-white/10 text-white/60 hover:text-white hover:bg-white/6 cursor-pointer"
                       onClick={() => setShowQR(!showQR)}
                     >
                       <QrCode className="w-3.5 h-3.5 mr-2" />
@@ -541,11 +543,11 @@ export function PaymentReadyInvoice({
             </div>
 
             {/* Footer Actions */}
-            <div className="px-5 pb-5 pt-0 flex gap-2 border-t border-white/5 mt-2 pt-4">
+            <div className="px-5 pb-5 flex gap-2 border-t border-white/5 mt-2 pt-4">
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex-1 bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/[0.06]"
+                className="flex-1 bg-white/3 border border-white/10 text-white/60 hover:text-white hover:bg-white/6 cursor-pointer"
                 asChild
               >
                 <motion.button
@@ -559,7 +561,7 @@ export function PaymentReadyInvoice({
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex-1 bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/[0.06]"
+                className="flex-1 bg-white/3 border border-white/10 text-white/60 hover:text-white hover:bg-white/6 cursor-pointer"
                 asChild
               >
                 <motion.button

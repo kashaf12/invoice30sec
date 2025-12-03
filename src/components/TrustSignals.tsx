@@ -63,15 +63,15 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
     <div className="w-full mt-5 md:mt-8">
       {/* Trust Row Container - Beta Pill + Avatars */}
       <div
-        className="w-full flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 px-4 py-3 rounded-lg border"
+        className="w-full flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 py-3 rounded-lg border"
         style={{
           borderColor: "var(--border-white-10)",
           backgroundColor: "var(--bg-dark-card)",
         }}
       >
-        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 w-full">
+        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 lg:gap-4 w-full">
           {/* Beta Pill */}
-          <span className="text-xs uppercase tracking-widest text-white/80 px-3 py-1 border border-white/6 rounded-full whitespace-nowrap">
+          <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 px-2 md:px-3 py-1 border border-white/6 rounded-full whitespace-nowrap">
             Beta — limited early access
           </span>
 
@@ -84,14 +84,14 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
                   src={avatar.src}
                   alt={avatar.alt}
                   title={`${avatar.name} joined`}
-                  className="w-7 h-7 rounded-full ring-2 ring-transparent hover:ring-[#11d07a]/30 transition-all duration-200 cursor-pointer"
+                  className="w-6 h-6 md:w-7 md:h-7 rounded-full ring-2 ring-transparent hover:ring-primary/30 transition-all duration-200 cursor-pointer"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.2 }}
                   tabIndex={0}
                 />
               ))}
             </div>
-            <span className="text-sm text-white/80 whitespace-nowrap">
+            <span className="text-xs md:text-sm text-white/80 whitespace-nowrap">
               Join {signupCount}+ early signups
             </span>
           </div>
@@ -99,18 +99,24 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
       </div>
 
       {/* Trust Anchors - Security & Speed */}
-      <div className="flex items-center justify-center gap-4 mt-4 flex-wrap">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-          <Shield className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-white/80">256-bit encrypted</span>
+      <div className="flex items-center justify-center gap-2 md:gap-4 mt-3 md:mt-4 flex-wrap">
+        <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" />
+          <span className="text-[10px] md:text-xs text-white/80">
+            256-bit encrypted
+          </span>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-          <Zap className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-white/80">30-second setup</span>
+        <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" />
+          <span className="text-[10px] md:text-xs text-white/80">
+            30-second setup
+          </span>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-          <Zap className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-white/80">Instant payments</span>
+        <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-lg bg-white/5 border border-white/10">
+          <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" />
+          <span className="text-[10px] md:text-xs text-white/80">
+            Instant payments
+          </span>
         </div>
       </div>
 

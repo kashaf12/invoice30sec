@@ -2,7 +2,7 @@
 
 import { SearchIcon, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 import {
   Empty,
@@ -17,7 +17,6 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Kbd } from "@/components/ui/kbd";
-import { Button } from "@/components/ui/button";
 
 const AVAILABLE_PAGES = [
   { path: "/", label: "Home" },
@@ -28,20 +27,15 @@ const AVAILABLE_PAGES = [
 export default function NotFound() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<typeof AVAILABLE_PAGES>([]);
 
-  useEffect(() => {
-    if (query.trim() === "") {
-      setSuggestions([]);
-      return;
-    }
-
-    const filtered = AVAILABLE_PAGES.filter(
+  const suggestions = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (q === "") return [];
+    return AVAILABLE_PAGES.filter(
       (page) =>
-        page.path.toLowerCase().includes(query.toLowerCase()) ||
-        page.label.toLowerCase().includes(query.toLowerCase())
+        page.path.toLowerCase().includes(q) ||
+        page.label.toLowerCase().includes(q)
     );
-    setSuggestions(filtered);
   }, [query]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

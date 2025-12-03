@@ -130,15 +130,15 @@ export const Header = () => {
       {/* Skip to content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:text-black focus:rounded-md focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:text-black focus:rounded-md focus:font-semibold"
         style={{ backgroundColor: "var(--brand-primary)" }}
       >
         Skip to content
       </a>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 ${
-          prefersReducedMotion ? "" : "transition-all duration-[180ms] ease-out"
+        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top)] ${
+          prefersReducedMotion ? "" : "transition-all duration-180 ease-out"
         } ${
           isScrolled
             ? "backdrop-blur-sm bg-black/30 shadow-lg"
@@ -269,7 +269,7 @@ export const Header = () => {
 
       {/* Mobile Slide-over Menu Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden z-[55] ${
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden z-55 ${
           prefersReducedMotion ? "" : "transition-opacity duration-300"
         } ${
           isMobileMenuOpen
@@ -283,7 +283,7 @@ export const Header = () => {
       {/* Mobile Slide-over Menu */}
       <div
         ref={mobileMenuRef}
-        className={`fixed top-0 right-0 bottom-0 w-[80%] max-w-[300px] border-l shadow-2xl md:hidden flex flex-col pt-20 px-6 gap-6 z-[60] ${
+        className={`fixed top-0 right-0 bottom-0 w-[80%] max-w-[300px] border-l shadow-2xl md:hidden flex flex-col pt-20 px-6 gap-6 z-60 ${
           prefersReducedMotion
             ? ""
             : "transform transition-transform duration-300 ease-out"

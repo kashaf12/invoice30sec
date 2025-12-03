@@ -21,7 +21,7 @@ export const isEmail = (email: string): boolean => {
   return re.test(email);
 };
 
-export const required = (value: any): boolean => {
+export const required = (value: unknown): boolean => {
   if (typeof value === "string") return value.trim().length > 0;
   if (typeof value === "boolean") return value === true;
   return value !== null && value !== undefined;

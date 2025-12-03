@@ -234,37 +234,42 @@ export const ValidationForm = () => {
 
   if (isSuccess) {
     return (
-      <section className="w-full py-20 flex justify-center bg-transparent">
+      <section className="w-full py-20 md:py-28 xl:py-32 flex justify-center bg-transparent">
         <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex justify-center">
           <div
-            className="max-w-md w-full rounded-xl border shadow-sm"
+            className="max-w-md w-full mx-4 md:mx-0 rounded-xl border shadow-sm"
             style={{
               backgroundColor: "var(--bg-dark-card)",
               borderColor: "var(--border-primary-20)",
             }}
           >
             <MagicCard
-              className="text-card-foreground flex flex-col gap-6 py-6"
+              className="text-card-foreground flex flex-col gap-4 md:gap-6 py-6"
               gradientColor="var(--bg-dark-card)"
               gradientFrom="var(--brand-primary-alt)"
               gradientTo="#000000"
             >
-              <CardContent className="pt-6 text-center">
+              <CardContent className="pt-6 px-4 md:px-6 text-center">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6"
                   style={{ backgroundColor: "var(--brand-primary-alt)" }}
                 >
                   <CheckCircle2
-                    className="w-8 h-8 text-white"
+                    className="w-7 h-7 md:w-8 md:h-8 text-white"
                     aria-hidden="true"
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Thanks!</h3>
-                <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">
+                  Thanks!
+                </h3>
+                <p
+                  className="mb-6 md:mb-8 text-sm md:text-base"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   We&apos;ll email you about early access and next steps.
                 </p>
                 <Button
-                  className="w-full text-white"
+                  className="w-full text-white min-h-[44px] cursor-pointer"
                   style={{
                     backgroundColor: "var(--brand-primary-alt)",
                   }}
@@ -291,21 +296,27 @@ export const ValidationForm = () => {
   }
 
   return (
-    <section id="validation" className="w-full py-12 md:py-20 bg-transparent">
+    <section
+      id="validation"
+      className="w-full py-20 md:py-28 xl:py-32 bg-transparent"
+    >
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-6 md:mb-10 lg:mb-12">
             <span
-              className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase block mb-4"
+              className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase block mb-3 md:mb-4"
               style={{ color: "var(--brand-primary-alt)" }}
             >
               GET EARLY ACCESS
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4 max-w-[90%] mx-auto md:max-w-full">
               Get early access — help us build what actually works for
               freelancers.
             </h2>
-            <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
+            <p
+              className="text-base md:text-lg max-w-[90%] mx-auto md:max-w-full"
+              style={{ color: "var(--text-secondary)" }}
+            >
               Quick — 30 seconds. Tell us if you&apos;d pay for this.
             </p>
           </div>
@@ -348,7 +359,7 @@ export const ValidationForm = () => {
                               placeholder="your@email.com"
                               autoComplete="email"
                               {...field}
-                              className="text-white"
+                              className="text-white w-full min-h-[44px]"
                               style={{
                                 backgroundColor: "var(--bg-dark)",
                                 borderColor: "var(--border-white-10)",
@@ -452,7 +463,7 @@ export const ValidationForm = () => {
                               <FormLabel className="text-white text-sm">
                                 Select your preferred price:
                               </FormLabel>
-                              <div className="flex flex-wrap gap-3">
+                              <div className="flex flex-wrap gap-2 md:gap-3">
                                 {PRICE_OPTIONS.map((priceOption) => {
                                   const isSelected =
                                     priceOption === "Other"
@@ -467,7 +478,9 @@ export const ValidationForm = () => {
                                         isSelected ? "default" : "outline"
                                       }
                                       className={
-                                        isSelected ? "text-white" : "text-white"
+                                        isSelected
+                                          ? "text-white cursor-pointer"
+                                          : "text-white cursor-pointer"
                                       }
                                       style={
                                         isSelected
@@ -536,7 +549,7 @@ export const ValidationForm = () => {
                                         val ? Number(val) : undefined
                                       );
                                     }}
-                                    className="text-white"
+                                    className="text-white w-full min-h-[44px]"
                                     style={{
                                       backgroundColor: "var(--bg-dark)",
                                       borderColor: "var(--border-white-10)",
@@ -585,7 +598,9 @@ export const ValidationForm = () => {
                                       }
                                       size="sm"
                                       className={
-                                        isSelected ? "text-white" : "text-white"
+                                        isSelected
+                                          ? "text-white cursor-pointer"
+                                          : "text-white cursor-pointer"
                                       }
                                       style={
                                         isSelected
@@ -648,7 +663,7 @@ export const ValidationForm = () => {
                                     onChange={(e) =>
                                       field.onChange(e.target.value)
                                     }
-                                    className="text-white"
+                                    className="text-white w-full min-h-[44px]"
                                     style={{
                                       backgroundColor: "var(--bg-dark)",
                                       borderColor: "var(--border-white-10)",
@@ -665,7 +680,7 @@ export const ValidationForm = () => {
 
                     <Button
                       type="submit"
-                      className="w-full text-black font-bold h-12 text-lg flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="w-full text-black font-bold min-h-[44px] h-12 md:h-14 text-base md:text-lg flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
                       style={{
                         backgroundColor: "var(--brand-primary-alt)",
                       }}

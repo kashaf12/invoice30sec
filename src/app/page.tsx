@@ -6,13 +6,11 @@ import { WhyFreelancersLoveThis } from "@/components/WhyFreelancersLoveThis";
 import { ValidationForm } from "@/components/ValidationForm";
 import { HashNavigationHandler } from "@/components/HashNavigationHandler";
 
-
-
 export default function Home() {
   return (
-    <main className="relative z-0 text-gray-100 snap-container">
+    <main className="relative z-0 text-gray-100 overflow-x-hidden snap-container">
       <HashNavigationHandler />
-      
+
       <Section id="hero" className="bg-transparent">
         <Hero />
       </Section>

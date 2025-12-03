@@ -97,7 +97,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
           placeholder="your@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="text-white placeholder:text-gray-500 flex-1"
+          className="text-white placeholder:text-gray-500 flex-1 min-h-[44px]"
           style={{
             backgroundColor: "var(--bg-dark)",
             borderColor: "var(--border-white-10)",
@@ -107,7 +107,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
         />
         <Button
           type="submit"
-          className="text-black font-semibold rounded-xl whitespace-nowrap flex items-center gap-2"
+          className="text-black font-semibold rounded-xl whitespace-nowrap flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
           style={{ backgroundColor: "var(--brand-primary)" }}
           onMouseEnter={(e) => {
             e.currentTarget.style.opacity = "0.9";
@@ -168,10 +168,10 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-transparent border-t border-gray-800 pt-12 pb-8 snap-start relative z-50">
+    <footer className="w-full bg-transparent border-t border-gray-800 pt-12 md:pt-16 pb-[max(2rem,env(safe-area-inset-bottom))] md:pb-[max(3rem,env(safe-area-inset-bottom))] relative z-50">
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Top CTA Line */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <Link
             href="/#validation"
             onClick={handleCTAClick}
@@ -194,7 +194,7 @@ export const Footer = () => {
         </div>
 
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
           {/* Product Column */}
           <div>
             <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
@@ -204,8 +204,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="#how"
-                  className="hover:text-white transition-colors text-sm"
-                  style={{ color: "var(--text-secondary-alt)" }}
+                  className="text-secondary-foreground transition-colors text-sm hover:text-primary"
                 >
                   How It Works
                 </Link>
@@ -213,8 +212,7 @@ export const Footer = () => {
               <li>
                 <Link
                   href="#why"
-                  className="hover:text-white transition-colors text-sm"
-                  style={{ color: "var(--text-secondary-alt)" }}
+                  className="text-secondary-foreground transition-colors text-sm hover:text-primary"
                 >
                   Why Freelancers Love This
                 </Link>
@@ -231,8 +229,7 @@ export const Footer = () => {
               <li>
                 <a
                   href="mailto:support@invoice30sec.com"
-                  className="hover:text-white transition-colors text-sm"
-                  style={{ color: "var(--text-secondary-alt)" }}
+                  className="text-secondary-foreground transition-colors text-sm hover:text-primary"
                 >
                   Support
                 </a>
@@ -250,14 +247,13 @@ export const Footer = () => {
         </div>
 
         {/* Social Links */}
-        <div className="flex justify-center gap-6 mb-8 pb-8 border-b border-gray-800">
+        <div className="flex justify-center gap-4 md:gap-6 mb-6 md:mb-8 pb-6 md:pb-8 border-b border-gray-800">
           <a
             href="https://www.linkedin.com/in/kashaf-ahmed/"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("linkedin")}
-            className="hover:text-white transition-colors"
-            style={{ color: "var(--text-secondary-alt)" }}
+            className="text-secondary-foreground transition-colors hover:text-primary"
             data-analytics="social_click"
             data-social="linkedin"
             aria-label="LinkedIn"
@@ -271,8 +267,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("twitter")}
-            className="hover:text-white transition-colors"
-            style={{ color: "var(--text-secondary-alt)" }}
+            className="text-secondary-foreground transition-colors hover:text-primary"
             data-analytics="social_click"
             data-social="twitter"
             aria-label="Twitter"
@@ -286,8 +281,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => handleSocialClick("github")}
-            className="hover:text-white transition-colors"
-            style={{ color: "var(--text-secondary-alt)" }}
+            className="text-secondary-foreground transition-colors hover:text-primary"
             data-analytics="social_click"
             data-social="github"
             aria-label="GitHub"
@@ -298,24 +292,24 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <div className="flex flex-wrap justify-center sm:justify-start gap-4 items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 text-xs md:text-sm text-gray-400">
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2 md:gap-4 items-center">
             <p>© {currentYear} Invoice30Sec. All rights reserved.</p>
             <span className="hidden sm:inline">•</span>
             <p className="text-xs italic">
               Built by a freelancer, for freelancers
             </p>
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-4 md:gap-6">
             <Link
               href="/privacy"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-secondary-foreground transition-colors hover:text-primary"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-secondary-foreground transition-colors hover:text-primary"
             >
               Terms
             </Link>

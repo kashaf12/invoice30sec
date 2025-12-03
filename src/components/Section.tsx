@@ -8,7 +8,6 @@ type SectionProps = {
   id: string;
   children: React.ReactNode;
   className?: string;
-  snap?: boolean;
   triggerOnce?: boolean;
   variant?: "fadeUp" | "fadeIn";
 };
@@ -54,7 +53,6 @@ export function Section({
   id,
   children,
   className = "",
-  snap = true,
   triggerOnce = true,
   variant = "fadeUp",
 }: SectionProps) {
@@ -70,7 +68,7 @@ export function Section({
     return (
       <section
         id={id}
-        className={`min-h-screen ${snap ? "snap-start" : ""} flex items-center justify-center ${className}`}
+        className={`min-h-screen snap-start flex items-center justify-center pt-20 pb-20 md:pt-28 md:pb-28 xl:pt-32 xl:pb-32 ${className}`}
         aria-labelledby={`${id}-title`}
       >
         <div className="w-full">{children}</div>
@@ -84,7 +82,7 @@ export function Section({
     <section
       ref={ref as React.RefObject<HTMLElement>}
       id={id}
-      className={`min-h-screen ${snap ? "snap-start" : ""} flex items-center justify-center ${className}`}
+      className={`min-h-screen snap-start flex items-center justify-center pt-20 pb-20 md:pt-28 md:pb-28 xl:pt-32 xl:pb-32 ${className}`}
       aria-labelledby={`${id}-title`}
     >
       <motion.div
@@ -101,13 +99,21 @@ export function Section({
             if (index < 12) {
               // Wrap in motion.div to inherit stagger animation
               return (
-                <motion.div key={index} variants={childVariant} className="w-full">
+                <motion.div
+                  key={index}
+                  variants={childVariant}
+                  className="w-full"
+                >
                   {child}
                 </motion.div>
               );
             }
             // For children beyond 12, render without animation wrapper
-            return <div key={index} className="w-full">{child}</div>;
+            return (
+              <div key={index} className="w-full">
+                {child}
+              </div>
+            );
           }
           return child;
         })}

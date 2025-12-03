@@ -95,10 +95,10 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
       ref={sectionRef}
       aria-labelledby="how-heading"
       role="region"
-      className={`relative w-full py-12 md:py-24 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-20 md:py-28 xl:py-32 overflow-hidden bg-transparent ${className}`}
     >
       {/* Radial glow behind heading */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#11d07a]/5 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center z-10 relative">
@@ -107,7 +107,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
             initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
             animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-sm uppercase tracking-widest text-muted-foreground mb-4 text-center"
+            className="text-xs md:text-sm uppercase tracking-widest text-muted-foreground mb-3 md:mb-4 text-center"
           >
             How It Works
           </motion.span>
@@ -118,13 +118,13 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
             initial={shouldAnimate ? { opacity: 0, y: 30 } : false}
             animate={shouldAnimate && isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground text-center mb-12 max-w-4xl leading-tight relative"
+            className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground text-center mb-6 md:mb-10 max-w-[90%] md:max-w-4xl leading-tight relative"
           >
             Instant payments in 3 steps — no chasing, ever again.
           </motion.h2>
 
           {/* Steps Grid */}
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-12">
+          <div className="grid gap-6 md:gap-8 lg:gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-6 md:mb-12">
             {STEPS.map((step, index) => (
               <motion.div
                 key={index}
@@ -141,7 +141,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
                 <Card
                   tabIndex={0}
                   aria-label={`Step ${index + 1}: ${step.title}`}
-                  className="h-full bg-card border border-white/5 rounded-xl hover:border-[#11d07a]/20 hover:shadow-[0_0_20px_rgba(17,208,122,0.1)] transition-all duration-300 group"
+                  className="h-full bg-card border border-white/5 rounded-xl hover:border-primary/20 hover:shadow-[0_0_20px_rgba(17,208,122,0.1)] transition-all duration-300 group"
                 >
                   <CardContent className="p-6 md:p-8 flex flex-col h-full">
                     {/* Icon - Monochrome, above title */}
@@ -153,12 +153,12 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
                     </div>
 
                     {/* Step Heading */}
-                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 text-center">
+                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground mb-3 md:mb-4 text-center">
                       {step.title}
                     </h3>
 
                     {/* Step Body */}
-                    <div className="flex flex-col gap-3 text-base text-muted-foreground leading-relaxed flex-grow">
+                    <div className="flex flex-col gap-2 md:gap-3 text-sm md:text-base text-muted-foreground leading-relaxed grow">
                       {step.body.map((line, i) => (
                         <p key={i} className="text-center">
                           {line}
@@ -180,7 +180,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
               delay: shouldAnimate ? 0.5 : 0,
               ease: "easeOut",
             }}
-            className="text-lg font-bold tracking-wide text-center text-[#11d07a]"
+            className="text-lg font-bold tracking-wide text-center text-primary"
           >
             Fast. Simple. No chasing. Ever again.
           </motion.p>
