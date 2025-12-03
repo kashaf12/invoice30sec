@@ -4,9 +4,15 @@ import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 
 // Lazy load ValidationForm only when scrolled into view
-const ValidationForm = dynamic(() => import("@/components/ValidationForm").then(mod => ({ default: mod.ValidationForm })), {
-  ssr: false,
-});
+const ValidationForm = dynamic(
+  () =>
+    import("@/components/ValidationForm").then((mod) => ({
+      default: mod.ValidationForm,
+    })),
+  {
+    ssr: false,
+  }
+);
 
 export function LazyValidationForm() {
   const [shouldLoad, setShouldLoad] = useState(false);
@@ -38,4 +44,3 @@ export function LazyValidationForm() {
     </div>
   );
 }
-

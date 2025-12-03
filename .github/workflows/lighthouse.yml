@@ -12,21 +12,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: "pnpm"
-
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build application
         run: pnpm run build
+
+      - name: Start server
+        run: pnpm start &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: |
+          timeout 30 bash -c 'until curl -f http://localhost:3000; do sleep 1; done' || exit 1
 
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v10
@@ -43,4 +52,3 @@ jobs:
             echo "Lighthouse results available"
             cat .lighthouseci/assertion-results.json
           fi
-
