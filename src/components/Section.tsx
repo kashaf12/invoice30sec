@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion, Variants } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "motion/react";
 import { useInViewTrigger } from "@/hooks/useInViewTrigger";
 
 type SectionProps = {

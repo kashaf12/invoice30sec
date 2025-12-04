@@ -1,10 +1,23 @@
 "use client";
 
-import React from "react";
+import dynamic from "next/dynamic";
 import { Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PaymentReadyInvoice } from "@/components/PaymentReadyInvoice";
 import { TrustSignals } from "@/components/TrustSignals";
+
+// Lazy load PaymentReadyInvoice - heavy component with motion animations
+const PaymentReadyInvoice = dynamic(
+  () =>
+    import("@/components/PaymentReadyInvoice").then((mod) => ({
+      default: mod.PaymentReadyInvoice,
+    })),
+  {
+    loading: () => (
+      <div className="w-full h-full bg-white/5 rounded-2xl animate-pulse border border-white/10" />
+    ),
+    ssr: true,
+  }
+);
 
 interface HeroProps {
   className?: string;

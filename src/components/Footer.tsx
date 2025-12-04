@@ -22,6 +22,7 @@ const track = (event: string, data?: Record<string, unknown>) => {
       ...data,
     } as { event: string; [key: string]: unknown });
   }
+  // eslint-disable-next-line no-console
   console.log("Analytics:", event, data);
 };
 

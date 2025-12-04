@@ -88,6 +88,7 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
                   height={28}
                   sizes="(max-width: 768px) 24px, 28px"
                   tabIndex={0}
+                  loading="lazy"
                 />
               ))}
             </div>
@@ -144,6 +145,8 @@ export const TrustSignals = ({ signupCount = 100 }: TrustSignalsProps) => {
                         width={100}
                         height={22}
                         sizes="100px"
+                        priority={index < 2}
+                        loading={index < 2 ? "eager" : "lazy"}
                       />
                     </div>
                   </TooltipTrigger>

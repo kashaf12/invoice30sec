@@ -6,7 +6,7 @@ import {
   useReducedMotion,
   AnimatePresence,
   TargetAndTransition,
-} from "framer-motion";
+} from "motion/react";
 import {
   Download,
   ChevronDown,

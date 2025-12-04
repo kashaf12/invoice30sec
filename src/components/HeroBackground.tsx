@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "framer-motion";
 
 // Lazy load Particles component - heavy canvas animation
 const Particles = dynamic(
@@ -10,38 +9,20 @@ const Particles = dynamic(
     import("@/components/ui/particles").then((mod) => ({
       default: mod.Particles,
     })),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
-export default function HeroBackground({
-  active = true,
-}: {
-  active?: boolean;
-}) {
-  const reduce = useReducedMotion();
-  const [enabled, setEnabled] = useState(false);
+// Hook to detect if component is mounted (client-side only)
+function useIsMounted() {
+  return useSyncExternalStore(
+    () => () => {}, // No-op subscription (never updates after mount)
+    () => true, // Client-side: always mounted
+    () => false // Server-side: not mounted
+  );
+}
 
-  // Lazy-enable animations slightly after mount for perceived performance
-  useEffect(() => {
-    if (!active) return;
-    const t = setTimeout(() => setEnabled(true), 300);
-    return () => clearTimeout(t);
-  }, [active]);
-
-  // simple shared animation for blobs
-  const blobMotion =
-    reduce || !enabled
-      ? { animate: { rotate: 0 } }
-      : {
-          animate: { rotate: [0, 3, -2, 0] },
-          transition: {
-            duration: 18,
-            ease: "linear" as const,
-            repeat: Infinity,
-          },
-        };
+export default function HeroBackground() {
+  const isMounted = useIsMounted();
 
   return (
     <div
@@ -78,7 +59,7 @@ export default function HeroBackground({
         </defs>
 
         {/* large ambient blob (soft green) */}
-        <motion.g {...blobMotion} style={{ transformOrigin: "50% 50%" }}>
+        <g style={{ transformOrigin: "50% 50%" }}>
           <ellipse
             cx="740"
             cy="360"
@@ -87,15 +68,17 @@ export default function HeroBackground({
             fill="url(#g-green)"
             filter="url(#blur)"
           />
-        </motion.g>
+        </g>
       </svg>
-      <Particles
-        className="absolute inset-0 z-0"
-        quantity={100}
-        ease={80}
-        color="#00E389"
-        refresh
-      />
+      {isMounted && (
+        <Particles
+          className="absolute inset-0 z-0"
+          quantity={100}
+          ease={80}
+          color="#00E389"
+          refresh
+        />
+      )}
     </div>
   );
 }

@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import confetti from "canvas-confetti";
 import { CheckCircle2, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -74,7 +73,17 @@ const REASON_OPTIONS = [
 
 export const ValidationForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Check for reduced motion preference using useSyncExternalStore
+  const prefersReducedMotion = useSyncExternalStore(
+    (callback) => {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      mediaQuery.addEventListener("change", callback);
+      return () => mediaQuery.removeEventListener("change", callback);
+    },
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false // Server snapshot
+  );
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -94,19 +103,6 @@ export const ValidationForm = () => {
   const priceIsOther = form.watch("priceIsOther");
   const reason = form.watch("reason");
   const reasonIsOther = form.watch("reasonIsOther");
-
-  // Check for reduced motion preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
 
   // Track form_open event
   useEffect(() => {
@@ -186,37 +182,45 @@ export const ValidationForm = () => {
       setIsSuccess(true);
       toast.success("You're on the list!");
 
-      // Trigger confetti celebration
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+      // Lazy load and trigger confetti celebration
+      import("canvas-confetti").then((confettiModule) => {
+        const confetti = confettiModule.default;
+        const duration = 3 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = {
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          zIndex: 0,
+        };
 
-      const randomInRange = (min: number, max: number) => {
-        return Math.random() * (max - min) + min;
-      };
+        const randomInRange = (min: number, max: number) => {
+          return Math.random() * (max - min) + min;
+        };
 
-      const interval = setInterval(() => {
-        const timeLeft = animationEnd - Date.now();
+        const interval = setInterval(() => {
+          const timeLeft = animationEnd - Date.now();
 
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
 
-        const particleCount = 50 * (timeLeft / duration);
+          const particleCount = 50 * (timeLeft / duration);
 
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-          colors: ["#21D07A", "#ffffff"],
-        });
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-          colors: ["#21D07A", "#ffffff"],
-        });
-      }, 250);
+          confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            colors: ["#21D07A", "#ffffff"],
+          });
+          confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            colors: ["#21D07A", "#ffffff"],
+          });
+        }, 250);
+      });
 
       // Track form submission
       if (typeof window !== "undefined" && window.dataLayer) {
