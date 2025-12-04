@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion, useReducedMotion, Variants } from "motion/react";
-import { useInViewTrigger } from "@/hooks/useInViewTrigger";
 
 type SectionProps = {
   id: string;
@@ -57,11 +56,6 @@ export function Section({
   variant = "fadeUp",
 }: SectionProps) {
   const prefersReducedMotion = useReducedMotion();
-  const { triggered, ref } = useInViewTrigger({
-    threshold: 0.25,
-    rootMargin: "0px",
-    triggerOnce,
-  });
 
   // If reduced motion is preferred, render statically
   if (prefersReducedMotion) {
@@ -80,7 +74,6 @@ export function Section({
 
   return (
     <section
-      ref={ref as React.RefObject<HTMLElement>}
       id={id}
       className={`min-h-screen snap-start flex items-center justify-center pt-20 pb-20 md:pt-28 md:pb-28 xl:pt-32 xl:pb-32 ${className}`}
       aria-labelledby={`${id}-title`}
@@ -89,7 +82,8 @@ export function Section({
         className="w-full"
         variants={containerVariants}
         initial="hidden"
-        animate={triggered ? "visible" : "hidden"}
+        whileInView="visible"
+        viewport={{ amount: 0.25, once: triggerOnce }}
         exit="hidden"
       >
         {React.Children.map(children, (child, index) => {

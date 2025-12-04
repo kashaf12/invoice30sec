@@ -139,7 +139,7 @@ export const WhyFreelancersLoveThis = ({
       aria-labelledby="why-heading"
       role="region"
       data-analytics-section="why-freelancers-love-this"
-      className={`relative w-full py-20 md:py-28 xl:py-32 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-20 md:py-28 xl:py-32 bg-transparent ${className}`}
     >
       {/* Radial glow behind heading */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-3xl pointer-events-none -z-10" />

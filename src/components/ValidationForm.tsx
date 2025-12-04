@@ -273,7 +273,7 @@ export const ValidationForm = () => {
                   We&apos;ll email you about early access and next steps.
                 </p>
                 <Button
-                  className="w-full text-white min-h-[44px] cursor-pointer"
+                  className="w-full text-black min-h-[44px] cursor-pointer"
                   style={{
                     backgroundColor: "var(--brand-primary-alt)",
                   }}

@@ -129,6 +129,8 @@ body {
   scroll-padding-top: var(--header-height);
   overflow-x: hidden;
   width: 100%;
+  height: 100%;
+  scroll-snap-type: y mandatory;
 }
 
 @layer utilities {
@@ -154,12 +156,18 @@ html {
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   width: 100%;
+  height: 100%;
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  body {
+    scroll-snap-type: none;
   }
 
   * {
@@ -202,12 +210,19 @@ html {
 
 /* Scroll snap container - marker class for sections */
 .snap-container {
-  /* This class marks the container, actual snap is on html */
+  /* This class marks the container, scroll snap is on html/body */
+}
+
+/* Ensure all sections snap to start */
+section[id] {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 /* Disable snap on mobile for better pinch/zoom and scrolling */
-@media (max-width: 640px) {
-  html {
+@media (max-width: 768px) {
+  html,
+  body {
     scroll-snap-type: none !important;
   }
 }

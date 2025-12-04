@@ -36,7 +36,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
       ref={sectionRef}
       aria-labelledby="pain-heading"
       role="region"
-      className={`relative w-full py-20 md:py-28 xl:py-32 overflow-hidden bg-transparent ${className}`}
+      className={`relative w-full py-20 md:py-28 xl:py-32 bg-transparent ${className}`}
     >
       <div className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="w-full flex flex-col items-center text-center z-10 relative">
