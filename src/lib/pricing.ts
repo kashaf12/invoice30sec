@@ -171,12 +171,12 @@ export const PRICING_BY_COUNTRY: Record<CountryCode, PricingConfig> = {
   },
 };
 
-// Default pricing (fallback to India/INR)
-export const DEFAULT_PRICING: PricingConfig = PRICING_BY_COUNTRY.IN;
+// Default pricing (fallback to United States/USD)
+export const DEFAULT_PRICING: PricingConfig = PRICING_BY_COUNTRY.US;
 
 /**
  * Get pricing configuration for a country
- * Falls back to default (India) if country not found
+ * Falls back to default (United States/USD) if country not found
  */
 export function getPricingForCountry(
   countryCode: string | null | undefined
