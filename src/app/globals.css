@@ -6,7 +6,7 @@
 :root {
   --header-height: 72px;
   --radius: 0.75rem;
-  
+
   /* Light mode colors (for light mode support) */
   --background: oklch(0.985 0.002 75);
   --foreground: oklch(0.145 0.015 250);
@@ -69,7 +69,7 @@
 @theme inline {
   --font-sans: "Geist", "Geist Fallback";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -102,7 +102,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -141,6 +141,7 @@ body {
 
   /* Safari-optimized transitions */
   @supports (-webkit-appearance: none) {
+
     .transition-all,
     [class*="transition"] {
       -webkit-transform: translateZ(0);
@@ -156,7 +157,6 @@ html {
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   width: 100%;
-  height: 100%;
 }
 
 /* Respect reduced motion preference */
@@ -177,37 +177,6 @@ html {
   }
 }
 
-/* CSS animations for performance - GPU accelerated */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-  will-change: transform, opacity;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-  will-change: opacity;
-}
-
 /* Scroll snap container - marker class for sections */
 .snap-container {
   /* This class marks the container, scroll snap is on html/body */
@@ -220,9 +189,8 @@ section[id] {
 }
 
 /* Disable snap on mobile for better pinch/zoom and scrolling */
-@media (max-width: 768px) {
-  html,
-  body {
+@media (max-width: 640px) {
+  html {
     scroll-snap-type: none !important;
   }
 }
@@ -295,6 +263,7 @@ section[id] {
 
 /* Safari-specific fixes for animate-in utility classes */
 @supports (-webkit-appearance: none) {
+
   /* Force hardware acceleration for animate-in classes */
   [class*="animate-in"],
   [class*="fade-in"],
