@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CardContent } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
+import { formatPriceWithPeriod } from "@/lib/pricing";
+import { usePricing } from "@/hooks/usePricing";
 
 const formSchema = z
   .object({
@@ -62,7 +64,6 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
-const PRICE_OPTIONS = ["199", "149", "299", "Other"] as const;
 const REASON_OPTIONS = [
   "Too expensive",
   "I don't need it",
@@ -73,6 +74,7 @@ const REASON_OPTIONS = [
 
 export const ValidationForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const { pricing, isLoading: isLoadingPricing } = usePricing();
 
   // Check for reduced motion preference using useSyncExternalStore
   const prefersReducedMotion = useSyncExternalStore(
@@ -147,11 +149,11 @@ export const ValidationForm = () => {
         willingToPay: data.willingToPay,
       };
 
-      // For "yes" - send fixed price of 199
+      // For "yes" - send default price for country
       if (data.willingToPay === "yes") {
         payload.willingToPay = "yes";
-        payload.price = 199;
-        payload.currency = "INR";
+        payload.price = pricing.prices.default;
+        payload.currency = pricing.currency;
         payload.reason = undefined;
       }
 
@@ -159,7 +161,7 @@ export const ValidationForm = () => {
       if (data.willingToPay === "maybe") {
         payload.willingToPay = "maybe";
         payload.price = data.price; // Already a number
-        payload.currency = "INR";
+        payload.currency = pricing.currency;
         payload.reason = undefined;
       }
 
@@ -405,7 +407,12 @@ export const ValidationForm = () => {
                                   className="font-normal cursor-pointer"
                                   style={{ color: "var(--text-secondary)" }}
                                 >
-                                  Yes — I&apos;ll pay ₹199
+                                  {isLoadingPricing
+                                    ? "Yes — I'll pay..."
+                                    : `Yes — I'll pay ${formatPriceWithPeriod(
+                                        pricing.prices.default,
+                                        pricing.currencySymbol
+                                      )}`}
                                 </FormLabel>
                               </FormItem>
                               <FormItem className="flex items-center space-x-3 space-y-0">
@@ -468,26 +475,90 @@ export const ValidationForm = () => {
                                 Select your preferred price:
                               </FormLabel>
                               <div className="flex flex-wrap gap-2 md:gap-3">
-                                {PRICE_OPTIONS.map((priceOption) => {
-                                  const isSelected =
-                                    priceOption === "Other"
-                                      ? priceIsOther
-                                      : field.value === Number(priceOption);
+                                {isLoadingPricing ? (
+                                  <div className="text-white/60 text-sm">
+                                    Loading prices...
+                                  </div>
+                                ) : (
+                                  <>
+                                    {pricing.prices.options.map(
+                                      (priceOption) => {
+                                        const isSelected =
+                                          field.value === priceOption;
 
-                                  return (
+                                        return (
+                                          <Button
+                                            key={priceOption}
+                                            type="button"
+                                            variant={
+                                              isSelected ? "default" : "outline"
+                                            }
+                                            className={
+                                              isSelected
+                                                ? "text-white cursor-pointer"
+                                                : "text-white cursor-pointer"
+                                            }
+                                            style={
+                                              isSelected
+                                                ? {
+                                                    backgroundColor:
+                                                      "var(--brand-primary-alt)",
+                                                    borderColor:
+                                                      "var(--brand-primary-alt)",
+                                                  }
+                                                : {
+                                                    backgroundColor:
+                                                      "var(--bg-dark)",
+                                                    borderColor:
+                                                      "var(--border-white-10)",
+                                                  }
+                                            }
+                                            onMouseEnter={(e) => {
+                                              if (!isSelected) {
+                                                e.currentTarget.style.backgroundColor =
+                                                  "rgba(255, 255, 255, 0.05)";
+                                              } else {
+                                                e.currentTarget.style.opacity =
+                                                  "0.9";
+                                              }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              if (!isSelected) {
+                                                e.currentTarget.style.backgroundColor =
+                                                  "var(--bg-dark)";
+                                              } else {
+                                                e.currentTarget.style.opacity =
+                                                  "1";
+                                              }
+                                            }}
+                                            onClick={() => {
+                                              form.setValue(
+                                                "priceIsOther",
+                                                false
+                                              );
+                                              field.onChange(priceOption);
+                                            }}
+                                          >
+                                            {formatPriceWithPeriod(
+                                              priceOption,
+                                              pricing.currencySymbol
+                                            )}
+                                          </Button>
+                                        );
+                                      }
+                                    )}
                                     <Button
-                                      key={priceOption}
                                       type="button"
                                       variant={
-                                        isSelected ? "default" : "outline"
+                                        priceIsOther ? "default" : "outline"
                                       }
                                       className={
-                                        isSelected
+                                        priceIsOther
                                           ? "text-white cursor-pointer"
                                           : "text-white cursor-pointer"
                                       }
                                       style={
-                                        isSelected
+                                        priceIsOther
                                           ? {
                                               backgroundColor:
                                                 "var(--brand-primary-alt)",
@@ -501,7 +572,7 @@ export const ValidationForm = () => {
                                             }
                                       }
                                       onMouseEnter={(e) => {
-                                        if (!isSelected) {
+                                        if (!priceIsOther) {
                                           e.currentTarget.style.backgroundColor =
                                             "rgba(255, 255, 255, 0.05)";
                                         } else {
@@ -509,7 +580,7 @@ export const ValidationForm = () => {
                                         }
                                       }}
                                       onMouseLeave={(e) => {
-                                        if (!isSelected) {
+                                        if (!priceIsOther) {
                                           e.currentTarget.style.backgroundColor =
                                             "var(--bg-dark)";
                                         } else {
@@ -517,21 +588,14 @@ export const ValidationForm = () => {
                                         }
                                       }}
                                       onClick={() => {
-                                        if (priceOption === "Other") {
-                                          form.setValue("priceIsOther", true);
-                                          field.onChange(undefined);
-                                        } else {
-                                          form.setValue("priceIsOther", false);
-                                          field.onChange(Number(priceOption));
-                                        }
+                                        form.setValue("priceIsOther", true);
+                                        field.onChange(undefined);
                                       }}
                                     >
-                                      {priceOption === "Other"
-                                        ? "Other"
-                                        : `₹${priceOption}/mo`}
+                                      Other
                                     </Button>
-                                  );
-                                })}
+                                  </>
+                                )}
                               </div>
                             </FormItem>
                           )}
@@ -545,7 +609,7 @@ export const ValidationForm = () => {
                                 <FormControl>
                                   <Input
                                     type="number"
-                                    placeholder="Enter amount (₹)"
+                                    placeholder={`Enter amount (${pricing.currencySymbol})`}
                                     value={field.value || ""}
                                     onChange={(e) => {
                                       const val = e.target.value;

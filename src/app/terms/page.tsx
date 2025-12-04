@@ -48,7 +48,20 @@ export default function TermsPage() {
             </p>
 
             <h2 className="text-2xl font-semibold text-white mt-8 mb-4">
-              2. Use License
+              2. Pricing
+            </h2>
+            <p>
+              Invoice30Sec uses location-based pricing to provide fair and
+              accessible pricing based on your geographic location. Prices are
+              displayed in your local currency and may vary by country or region
+              based on local market conditions and purchasing power. We
+              determine your location based on your IP address to provide you
+              with region-appropriate pricing. All prices are subject to change
+              without notice.
+            </p>
+
+            <h2 className="text-2xl font-semibold text-white mt-8 mb-4">
+              3. Use License
             </h2>
             <p>
               Permission is granted to temporarily download one copy of the
@@ -78,7 +91,7 @@ export default function TermsPage() {
             </ul>
 
             <h2 className="text-2xl font-semibold text-white mt-8 mb-4">
-              3. Disclaimer
+              4. Disclaimer
             </h2>
             <p>
               The materials on Invoice30Sec&apos;s website are provided on an
@@ -91,7 +104,7 @@ export default function TermsPage() {
             </p>
 
             <h2 className="text-2xl font-semibold text-white mt-8 mb-4">
-              4. Limitations
+              5. Limitations
             </h2>
             <p>
               In no event shall Invoice30Sec or its suppliers be liable for any

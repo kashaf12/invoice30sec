@@ -144,7 +144,7 @@ export const Header = () => {
           prefersReducedMotion ? "" : "transition-all duration-180 ease-out"
         } ${
           isScrolled
-            ? "backdrop-blur-sm bg-black/30 shadow-lg"
+            ? "backdrop-blur-md bg-black/40 shadow-lg"
             : "bg-transparent"
         }`}
         style={{

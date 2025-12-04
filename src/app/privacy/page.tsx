@@ -67,6 +67,11 @@ export default function PrivacyPage() {
                 and platform and other technology on the devices you use to
                 access this website.
               </li>
+              <li>
+                Location Data includes country information derived from your IP
+                address, which we use to display pricing in your local currency
+                and adjust pricing based on your geographic location.
+              </li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-white mt-8 mb-4">
@@ -89,6 +94,11 @@ export default function PrivacyPage() {
               </li>
               <li>
                 Where we need to comply with a legal or regulatory obligation.
+              </li>
+              <li>
+                To provide you with location-based services, including
+                displaying pricing in your local currency and adjusting pricing
+                based on your geographic location for fair market pricing.
               </li>
             </ul>
 

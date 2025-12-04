@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { usePricing } from "@/hooks/usePricing";
 
 interface LineItem {
   description: string;
@@ -96,7 +97,7 @@ export function PaymentReadyInvoice({
     { description: "Website Redesign", quantity: 1, price: 1200.0 },
     { description: "Logo Design", quantity: 1, price: 800.0 },
   ],
-  currency = "INR",
+  currency: currencyProp,
   className = "",
 }: PaymentReadyInvoiceProps) {
   const [isPaymentMethodsOpen, setIsPaymentMethodsOpen] = useState(false);
@@ -105,6 +106,9 @@ export function PaymentReadyInvoice({
   const [copied, setCopied] = useState<string | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  const { pricing } = usePricing();
+  const currency = currencyProp || pricing.currency;
 
   const subtotal = lineItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
