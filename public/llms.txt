@@ -1,0 +1,40 @@
+# invoice30sec.com
+
+> The fastest way for freelancers to get paid. Create payment-ready invoices in 30 seconds with built-in payment methods. Accept UPI, Stripe, PayPal, Razorpay, and bank transfers. Stop chasing payments. Built by a freelancer, for freelancers.
+
+Invoice30Sec is a cashflow acceleration tool that transforms invoicing from a chore into a payment trigger. Unlike traditional invoice generators, Invoice30Sec embeds every possible payment method inside one invoice, ensuring clients can pay instantly without friction.
+
+## Main Pages
+
+- [Home](https://invoice30sec.com/): The fastest way for freelancers to get paid. Create payment-ready invoices in 30 seconds with all payment methods embedded. Eliminate payment delays and get paid instantly.
+
+- [Privacy Policy](https://invoice30sec.com/privacy): Privacy policy outlining how Invoice30Sec collects, uses, and protects user data and information.
+
+- [Terms of Service](https://invoice30sec.com/terms): Terms and conditions governing the use of Invoice30Sec platform and services.
+
+## Key Features
+
+- **30-Second Invoice Creation**: Generate professional invoices in just 30 seconds
+- **Multiple Payment Methods**: Accept payments via UPI, Stripe, PayPal, Razorpay, and bank transfers
+- **Payment-Ready Invoices**: Every invoice includes all payment options your client needs
+- **Instant Payments**: Eliminate back-and-forth and payment delays
+- **Global Support**: Works anywhere in the world with region-specific payment methods
+- **No Chasing Payments**: Built-in payment tracking and reminders
+
+## Core Value Proposition
+
+Invoice30Sec is not just an invoice generator—it's a payment experience layer for freelancers. The platform ensures that every invoice becomes a 1-click payment request, eliminating common friction points like:
+- "Send me your UPI ID"
+- "Do you have PayPal?"
+- "Bank details please?"
+- Waiting 3 days for payment
+- Slow clients
+
+## Target Audience
+
+Freelancers, independent contractors, and solo professionals worldwide who need to get paid faster and eliminate payment delays.
+
+## Mission
+
+Fix late payments for freelancers worldwide. Enable instant, frictionless payments across all major payment methods in one unified invoice system.
+
