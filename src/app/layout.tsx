@@ -63,6 +63,9 @@ export const metadata: Metadata = {
   verification: {
     google: "I1LVuzN_vqAvkC_jMcJW4P1y1dVcWm-jDXB26G2rdJI",
   },
+  alternates: {
+    canonical: "https://invoice30sec.com",
+  },
 };
 
 export const viewport: Viewport = {

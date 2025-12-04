@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: "https://invoice30sec.com/terms",
+  },
 };
 
 export default function TermsPage() {
