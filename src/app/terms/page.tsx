@@ -1,5 +1,26 @@
+import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { Scale } from "lucide-react";
+
+// Force static generation
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Terms of Service | Invoice30Sec",
+  description:
+    "Terms of Service for Invoice30Sec. Read our terms and conditions for using our invoicing platform.",
+  openGraph: {
+    title: "Terms of Service | Invoice30Sec",
+    description:
+      "Terms of Service for Invoice30Sec. Read our terms and conditions for using our invoicing platform.",
+    type: "website",
+    url: "https://invoice30sec.com/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function TermsPage() {
   return (

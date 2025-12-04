@@ -72,6 +72,71 @@ export const viewport: Viewport = {
   viewportFit: "cover", // Required for safe-area-inset-top/bottom to work
 };
 
+// JSON-LD Structured Data
+function generateStructuredData() {
+  const baseUrl = "https://invoice30sec.com";
+
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Invoice30Sec",
+    url: baseUrl,
+    logo: `${baseUrl}/logo.svg`,
+    description:
+      "The fastest way for freelancers to get paid. Create payment-ready invoices in 30 seconds.",
+    sameAs: [
+      "https://www.linkedin.com/in/kashaf-ahmed/",
+      "https://x.com/kashafaahmed",
+      "https://github.com/kashaf12",
+    ],
+    founder: {
+      "@type": "Person",
+      name: "Kashaf Ahmed",
+    },
+  };
+
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Invoice30Sec",
+    url: baseUrl,
+    description:
+      "Create payment-ready invoices in 30 seconds. Accept UPI, Stripe, PayPal, Razorpay, and bank transfers.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${baseUrl}/?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const softwareApplication = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Invoice30Sec",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    description:
+      "Create payment-ready invoices in 30 seconds with all payment methods in one link. Built by a freelancer, for freelancers.",
+    url: baseUrl,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5",
+      ratingCount: "100",
+    },
+  };
+
+  return [organization, website, softwareApplication];
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -88,6 +153,14 @@ export default function RootLayout({
           href="https://vercel-analytics.com"
           crossOrigin="anonymous"
         />
+        {/* JSON-LD Structured Data */}
+        {generateStructuredData().map((data, index) => (
+          <script
+            key={index}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+          />
+        ))}
       </head>
       <body
         className="antialiased min-h-screen flex flex-col"

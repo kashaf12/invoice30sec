@@ -304,12 +304,14 @@ export const Footer = () => {
           <div className="flex gap-4 md:gap-6">
             <Link
               href="/privacy"
+              prefetch={true}
               className="text-secondary-foreground transition-colors hover:text-primary"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
+              prefetch={true}
               className="text-secondary-foreground transition-colors hover:text-primary"
             >
               Terms

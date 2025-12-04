@@ -1,5 +1,26 @@
+import type { Metadata } from "next";
 import { Section } from "@/components/Section";
 import { ShieldCheck } from "lucide-react";
+
+// Force static generation
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | Invoice30Sec",
+  description:
+    "Privacy Policy for Invoice30Sec. Learn how we collect, use, and protect your personal data.",
+  openGraph: {
+    title: "Privacy Policy | Invoice30Sec",
+    description:
+      "Privacy Policy for Invoice30Sec. Learn how we collect, use, and protect your personal data.",
+    type: "website",
+    url: "https://invoice30sec.com/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function PrivacyPage() {
   return (

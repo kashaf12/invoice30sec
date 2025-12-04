@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://invoice30sec.com/sitemap.xml
+
