@@ -21,21 +21,21 @@ interface WhyFreelancersLoveThisProps {
 const DEFAULT_CARDS: BenefitCard[] = [
   {
     icon: Link2,
-    title: "All payment options. One clean link.",
-    body: 'Your client sees every available method — UPI, Stripe, PayPal, Razorpay, or direct bank transfer. They pick what\'s fastest. No "How do I pay?" No confusion. No excuses.',
+    title: "All payment methods. One link.",
+    body: "UPI, Stripe, PayPal, Razorpay. Client picks fastest option.",
     micro: "No delays.",
   },
   {
     icon: Timer,
-    title: "Create invoices in seconds, not hours.",
-    body: "Add amount, a short description, and the due date. Everything else is automated — clean formatting, smart reminders (coming soon). Stop wasting hours designing invoices nobody reads.",
-    micro: "Automated formatting & smart reminders (coming soon).",
+    title: "30-second invoices",
+    body: "Amount. Description. Due date. Everything else automated.",
+    micro: "Automated. Smart.",
   },
   {
     icon: TrendingUp,
-    title: "You send the link. The money comes in.",
-    body: "Your client taps once. Money arrives. No delays. No reminders. No excuses.",
-    micro: "Focus on work — not collecting payments.",
+    title: "Send link. Get paid.",
+    body: "One tap. Payment done. No chasing.",
+    micro: "Focus on work.",
   },
 ];
 
@@ -153,7 +153,7 @@ export const WhyFreelancersLoveThis = ({
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-xs md:text-sm uppercase tracking-widest text-muted-foreground mb-3 md:mb-4 text-center"
           >
-            WHY FREELANCERS LOVE THIS.
+            Why This Works
           </motion.span>
 
           {/* Headline */}
@@ -164,8 +164,8 @@ export const WhyFreelancersLoveThis = ({
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground text-center mb-6 md:mb-10 max-w-[90%] md:max-w-4xl leading-tight relative"
           >
-            Get paid <span className="text-primary">instantly</span> — without
-            awkward conversations ever again.
+            Get paid <span className="text-primary">instantly</span>. No awkward
+            conversations.
           </motion.h2>
 
           {/* Cards Grid */}
@@ -233,7 +233,7 @@ export const WhyFreelancersLoveThis = ({
             }}
             className="text-base font-medium text-primary text-center hover:text-primary/90 transition-all duration-300 ease-out"
           >
-            Join the waitlist and never chase payments again →
+            Get early access →
           </motion.a>
         </div>
       </div>

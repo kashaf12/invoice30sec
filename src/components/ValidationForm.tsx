@@ -272,7 +272,7 @@ export const ValidationForm = () => {
                   className="mb-6 md:mb-8 text-sm md:text-base"
                   style={{ color: "var(--text-secondary)" }}
                 >
-                  We&apos;ll email you about early access and next steps.
+                  We&apos;ll email you next steps.
                 </p>
                 <Button
                   className="w-full text-black min-h-[44px] cursor-pointer"
@@ -313,17 +313,16 @@ export const ValidationForm = () => {
               className="text-xs md:text-sm font-bold tracking-[0.15em] uppercase block mb-3 md:mb-4"
               style={{ color: "var(--brand-primary-alt)" }}
             >
-              GET EARLY ACCESS
+              Get Early Access
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 md:mb-4 max-w-[90%] mx-auto md:max-w-full">
-              Get early access — help us build what actually works for
-              freelancers.
+              Get early access. Help us build.
             </h2>
             <p
               className="text-base md:text-lg max-w-[90%] mx-auto md:max-w-full"
               style={{ color: "var(--text-secondary)" }}
             >
-              Quick — 30 seconds. Tell us if you&apos;d pay for this.
+              30 seconds. Tell us what you&apos;d pay.
             </p>
           </div>
 
@@ -382,7 +381,7 @@ export const ValidationForm = () => {
                       render={({ field }) => (
                         <FormItem className="space-y-3">
                           <FormLabel className="text-white">
-                            Would you pay for early access at this price?{" "}
+                            Would you pay?{" "}
                             <span style={{ color: "var(--brand-primary-alt)" }}>
                               *
                             </span>
@@ -472,7 +471,7 @@ export const ValidationForm = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-white text-sm">
-                                Select your preferred price:
+                                Your price:
                               </FormLabel>
                               <div className="flex flex-wrap gap-2 md:gap-3">
                                 {isLoadingPricing ? (
@@ -770,8 +769,7 @@ export const ValidationForm = () => {
                       className="text-xs text-center"
                       style={{ color: "rgba(201, 201, 201, 0.8)" }}
                     >
-                      By clicking this button, you agree to receive early access
-                      emails and product updates. Unsubscribe anytime.{" "}
+                      We&apos;ll only send updates. Unsubscribe anytime.{" "}
                       <a
                         href="/privacy"
                         className="underline"

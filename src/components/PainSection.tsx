@@ -48,7 +48,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
                 : "opacity-0 translate-y-4"
             }`}
           >
-            Stop Chasing Payments.
+            The Problem
           </span>
 
           {/* Headline */}
@@ -60,7 +60,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
                 : "opacity-0 translate-y-8 scale-95"
             }`}
           >
-            Clients delaying? Forgetting? &quot;Will pay tomorrow&quot;?
+            Late payments kill your cashflow.
           </h2>
 
           {/* Body Copy */}
@@ -75,8 +75,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
                   : "opacity-0 translate-y-4"
               }`}
             >
-              Freelancers lose time, money, and peace every time a client drags
-              a payment.
+              Endless reminders.
             </p>
             <p
               className={`transition-all duration-700 delay-[280ms] ease-out ${
@@ -85,8 +84,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
                   : "opacity-0 translate-y-4"
               }`}
             >
-              Endless reminders. Back-and-forth messages. Confusing payment
-              methods.
+              Confusing payment methods.
             </p>
             <p
               className={`transition-all duration-700 delay-[360ms] ease-out ${
@@ -95,8 +93,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
                   : "opacity-0 translate-y-4"
               }`}
             >
-              It shouldn’t be this hard to get paid for work you’ve already
-              delivered.
+              Work done. Money delayed.
             </p>
           </div>
 
@@ -109,7 +106,7 @@ export const PainSection = ({ className = "" }: PainSectionProps) => {
             }`}
             style={{ color: "var(--brand-primary-alt)" }}
           >
-            We make payments instant — so you never chase a client again.
+            We fix this.
           </p>
         </div>
       </div>

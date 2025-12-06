@@ -125,7 +125,7 @@ export const FooterSubscribe = ({ onSuccess }: FooterSubscribeProps) => {
       </div>
 
       <p id="footer-email-help" className="text-xs text-gray-400">
-        We&apos;ll only send product updates. Unsubscribe anytime.
+        Product updates only. Unsubscribe anytime.
       </p>
 
       {message && (
@@ -215,7 +215,7 @@ export const Footer = () => {
                   href="#why"
                   className="text-secondary-foreground transition-colors text-sm hover:text-primary"
                 >
-                  Why Freelancers Love This
+                  Why This Works
                 </Link>
               </li>
             </ul>
@@ -241,7 +241,7 @@ export const Footer = () => {
           {/* Newsletter Column */}
           <div>
             <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
-              Stay Updated
+              Updates
             </h3>
             <FooterSubscribe />
           </div>
@@ -297,9 +297,7 @@ export const Footer = () => {
           <div className="flex flex-wrap justify-center sm:justify-start gap-2 md:gap-4 items-center">
             <p>© {currentYear} Invoice30Sec. All rights reserved.</p>
             <span className="hidden sm:inline">•</span>
-            <p className="text-xs italic">
-              Built by a freelancer, for freelancers
-            </p>
+            <p className="text-xs italic">Built for freelancers</p>
           </div>
           <div className="flex gap-4 md:gap-6">
             <Link

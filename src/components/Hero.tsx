@@ -42,18 +42,17 @@ export const Hero = ({ className = "" }: HeroProps) => {
               className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase mb-2"
               style={{ color: "var(--text-secondary)" }}
             >
-              Built by a freelancer, for freelancers
+              For freelancers
             </span>
 
             {/* Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] md:leading-tight tracking-tight max-w-[90%] md:max-w-[720px]">
-              Send invoices your clients can pay instantly.
+              Instant invoices. Faster payments.
             </h1>
 
             {/* Subheadline */}
             <p className="text-base md:text-lg text-gray-300 max-w-[90%] md:max-w-[560px] leading-relaxed">
-              Create a clean invoice in 30 seconds with all your payment methods
-              in one link. No excuses. No chasing. Just instant payments.
+              30 seconds. One link. All payment methods.
             </p>
 
             {/* CTA Group - Isolated with spotlight effect */}
@@ -93,7 +92,7 @@ export const Hero = ({ className = "" }: HeroProps) => {
                 </Button>
               </div>
               <p className="text-xs md:text-sm text-gray-300 mt-2 text-center md:text-left">
-                No credit card required • 30-second setup
+                No credit card • 30-second setup
               </p>
             </div>
 

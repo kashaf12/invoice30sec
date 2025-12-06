@@ -18,28 +18,18 @@ interface Step {
 const STEPS: Step[] = [
   {
     icon: FileText,
-    title: "1. Create your invoice in 30 seconds.",
-    body: [
-      "Add amount, a short description, and the due date — that's it.",
-      "No templates. No setup. No friction.",
-    ],
+    title: "1. Create invoice (30 seconds)",
+    body: ["Amount. Description. Done."],
   },
   {
     icon: Wallet,
-    title: "2. Add how you want to get paid.",
-    body: [
-      "UPI, Stripe, Razorpay, PayPal, or direct bank transfer.",
-      "Your client sees all available options — they pick the fastest one.",
-    ],
+    title: "2. Add payment methods",
+    body: ["UPI. Stripe. PayPal. All options."],
   },
   {
     icon: Zap,
-    title: "3. Send one link. Get paid instantly.",
-    body: [
-      "Your client taps once.",
-      "Money arrives.",
-      "No delays. No reminders. No excuses.",
-    ],
+    title: "3. Send link. Get paid.",
+    body: ["Client taps. Money arrives."],
   },
 ];
 
@@ -113,7 +103,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-foreground text-center mb-6 md:mb-10 max-w-[90%] md:max-w-4xl leading-tight relative"
           >
-            Instant payments in 3 steps — no chasing, ever again.
+            Three steps. Zero friction.
           </motion.h2>
 
           {/* Steps Grid */}
@@ -175,7 +165,7 @@ export const HowItWorks = ({ className = "" }: HowItWorksProps) => {
             }}
             className="text-lg font-bold tracking-wide text-center text-primary"
           >
-            Fast. Simple. No chasing. Ever again.
+            Fast. Simple. Done.
           </motion.p>
         </div>
       </div>
